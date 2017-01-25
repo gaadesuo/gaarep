@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import time , random
 
-win = 0
+win = 0　　　　　　　　　　　#1
 lose = 0
 restart = 0
 
