@@ -61,8 +61,8 @@ while True:
         GPIO.digitalWrite( LED_OK, GPIO.LOW)
         print('1')
         break
-    else:
-        continue
+#    else:
+#        continue
 
 #*****乱数の入力*****
 
