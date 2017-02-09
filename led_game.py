@@ -57,46 +57,50 @@ slep = float(1)
 
 GPIO.digitalWrite( LED_OK, GPIO.HIGH)
 while True:
-    if (GPIO.digitalRead( SW_ST) == GPIO.LOW):
-        continue
-    else:
+    if (GPIO.digitalRead(SW_ST) == GPIO.HIGH):
         GPIO.digitalWrite( LED_OK, GPIO.LOW)
+        print('1')
+        break
+    else:
+        continue
+
+#*****乱数の入力*****
 
 
-    #*****乱数の入力*****
+for lp1 in range(5):
+    num = (random.randint(1,100) % 5) + 1
+    order.append(num)
+
+q_no = (random.randint(1,100) % 5)
 
 
-    for lp1 in range(5):
-        num = (random.randint(1,100) % 5) + 1
-        order.append(num)
-
-    q_no = (random.randint(1,100) % 5)
+#*****LED点滅*****
 
 
-    #*****LED点滅*****
-
-
-    for ele in range(0,5):
-        if order[ele] == 1:
-            GPIO.digitalWrite( LED_1, GPIO.HIGH)
-            time.sleep(slep)
-            GPIO.digitalWrite( LED_1, GPIO.LOW)
-        elif order[ele] == 2:
-            GPIO.digitalWrite( LED_2, GPIO.HIGH)
-            time.sleep(slep)
-            GPIO.digitalWrite( LED_2, GPIO.LOW)
-        elif order[ele] == 3:
-            GPIO.digitalWrite( LED_3, GPIO.HIGH)
-            time.sleep(slep)
-            GPIO.digitalWrite( LED_3, GPIO.LOW)
-        elif order[ele] == 4:
-            GPIO.digitalWrite( LED_4, GPIO.HIGH)
-            time.sleep(slep)
-            GPIO.digitalWrite( LED_4, GPIO.LOW)
-        else:
-            GPIO.digitalWrite( LED_5, GPIO.HIGH)
-            time.sleep(slep)
-            GPIO.digitalWrite( LED_5, GPIO.LOW)
-
-    break
+for ele in range(0,5):
+    if order[ele] == 1:
+        GPIO.digitalWrite( LED_1, GPIO.HIGH)
+        time.sleep(slep)
+        GPIO.digitalWrite( LED_1, GPIO.LOW)
+        time.sleep(0.1)
+    elif order[ele] == 2:
+        GPIO.digitalWrite( LED_2, GPIO.HIGH)
+        time.sleep(slep)
+        GPIO.digitalWrite( LED_2, GPIO.LOW)
+        time.sleep(0.1)
+    elif order[ele] == 3:
+        GPIO.digitalWrite( LED_3, GPIO.HIGH)
+        time.sleep(slep)
+        GPIO.digitalWrite( LED_3, GPIO.LOW)
+        time.sleep(0.1)
+    elif order[ele] == 4:
+        GPIO.digitalWrite( LED_4, GPIO.HIGH)
+        time.sleep(slep)
+        GPIO.digitalWrite( LED_4, GPIO.LOW)
+        time.sleep(0.1)
+    else:
+        GPIO.digitalWrite( LED_5, GPIO.HIGH)
+        time.sleep(slep)
+        GPIO.digitalWrite( LED_5, GPIO.LOW)
+        time.sleep(0.1)
 print(u'終了')
