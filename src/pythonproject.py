@@ -6,4 +6,4 @@ __author__ = "user"
 __date__ = "$2017/02/08 16:58:47$"
 
 if __name__ == "__main__":
-    print "Hello World"
+    print(u'1')
