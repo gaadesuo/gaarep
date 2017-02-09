@@ -76,7 +76,7 @@ while True:
     #*****LED点滅*****
 
 
-    for ele in range(0,6):
+    for ele in range(0,5):
         if order[ele] == 1:
             GPIO.digitalWrite( LED_1, GPIO.HIGH)
             time.sleep(slep)
