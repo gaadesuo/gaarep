@@ -104,3 +104,4 @@ while slep > 0:
             time.sleep(0.1)
     slep -= 0.1
 print(u'おめでとう')
+print('END')
