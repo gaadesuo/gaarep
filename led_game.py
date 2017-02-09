@@ -42,7 +42,6 @@ GPIO.pinMode( SW_ST,GPIO.INPUT)
 #*****初期設定*****
 
 
-order = []
 GPIO.digitalWrite( LED_1, GPIO.LOW)
 GPIO.digitalWrite( LED_2, GPIO.LOW)
 GPIO.digitalWrite( LED_3, GPIO.LOW)
@@ -52,15 +51,30 @@ GPIO.digitalWrite( LED_OK, GPIO.LOW)
 GPIO.digitalWrite( LED_NG, GPIO.LOW)
 slep = float(1)
 
-    #*****スタート入力待ち*****
+
+#*****説明出力*****
 
 
-while slep > 0:
-    GPIO.digitalWrite( LED_OK, GPIO.HIGH)
+print(u'''***********************************************************
+スタートボタンを押すとLEDが光るから、順番を覚えてね
+その後に画面に問題が出るからそれに答えよう
+正解すると緑のLED、間違えると黄色のLEDが光るよ
+正解するとどんどんLEDの光るスピードが上がっていくんだ
+間違えたら終わりだよ
+どこまでいけるかレッツチャレンジ
+***********************************************************
+''')
+
+
+#*****ループ開始とスタート待ち*****
+
+
+#0.1秒でゲームクリア
+while slep > 0.1:
+    order = []
+    print(u'スタートボタンを押してLEDの順番を覚えよう')
     while True:
         if (GPIO.digitalRead(SW_ST) == GPIO.HIGH):
-            GPIO.digitalWrite( LED_OK, GPIO.LOW)
-            print('1')
             break
 
 
@@ -68,10 +82,10 @@ while slep > 0:
 
 
     for lp1 in range(5):
-        num = (random.randint(1,100) % 5) + 1
-        order.append(num)
+        led_no = (random.randint(1,100) % 5) + 1
+        order.append(led_no)
 
-    q_no = (random.randint(1,100) % 5)
+    que_no = (random.randint(1,100) % 5)
 
 
     #*****LED点滅*****
