@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import wiringpi as (PIO,time,random
+import wiringpi as GPIO
+import time
+import random
 
 LED_1 = 5        #左15
 LED_2 = 6        #左16
@@ -68,23 +70,33 @@ while True:
         num = (random.randint(1,100) % 5) + 1
         order.append(num)
 
-    queno = (random.randint(1,100) % 5)
+    q_no = (random.randint(1,100) % 5)
 
 
     #*****LED点滅*****
 
-    ele = 0
-    for lp2 in range(5):
+
+    for ele in range(0,6):
         if order[ele] == 1:
             GPIO.digitalWrite( LED_1, GPIO.HIGH)
             time.sleep(slep)
             GPIO.digitalWrite( LED_1, GPIO.LOW)
-
         elif order[ele] == 2:
             GPIO.digitalWrite( LED_2, GPIO.HIGH)
             time.sleep(slep)
             GPIO.digitalWrite( LED_2, GPIO.LOW)
-        elif order[ele} == 3
-            print(wee
-                    
+        elif order[ele] == 3:
+            GPIO.digitalWrite( LED_3, GPIO.HIGH)
+            time.sleep(slep)
+            GPIO.digitalWrite( LED_3, GPIO.LOW)
+        elif order[ele] == 4:
+            GPIO.digitalWrite( LED_4, GPIO.HIGH)
+            time.sleep(slep)
+            GPIO.digitalWrite( LED_4, GPIO.LOW)
+        else:
+            GPIO.digitalWrite( LED_5, GPIO.HIGH)
+            time.sleep(slep)
+            GPIO.digitalWrite( LED_5, GPIO.LOW)
 
+    break
+print(u'終了')

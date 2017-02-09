@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-import random,time,sys,wiringpi as GPIO
+import random
+import time
+import wiringpi as GPIO
 
 
 #-----   GPIO設定   -----
