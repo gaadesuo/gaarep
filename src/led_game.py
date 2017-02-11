@@ -158,7 +158,7 @@ if __name__ == "__main__":
 
                 input_no.append(int(sw_no))
 
-        if pue_no == 0:
+        if que_no == 0:
             if order != input_no:
                 break
         else:
