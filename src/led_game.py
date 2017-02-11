@@ -10,7 +10,7 @@ if __name__ == "__main__":
     import random
 
 
-    #*****GPIOPINの設定*****
+    #*****GPIOPINの設定i*****
 
     LED_1 = 5        #左15
     LED_2 = 6        #左16
@@ -20,8 +20,8 @@ if __name__ == "__main__":
     LED_OK = 23      #右8
     LED_NG = 24      #右9
 
-    SW_1 = 8         #右12
-    SW_2 = 7         #右13
+    SW_1 = 17        #右12
+    SW_2 = 27         #右13
     SW_3 = 16        #右18
     SW_4 = 20        #右19
     SW_5 = 21        #右20
@@ -79,7 +79,8 @@ if __name__ == "__main__":
 
     #0.1秒でゲームクリア
     while slep > 0.1:
-        #ゲーム開始でリストを空にする
+        #*****初期化*****
+        sw_no = 0
         order = []
         input_no = []
         print(u'スタートボタンを押してLEDの順番を覚えよう')
@@ -93,7 +94,7 @@ if __name__ == "__main__":
 
         for lp1 in range(5):
             led_no = (random.randint(1,100) % 5) + 1
-            order.append(led_no)
+            order.append(int(led_no))
 
         que_no = (random.randint(1,100) % 5)
 
@@ -131,7 +132,7 @@ if __name__ == "__main__":
 
         #*****問題出力*****
 
-
+        print(order)
         if que_no == 0:
             print(u'光った順番にボタンを入力して最後にスタートボタンを押してね')
         else:
@@ -141,31 +142,42 @@ if __name__ == "__main__":
         #*****入力と合否判定*****
 
 
-        while True:
-            if (GPIO.digitalRead(SW_ST) == GPIO.HIGH):
-                break
-            else:
-                if (GPIO.digitalRead(SW_1) == GPIO.HIGH):
+        while (GPIO.digitalRead(SW_ST) == GPIO.LOW):
+            if  (GPIO.digitalRead(SW_1) == GPIO.HIGH):
                     sw_no = 1
-                elif (GPIO.digitalRead(SW_2) == GPIO.HIGH):
+            elif (GPIO.digitalRead(SW_2) == GPIO.HIGH):
                     sw_no = 2
-                elif (GPIO.digitalRead(SW_3) == GPIO.HIGH):
+            elif (GPIO.digitalRead(SW_3) == GPIO.HIGH):
                     sw_no = 3
-                elif (GPIO.digitalRead(SW_4) == GPIO.HIGH):
+            elif (GPIO.digitalRead(SW_4) == GPIO.HIGH):
                     sw_no = 4
-                else:
+            elif (GPIO.digitalRead(SW_5) == GPIO.HIGH):
                     sw_no = 5
-
+            #リストに追加後ボタン離すまでループ
+            if sw_no > 0:
                 input_no.append(int(sw_no))
-
+                sw_no = 0
+                while ((GPIO.digitalRead(SW_1) == GPIO.HIGH)
+                     or(GPIO.digitalRead(SW_2) == GPIO.HIGH)
+                     or(GPIO.digitalRead(SW_3) == GPIO.HIGH)
+                     or(GPIO.digitalRead(SW_4) == GPIO.HIGH)
+                     or(GPIO.digitalRead(SW_5) == GPIO.HIGH)):
+                    continue
+                else:
+                    time.sleep(0.1)
+        print(order)
         if que_no == 0:
             if order != input_no:
                 break
         else:
-            if order[que_no - 1] != sw_no:
+            if (order[que_no - 1] != input_no[0]) and ((len(order)) == (len(input_no))):
                 break
-            print(u'正解だよ！次も頑張って！')
-            slep -= 0.1
+        print(u'正解だよ！次も頑張って！')
+        slep -= 0.1
+        time.sleep(1)
+
     else:
         print(u'ゲームクリア！すごいね！')
+    print(order)
+    print(input_no)
     print(u'残念、間違いだよ')
