@@ -8,6 +8,7 @@ if __name__ == "__main__":
     import wiringpi as GPIO
     import time
     import random
+    import sys
 
 
     #*****GPIOPINの設定i*****
@@ -66,7 +67,7 @@ if __name__ == "__main__":
     print(u'''***********************************************************
 スタートボタンを押すとLEDが光るから、順番を覚えてね
 その後に画面に問題が出るからそれに答えよう
-正解すると緑のLED、間違えると黄色のLEDが光るよ
+正解すると青のLED、間違えると黄色のLEDが光るよ
 正解するとどんどんLEDの光るスピードが上がっていくんだ
 間違えたら終わりだよ
 どこまでいけるかレッツチャレンジ
@@ -83,9 +84,13 @@ if __name__ == "__main__":
         sw_no = 0
         order = []
         input_no = []
+        GPIO.digitalWrite( LED_OK, GPIO.HIGH)
+        GPIO.digitalWrite( LED_NG, GPIO.HIGH)
         print(u'スタートボタンを押してLEDの順番を覚えよう')
         while True:
             if (GPIO.digitalRead(SW_ST) == GPIO.HIGH):
+                GPIO.digitalWrite( LED_OK, GPIO.LOW)
+                GPIO.digitalWrite( LED_NG, GPIO.LOW)
                 break
 
 
@@ -131,15 +136,15 @@ if __name__ == "__main__":
 
 
         #*****問題出力*****
+        
 
-        print(order)
-        if que_no == 0:
-            print(u'光った順番にボタンを入力して最後にスタートボタンを押してね')
-        else:
-            print(str(que_no) + u'番目に光ったLEDのボタンを押してね')
+        #デバッグ用
+        #print(order)
+        print(u'光った順番にボタンを入力して最後にスタートボタンを押してね' if que_no == 0 
+        else str(que_no) + '番目に光ったLEDのボタンを押してね')
 
 
-        #*****入力と合否判定*****
+        #*****入力*****
 
 
         while (GPIO.digitalRead(SW_ST) == GPIO.LOW):
@@ -165,19 +170,49 @@ if __name__ == "__main__":
                     continue
                 else:
                     time.sleep(0.1)
-        print(order)
+
+
+        #*****合否判定*****
+
+
         if que_no == 0:
             if order != input_no:
                 break
         else:
-            if (order[que_no - 1] != input_no[0]) and ((len(order)) == (len(input_no))):
+#            if (order[que_no - 1] != input_no[0]) and (len(input_no) != 1):
+            if order[que_no - 1] != input_no[0]:
                 break
+            else:
+                if len(input_no) != 1:
+                    break
+        #デバッグ用
+        #print(input_no)
+        #print(len(input_no))
+        GPIO.digitalWrite( LED_OK, GPIO.HIGH)
         print(u'正解だよ！次も頑張って！')
         slep -= 0.1
         time.sleep(1)
-
+        GPIO.digitalWrite( LED_OK, GPIO.LOW)
+        time.sleep(0.5)
+        for lp2 in range(2):
+            GPIO.digitalWrite( LED_OK, GPIO.HIGH)
+            time.sleep(1)
+            GPIO.digitalWrite( LED_OK, GPIO.LOW)
+            time.sleep(0.5)
+    #0.1秒切ったら
     else:
         print(u'ゲームクリア！すごいね！')
-    print(order)
-    print(input_no)
+        sys.exit()
+    #デバッグ用
+    #print(order)
+    #print(input_no)
+    GPIO.digitalWrite( LED_NG, GPIO.HIGH)
     print(u'残念、間違いだよ')
+    time.sleep(1)
+    GPIO.digitalWrite( LED_NG, GPIO.LOW)
+    time.sleep(0.5)
+    for lp3 in range(2):
+        GPIO.digitalWrite( LED_NG, GPIO.HIGH)
+        time.sleep(1)
+        GPIO.digitalWrite( LED_NG, GPIO.LOW)
+        time.sleep(0.5)
