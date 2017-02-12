@@ -136,11 +136,11 @@ if __name__ == "__main__":
 
 
         #*****問題出力*****
-        
+
 
         #デバッグ用
         #print(order)
-        print(u'光った順番にボタンを入力して最後にスタートボタンを押してね' if que_no == 0 
+        print(u'光った順番にボタンを入力して最後にスタートボタンを押してね' if que_no == 0
         else str(que_no) + '番目に光ったLEDのボタンを押してね')
 
 
@@ -179,6 +179,7 @@ if __name__ == "__main__":
             if order != input_no:
                 break
         else:
+#184行目から188行目までのifの流れは直下のこのifで行けない。勘違いしてるので後で調べる
 #            if (order[que_no - 1] != input_no[0]) and (len(input_no) != 1):
             if order[que_no - 1] != input_no[0]:
                 break
@@ -188,6 +189,7 @@ if __name__ == "__main__":
         #デバッグ用
         #print(input_no)
         #print(len(input_no))
+        #以下正解
         GPIO.digitalWrite( LED_OK, GPIO.HIGH)
         print(u'正解だよ！次も頑張って！')
         slep -= 0.1
@@ -199,13 +201,14 @@ if __name__ == "__main__":
             time.sleep(1)
             GPIO.digitalWrite( LED_OK, GPIO.LOW)
             time.sleep(0.5)
-    #0.1秒切ったら
+    #以下0.1秒切ったのでクリア
     else:
         print(u'ゲームクリア！すごいね！')
         sys.exit()
     #デバッグ用
     #print(order)
     #print(input_no)
+    #以下不正解
     GPIO.digitalWrite( LED_NG, GPIO.HIGH)
     print(u'残念、間違いだよ')
     time.sleep(1)
