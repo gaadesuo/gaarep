@@ -33,7 +33,7 @@ def output(device,style):
 
 for lp1 in range(2):
     output(LED,GPIO.HIGH)
-    time.sleep(1)
-    output(led,GPIO.LOW)
-    time.sleep(1)
+    time.sleep(3)
+    output(LED,GPIO.LOW)
+    time.sleep(3)
  
