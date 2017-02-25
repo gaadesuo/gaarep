@@ -5,17 +5,17 @@
 __author__ = "user"
 __date__ = "$2017/02/23 12:46:08$"
 
-#import wiringpi as GPIO
-import time
+import wiringpi as GPIO
+from time import sleep
 
 
 #-----GPIOの初期設定----
 
 
-#OUT = 26       #左側19
+OUT = 26       #左側19
 
-#GPIO.wiringPiSetupGpio()
-#GPIO.pinMode(OUT,GPIO.OUTPUT)
+GPIO.wiringPiSetupGpio()
+GPIO.softToneCreate(OUT)
 
 
 #-----実行部分-----
@@ -181,9 +181,9 @@ if __name__ == "__main__":
 
     for long in sign:
         #デバッグ用
-        print(long)
-#        GPIO.digitalWrite(OUT,GPIO.HIGH)
-#        time.sleep(long / 5)
-#        GPIO.digitalWrite(OUT,GPIO.LO
-         #符号間の間は１点と同じ間隔
-#        time.sleep(1 / 0.5)
+        #print(long)
+        GPIO.softToneWrite(OUT,800)
+        sleep(long / 5)
+        GPIO.softToneWrite(OUT,0)
+        #符号間の間は１点と同じ間隔
+        sleep(1 / 5)
