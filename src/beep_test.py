@@ -16,7 +16,7 @@ buzzer = 26        #左19
 GPIO.wiringPiSetupGpio()
 GPIO.softToneCreate(buzzer)
 
-delay = 0.2
+lsi = 247
 do = 262
 re = 294
 mi = 330
@@ -24,17 +24,25 @@ fa = 349
 so = 392
 ra = 440
 si = 494
-hdo = 523
-hre = 587
-hmi = 659
-non = 0
+do = 523
 
-pnpu = (re,re,do,do,re,so,ra)
+#lsi = 200
+#do = 220
+#re = 247
+#mi = 277
+#fa = 294
+#so = 330
+#ra = 370
+#si = 415
+#hdo = 440
+onpu = (re,re,do,lsi,re,so,ra,si,si,si,ra,so,mi,mi,mi,fa,so,fa,so,mi,re,mi,re,lsi,re,re,re,re,do,lsi,re,so,ra,si,si,si,ra,so,ra,ra,ra,ra,so,so,fa,fa,so,so,so)
+mtime = (3,2,1,2,1,2,1,2,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,2,1,2,1,2,1,2,1,1,1,1)
+stime = (1,1,1,1,1,1,1,1,1,1,1,8,1,1,1,1,1,1,1,1,1,1,1,1,8,1,1,1,1,1,1,1,1,1,1,1,1,8,1,1,1,1,1,1,1,1,4,4,4)
 
 if __name__ == "__main__":
-    for yodo in onpu:
+    for (yodo,mero,stp) in zip(onpu,mtime,stime):
         GPIO.softToneWrite(buzzer,yodo)
-        sleep(delay * 2)
+        sleep(mero / 10)
         GPIO.softToneWrite(buzzer,0)
-        sleep(delay)
+        sleep(stp / 10)
 
