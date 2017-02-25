@@ -139,7 +139,8 @@ if __name__ == "__main__":
     'ぷ':[3,3,1,1,1,1,3,3,1],
     'ぺ':[1,1,3,3,1],
     'ぽ':[3,1,1,1,1,3,3,1],
-    'ー':[1,3,3,1,3]}
+    'ー':[1,3,3,1,3],
+    ' ':[0,0,0,0,0,0,0,]}
 
 
 #-----初期化-----
@@ -159,7 +160,8 @@ if __name__ == "__main__":
             if  u'ぁ' <= match <= u'ん'
             or   'a'  <= match <= 'z'
             or   '1'  <= match <= '9'
-            or   match == 'ー' ]
+            or   match == 'ー'
+            or   match == ' ']
         if len(count) == len(strlist):
             break
         else:
@@ -167,23 +169,16 @@ if __name__ == "__main__":
             continue
 
 
-    #-----発信信号作成-----
+    #-----発信信号作成と発信-----
 
 
     for word in strlist:
-        sign += dic[word]
-        #デバッグ用
-        #print(sign)
-
-
-    #-----発信------
-
-
-    for long in sign:
-        #デバッグ用
-        #print(long)
-        GPIO.softToneWrite(OUT,800)
-        sleep(long / 5)
-        GPIO.softToneWrite(OUT,0)
-        #符号間の間は１点と同じ間隔
-        sleep(1 / 5)
+        for long in dic[word]:
+            #デバッグ用
+            print(long)
+            GPIO.softToneWrite(OUT,815)
+            sleep(long / 15)
+            GPIO.softToneWrite(OUT,0)
+            #符号間の間は１点と同じ間隔
+            sleep(1 / 15)
+        sleep(3/15)
