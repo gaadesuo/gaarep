@@ -16,12 +16,25 @@ buzzer = 26        #左19
 GPIO.wiringPiSetupGpio()
 GPIO.softToneCreate(buzzer)
 
+delay = 0.2
 do = 262
+re = 294
+mi = 330
+fa = 349
+so = 392
+ra = 440
+si = 494
+hdo = 523
+hre = 587
+hmi = 659
+non = 0
+
+pnpu = (re,re,do,do,re,so,ra)
 
 if __name__ == "__main__":
-    for lp1 in range(3):
-        GPIO.softToneWrite(buzzer,do)
-        sleep(1)
+    for yodo in onpu:
+        GPIO.softToneWrite(buzzer,yodo)
+        sleep(delay * 2)
         GPIO.softToneWrite(buzzer,0)
-        sleep(0.5)
+        sleep(delay)
 
