@@ -47,7 +47,7 @@ GPIO.pinMode(SW_END,GPIO.INPUT)
 #以下PWMの設定
 GPIO.softPwmCreate(LED_RED,0,100)
 GPIO.softPwmCreate(LED_GREEN,0,100)
-GPIO.softPwmCreate(LED_BULE0,0,100)
+GPIO.softPwmCreate(LED_BULE,0,100)
 
 #以下プルダウンの設定
 GPIO.pullUpDnControl(SW_RED_UP,GPIO.PUD_DOWN)
@@ -73,16 +73,22 @@ if __name__ == "__main__":
     while (GPIO.digitalRead(SW_END) == GPIO.LOW):
         if (GPIO.digitalRead(SW_RED_UP) == GPIO.HIGH):
             PWM_R += 10
+            print('R' + str(PWM_R) + 'G' + str(PWM_G) + 'B' + str(PWM_B))
         elif (GPIO.digitalRead(SW_GREEN_UP) == GPIO.HIGH):
             PWM_G += 10
+            print('R' + str(PWM_R) + 'G' + str(PWM_G) + 'B' + str(PWM_B))
         elif (GPIO.digitalRead(SW_BULE_UP) == GPIO.HIGH):
             PWM_B += 10
+            print('R' + str(PWM_R) + 'G' + str(PWM_G) + 'B' + str(PWM_B))
         elif (GPIO.digitalRead(SW_RED_DN) == GPIO.HIGH):
             PWM_R -= 10
+            print('R' + str(PWM_R) + 'G' + str(PWM_G) + 'B' + str(PWM_B))
         elif (GPIO.digitalRead(SW_GREEN_DN) == GPIO.HIGH):
             PWM_G -= 10
+            print('R' + str(PWM_R) + 'G' + str(PWM_G) + 'B' + str(PWM_B))
         elif (GPIO.digitalRead(SW_BULE_DN) == GPIO.HIGH):
             PWM_B -= 10
+            print('R' + str(PWM_R) + 'G' + str(PWM_G) + 'B' + str(PWM_B))
 
         #0以下もしくは100以上のときは0もしくは100にする
         if PWM_R < 0:
@@ -98,6 +104,15 @@ if __name__ == "__main__":
         if PWM_B > 100:
             PWM_B = 100
 
+        while ((GPIO.digitalRead(SW_RED_UP) == GPIO.HIGH)
+        or (GPIO.digitalRead(SW_RED_DN) == GPIO.HIGH)
+        or (GPIO.digitalRead(SW_GREEN_UP) == GPIO.HIGH)
+        or (GPIO.digitalRead(SW_GREEN_DN) == GPIO.HIGH)
+        or (GPIO.digitalRead(SW_BULE_UP) == GPIO.HIGH)
+        or (GPIO.digitalRead(SW_BULE_DN) == GPIO.HIGH)):
+            continue
+
+
 
         #-----LEDのPWM制御-----
 
@@ -110,6 +125,6 @@ if __name__ == "__main__":
     #-----終了処理-----
 
 
-    GPIO.digitalWrite(LED_RED,LOW)
-    GPIO.digitalWrite(LED_GREEN,LOW)
-    GPIO.digitalWrite(LED_BULE,LOW)
+    GPIO.softPwmWrite(LED_RED,0)
+    GPIO.softPwmWrite(LED_GREEN,0)
+    GPIO.softPwmWrite(LED_BULE,0)
