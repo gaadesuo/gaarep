@@ -7,33 +7,15 @@
 __author__ = "user"
 __date__ = "$2017/02/21 18:21:41$"
 
+list = []
 
-import wiringpi as GPIO
-import time
+for nums in range(2,101):
+    for num in range(2,nums):
+        if nums == num:
+            pass
+        else:
+            if nums % num == 0:
+                list.append(nums)
 
-#-----GPIOの設定-----
-
-
-LED = 26      #左側NO19
-
-GPIO.wiringPiSetupGpio()
-GPIO.pinMode(LED,GPIO.OUTPUT)
-
-
-#-----関数定義-----
-
-
-def output(device,style):
-    """GPIOの出力"""
-    GPIO.digitalWrite(device,style)
-
-
-#-----LEDを光らせる-----
-
-
-for lp1 in range(2):
-    output(LED,GPIO.HIGH)
-    time.sleep(3)
-    output(LED,GPIO.LOW)
-    time.sleep(3)
- 
+ans = set(list)
+print(ans)
