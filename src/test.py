@@ -11,15 +11,10 @@ list = []
 list2 = []
 
 for nums in range(2,101):
+    list2.append(nums)
     for num in range(2,nums - 1):
-        if nums == num:
-            pass
-        else:
-            if nums % num == 0:
-                list.append(nums)
-
-for nums2 in range(1,101):
-    list2.append(nums2)
+        if nums % num == 0:
+            list.append(nums)
 
 ans = set(list2) - set(list)
 print(ans)
