@@ -7,14 +7,10 @@
 __author__ = "user"
 __date__ = "$2017/02/21 18:21:41$"
 
-list = []
-list2 = []
+def pi(num):
+    return num * 3.14
 
-for nums in range(2,101):
-    list2.append(nums)
-    for num in range(2,nums - 1):
-        if nums % num == 0:
-            list.append(nums)
 
-ans = set(list2) - set(list)
-print(ans)
+list =[nums for nums in range(1,11)]
+for ans in map(pi,list):
+    print(ans)
