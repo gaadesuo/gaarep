@@ -63,7 +63,7 @@ while True:
 print(u'＊＊＊ キャラクターが完成しました ＊＊＊')
 #装備は辞書にしてキーを装備名、値を能力か？
 print('''
-name
+{}
 力:            {}
 屈強度:         {}
 最大体力:       {}
@@ -76,4 +76,4 @@ name
 
 攻撃力:         {}
 防御力:         {}
-'''.format(D_ATK,D_DEF,MHP,HP,D_ATK + 2,D_DEF + 3))
+'''.format(name,D_ATK,D_DEF,MHP,HP,D_ATK + 2,D_DEF + 3))
