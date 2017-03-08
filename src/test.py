@@ -27,14 +27,14 @@ if __name__ == "__main__":
     SCREEN_SIZE = (640,480)
     screen = pygame.display.set_mode(SCREEN_SIZE)
     #ウィンドウタイトル
-    pygame.display.set_caption(u"ざまぁｗｗｗ")
+    pygame.display.set_caption(u"かゆうま日記")
 
 
 
     # フォントの作成
     myfont = pygame.font.Font(msgothic, 80)
 
-    hello = myfont.render(u'死んでいない！',True,(255,255,255))
+    hello = myfont.render(u'かゆ　うま',True,(255,255,255))
 
     #-----ゲームループ-----
     while True:
