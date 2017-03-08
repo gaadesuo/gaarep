@@ -10,42 +10,36 @@ import pygame
 from pygame.locals import *
 import sys
 
-
-
-
 if __name__ == "__main__":
-
 
     pygame.init()
 
     msgothic = r'c:\windows\fonts\msgothic.ttc'
 
-    #-----ウィンドウ作成-----
+    # -----ウィンドウ作成-----
 
 
-    #画面解像度
-    SCREEN_SIZE = (640,480)
+    # 画面解像度
+    SCREEN_SIZE = (640, 480)
     screen = pygame.display.set_mode(SCREEN_SIZE)
-    #ウィンドウタイトル
+    # ウィンドウタイトル
     pygame.display.set_caption(u"かゆうま日記")
-
-
 
     # フォントの作成
     myfont = pygame.font.Font(msgothic, 80)
 
-    hello = myfont.render(u'かゆ　うま',True,(255,255,255))
+    hello = myfont.render(u'かゆ　うま', True, (255, 255, 255))
 
-    #-----ゲームループ-----
+    # -----ゲームループ-----
     while True:
-        #背景の色
-        screen.fill((0,0,0))
+        # 背景の色
+        screen.fill((0, 0, 0))
 
-        screen.blit(hello, (20,60))
+        screen.blit(hello, (20, 60))
 
         pygame.display.update()
 
         for event in pygame.event.get():
-            #終了イベントが発生したら終了する
+            # 終了イベントが発生したら終了する
             if event.type == QUIT:
                 sys.exit()
