@@ -17,9 +17,11 @@ pygame.init()
 
 mona = r'c:\windows\fonts\ipagp-mona.ttf'
 
-#-----画像ファイルの設定-----
+# -----画像ファイルの設定-----
 
-yaruo =
+yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\AA.png"
+takara = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\takara.png"
+
 
 # -----関数-----
 
@@ -83,7 +85,9 @@ T_MENU = MENU_font.render(u"新しく始める:1    続きから:2    終了す�
 
 # -----画像の設定-----
 
-yar = pygame.image.load("AA.png").convert()
+yar = pygame.image.load(yaruo).convert()
+#colorkey = yar.get_at((0,0))
+#yar.set_colorkey(colorkey, RLEACCEL)
 
 # -----ゲームループ-----
 
