@@ -68,8 +68,6 @@ C_TREASURE.set_colorkey(C_TRE_COLO, RLEACCEL)
 
 # -----ゲームループ-----
 
-menu_num = 0
-
 while True:
 
     screen.blit(BG, (0,0))
@@ -83,9 +81,6 @@ while True:
     screen.blit(C_TREASURE, (0,0))
 
     pygame.display.update()
-
-    if menu_num == 1:
-        break
 
     # -----イベントハンドラ-----
 
@@ -115,5 +110,8 @@ while True:
         menu_num = 8
     elif pressed_key[K_9] or pressed_key[K_KP9]:
         menu_num = 9
+
+    if menu_num == 1:
+        break
 
 print("END")
