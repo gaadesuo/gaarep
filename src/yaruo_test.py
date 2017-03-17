@@ -20,7 +20,7 @@ mona = r'c:\windows\fonts\ipagp-mona.ttf'
 # -----画像ファイルの設定-----
 
 yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\AA.png"
-takara = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\takara.png"
+bg = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\BG.png"
 
 
 # -----関数-----
@@ -85,32 +85,29 @@ T_MENU = MENU_font.render(u"新しく始める:1    続きから:2    終了す�
 
 # -----画像の設定-----
 
-yar = pygame.image.load(yaruo).convert()
-#colorkey = yar.get_at((0,0))
-#yar.set_colorkey(colorkey, RLEACCEL)
+BG = pygame.image.load(bg).convert()
+YAR = pygame.image.load(yaruo).convert()
+# 以下背景を透明化、現在は必要ない
+# colorkey = yar.get_at((0,0))
+# yar.set_colorkey(colorkey, RLEACCEL)
+
 
 # -----ゲームループ-----
 
 while True:
 
-    # 背景の色
-    screen.fill((0, 0, 0))
+    screen.blit(BG, (0,0))
+    screen.blit(TITLE_NAME_U, (40, 20))
+    screen.blit(TITLE_NAME_M, (300, 150))
+    screen.blit(TITLE_NAME_D, (450, 260))
+    screen.blit(SUB_TITLE, (500, 400))
+    screen.blit(M_NAME, (40, 500))
+    screen.blit(T_MENU, (280, 650))
+    screen.blit(YAR, (750, 50))
 
-    # -----タイトルループ-----
+    pygame.display.update()
 
-    while True:
-
-        screen.blit(TITLE_NAME_U, (40, 20))
-        screen.blit(TITLE_NAME_M, (300, 150))
-        screen.blit(TITLE_NAME_D, (450, 260))
-        screen.blit(SUB_TITLE, (500, 400))
-        screen.blit(M_NAME, (40, 500))
-        screen.blit(T_MENU, (280, 650))
-        screen.blit(yar, (750, 50))
-
-        pygame.display.update()
-
-        menu_num = inp_menu()
-        if menu_num == 1:
-            break
-    print("END")
+    menu_num = inp_menu()
+    if menu_num == 1:
+        break
+print("END")
