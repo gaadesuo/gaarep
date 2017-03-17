@@ -21,44 +21,10 @@ mona = r'c:\windows\fonts\ipagp-mona.ttf'
 
 yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\AA.png"
 bg = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\BG.png"
-
+takaraake = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\takaraake.png"
+takarasime = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\takarasime.png"
 
 # -----関数-----
-
-def inp_menu():
-    """
-    キーボードの入力受け付けとウィンドウからのイベント受け付け
-    0もしくはウィンドウの×でプログラム終了
-    1～9の入力で各々の数字を返す
-    :return: int
-    """
-    for event in pygame.event.get():
-        # 終了イベントが発生したら終了する
-        if event.type == QUIT:
-            sys.exit()
-            # キー入力なら各々の値、0なら終了
-    pressed_key = pygame.key.get_pressed()
-    if pressed_key[K_0] or pressed_key[K_KP0]:
-        sys.exit()
-    elif pressed_key[K_1] or pressed_key[K_KP1]:
-        return (1)
-    elif pressed_key[K_2] or pressed_key[K_KP2]:
-        return (2)
-    elif pressed_key[K_3] or pressed_key[K_KP3]:
-        return (3)
-    elif pressed_key[K_4] or pressed_key[K_KP4]:
-        return (4)
-    elif pressed_key[K_5] or pressed_key[K_KP5]:
-        return (5)
-    elif pressed_key[K_6] or pressed_key[K_KP6]:
-        return (6)
-    elif pressed_key[K_7] or pressed_key[K_KP7]:
-        return (7)
-    elif pressed_key[K_8] or pressed_key[K_KP8]:
-        return (8)
-    elif pressed_key[K_9] or pressed_key[K_KP9]:
-        return (9)
-
 
 # -----ウィンドウ作成-----
 
@@ -87,12 +53,22 @@ T_MENU = MENU_font.render(u"新しく始める:1    続きから:2    終了す�
 
 BG = pygame.image.load(bg).convert()
 YAR = pygame.image.load(yaruo).convert()
-# 以下背景を透明化、現在は必要ない
-# colorkey = yar.get_at((0,0))
-# yar.set_colorkey(colorkey, RLEACCEL)
+O_TREASURE = pygame.image.load(takaraake).convert()
+C_TREASURE = pygame.image.load(takarasime).convert()
 
+# 以下背景を透明化、現在は必要ない
+colorkey = YAR.get_at((0,0))
+YAR.set_colorkey(colorkey, RLEACCEL)
+
+O_TRE_COLO = O_TREASURE.get_at((0,0))
+O_TREASURE.set_colorkey(O_TRE_COLO, RLEACCEL)
+
+C_TRE_COLO = C_TREASURE.get_at((0,0))
+C_TREASURE.set_colorkey(C_TRE_COLO, RLEACCEL)
 
 # -----ゲームループ-----
+
+menu_num = 0
 
 while True:
 
@@ -104,10 +80,40 @@ while True:
     screen.blit(M_NAME, (40, 500))
     screen.blit(T_MENU, (280, 650))
     screen.blit(YAR, (750, 50))
+    screen.blit(C_TREASURE, (0,0))
 
     pygame.display.update()
 
-    menu_num = inp_menu()
     if menu_num == 1:
         break
+
+    # -----イベントハンドラ-----
+
+    for event in pygame.event.get():
+        # 終了イベントが発生したら終了する
+        if event.type == QUIT:
+            sys.exit()
+            # キー入力なら各々の値、0なら終了
+    pressed_key = pygame.key.get_pressed()
+    if pressed_key[K_0] or pressed_key[K_KP0]:
+        sys.exit()
+    elif pressed_key[K_1] or pressed_key[K_KP1]:
+        menu_num = 1
+    elif pressed_key[K_2] or pressed_key[K_KP2]:
+        menu_num = 2
+    elif pressed_key[K_3] or pressed_key[K_KP3]:
+        menu_num = 3
+    elif pressed_key[K_4] or pressed_key[K_KP4]:
+        menu_num = 4
+    elif pressed_key[K_5] or pressed_key[K_KP5]:
+        menu_num = 5
+    elif pressed_key[K_6] or pressed_key[K_KP6]:
+        menu_num = 6
+    elif pressed_key[K_7] or pressed_key[K_KP7]:
+        menu_num = 7
+    elif pressed_key[K_8] or pressed_key[K_KP8]:
+        menu_num = 8
+    elif pressed_key[K_9] or pressed_key[K_KP9]:
+        menu_num = 9
+
 print("END")
