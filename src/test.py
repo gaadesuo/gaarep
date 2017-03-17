@@ -53,22 +53,16 @@ T_MENU = MENU_font.render(u"新しく始める:1    続きから:2    終了す�
 
 BG = pygame.image.load(bg).convert()
 YAR = pygame.image.load(yaruo).convert()
-O_TREASURE = pygame.image.load(takaraake).convert()
 C_TREASURE = pygame.image.load(takarasime).convert()
 
 # 以下背景を透明化、現在は必要ない
 colorkey = YAR.get_at((0,0))
 YAR.set_colorkey(colorkey, RLEACCEL)
 
-O_TRE_COLO = O_TREASURE.get_at((0,0))
-O_TREASURE.set_colorkey(O_TRE_COLO, RLEACCEL)
-
 C_TRE_COLO = C_TREASURE.get_at((0,0))
 C_TREASURE.set_colorkey(C_TRE_COLO, RLEACCEL)
 
 # -----ゲームループ-----
-
-menu_num = 0
 
 while True:
 
@@ -84,9 +78,6 @@ while True:
 
     pygame.display.update()
 
-    if menu_num == 1:
-        break
-
     # -----イベントハンドラ-----
 
     for event in pygame.event.get():
@@ -94,6 +85,16 @@ while True:
         if event.type == QUIT:
             sys.exit()
             # キー入力なら各々の値、0なら終了
+        if event.type == MOUSEBUTTONDOWN and event.button == 1:
+            x, y = event.pos
+            print(x)
+            print(y)
+            C_TREASURE = pygame.image.load(takaraake).convert()
+            C_TRE_COLO = C_TREASURE.get_at((0, 0))
+            C_TREASURE.set_colorkey(C_TRE_COLO, RLEACCEL)
+
+    # ----キー入力polling----
+
     pressed_key = pygame.key.get_pressed()
     if pressed_key[K_0] or pressed_key[K_KP0]:
         sys.exit()
@@ -115,5 +116,10 @@ while True:
         menu_num = 8
     elif pressed_key[K_9] or pressed_key[K_KP9]:
         menu_num = 9
+    else:
+        menu_num = 0
+
+    if menu_num == 1:
+        break
 
 print("END")
