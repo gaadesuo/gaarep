@@ -13,87 +13,168 @@ import time
 
 pygame.init()
 
-# -----テキストファイルの設定-----
+"""-----
 
+ファイルの読み込み
+
+-----"""
+
+# フォントファイルの読み込み
 mona = r'c:\windows\fonts\ipagp-mona.ttf'
 
-# -----画像ファイルの設定-----
+# 画像ファイルの読み込み
 
-yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\AA.png"
 bg = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\BG.png"
-takaraake = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\takaraake.png"
-takarasime = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\takarasime.png"
+menu_1 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m1.gif"
+menu_2 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m2.gif"
+menu_3 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m3.gif"
+menu_4 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m4.gif"
+menu_5 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m5.gif"
+menu_6 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m6.gif"
+menu_7 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m7.gif"
+menu_8 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m8.gif"
+menu_9 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m9.gif"
+menu_0 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m0.gif"
+yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\AA.png"
 
-# -----関数-----
+"""-----
 
-# -----ウィンドウ作成-----
+フォントの設定
+
+-----"""
+
+font_100 = pygame.font.Font(mona, 100)
+font_50 = pygame.font.Font(mona, 50)
+font_40 = pygame.font.Font(mona, 40)
+font_20 = pygame.font.Font(mona, 20)
+
+"""------
+
+関数の作成
+
+-----"""
+
+
+def line():
+    """
+    メニュー部分のレイアウト作画とメニューの処理
+    メニューの文字は8文字まで
+    """
+    # メニュー文字のレンダリング
+    menu1_wd = font_20.render(mwd1, True, (255,255,255))
+    menu2_wd = font_20.render(mwd2, True, (255,255,255))
+    menu3_wd = font_20.render(mwd3, True, (255,255,255))
+    menu4_wd = font_20.render(mwd4, True, (255,255,255))
+    menu5_wd = font_20.render(mwd5, True, (255,255,255))
+    menu6_wd = font_20.render(mwd6, True, (255,255,255))
+    menu7_wd = font_20.render(mwd7, True, (255,255,255))
+    menu8_wd = font_20.render(mwd8, True, (255,255,255))
+    menu9_wd = font_20.render(mwd9, True, (255,255,255))
+    menu0_wd = font_20.render(mwd0, True, (255,255,255))
+    # メニュー文字の表記
+    screen.blit(menu1_wd, (76,666))
+    screen.blit(menu2_wd, (273,666))
+    screen.blit(menu3_wd, (470,666))
+    screen.blit(menu4_wd, (667,666))
+    screen.blit(menu5_wd, (864,666))
+    screen.blit(menu6_wd, (76,716))
+    screen.blit(menu7_wd, (273,716))
+    screen.blit(menu8_wd, (470,716))
+    screen.blit(menu9_wd, (667,716))
+    screen.blit(menu0_wd, (864,716))
+    # メニューの枠線
+    pygame.draw.rect(screen, (255,255,255), Rect(20,650,984,100),2)
+    pygame.draw.line(screen, (255,255,255), (20,700), (1004,700),2)
+    pygame.draw.line(screen, (255,255,255), (217,650), (217,750),2)
+    pygame.draw.line(screen, (255,255,255), (414,650), (414,750),2)
+    pygame.draw.line(screen, (255,255,255), (611,650), (611,750),2)
+    pygame.draw.line(screen, (255,255,255), (808,650), (808,750),2)
+    # メニューの数字画像
+    screen.blit(M1, (23,653))
+    screen.blit(M2, (220,653))
+    screen.blit(M3, (417,653))
+    screen.blit(M4, (614,653))
+    screen.blit(M5, (811,653))
+    screen.blit(M6, (23,703))
+    screen.blit(M7, (220,703))
+    screen.blit(M8, (417,703))
+    screen.blit(M9, (614,703))
+    screen.blit(M0, (811,703))
+
+"""-----
+
+ウィンドウ作成
+
+-----"""
 
 # 画面解像度
 SCREEN_SIZE = (1024, 768)
 screen = pygame.display.set_mode(SCREEN_SIZE)
+
 # ウィンドウタイトル
 pygame.display.set_caption("やる夫が地下に潜るようです")
 
-# フォントの設定
-MY_font = pygame.font.Font(mona, 50)
-DOR_font = pygame.font.Font(mona, 100)
-DOR_font_B = pygame.font.Font(mona, 100)
-NAME_font = pygame.font.Font(mona, 40)
-MENU_font = pygame.font.Font(mona, 25)
+"""-----
 
-TITLE_NAME_U = DOR_font.render("やる夫が", True, (255, 255, 255))
-TITLE_NAME_M = DOR_font.render("地下に", True, (255, 255, 255))
-TITLE_NAME_D = DOR_font_B.render("潜るようです", True, (255, 255, 255))
-SUB_TITLE = MY_font.render(u"樹海に魅入られし者", True, (255, 255, 255))
-M_NAME = NAME_font.render(u"著：がー", True, (255, 255, 255))
-T_MENU = MENU_font.render(u"新しく始める:1    続きから:2    終了する:0", \
-                          True, (255, 255, 255))
+画像処理
 
-# -----画像の設定-----
+-----"""
 
+# 背景
 BG = pygame.image.load(bg).convert()
+# メニュー数字
+M1 = pygame.image.load(menu_1).convert()
+M2 = pygame.image.load(menu_2).convert()
+M3 = pygame.image.load(menu_3).convert()
+M4 = pygame.image.load(menu_4).convert()
+M5 = pygame.image.load(menu_5).convert()
+M6 = pygame.image.load(menu_6).convert()
+M7 = pygame.image.load(menu_7).convert()
+M8 = pygame.image.load(menu_8).convert()
+M9 = pygame.image.load(menu_9).convert()
+M0 = pygame.image.load(menu_0).convert()
+# タイトル顔
 YAR = pygame.image.load(yaruo).convert()
-C_TREASURE = pygame.image.load(takarasime).convert()
 
-# 以下背景を透明化、現在は必要ない
-colorkey = YAR.get_at((0,0))
-YAR.set_colorkey(colorkey, RLEACCEL)
+"""-----
 
-C_TRE_COLO = C_TREASURE.get_at((0,0))
-C_TREASURE.set_colorkey(C_TRE_COLO, RLEACCEL)
+文字レンダリング
 
-# -----ゲームループ-----
+-----"""
+
+TITLE_NAME_U = font_100.render("やる夫が", True, (255, 255, 255))
+TITLE_NAME_M = font_100.render("地下に", True, (255, 255, 255))
+TITLE_NAME_D = font_100.render("潜るようです", True, (255, 255, 255))
+SUB_TITLE = font_50.render(u"樹海に魅入られし者", True, (255, 255, 255))
+M_NAME = font_40.render(u"著：がー", True, (255, 255, 255))
+
+"""-----
+
+
+ここからゲームループ
+
+
+-----"""
 
 while True:
 
-    screen.blit(BG, (0,0))
-    screen.blit(TITLE_NAME_U, (40, 20))
-    screen.blit(TITLE_NAME_M, (300, 150))
-    screen.blit(TITLE_NAME_D, (450, 260))
-    screen.blit(SUB_TITLE, (500, 400))
-    screen.blit(M_NAME, (40, 500))
-    screen.blit(T_MENU, (280, 650))
-    screen.blit(YAR, (750, 50))
-    screen.blit(C_TREASURE, (0,0))
+    """-----
 
-    pygame.display.update()
+    マウス、キーボード等のpolling処理
 
-    # -----イベントハンドラ-----
+    -----"""
 
     for event in pygame.event.get():
         # 終了イベントが発生したら終了する
         if event.type == QUIT:
             sys.exit()
             # キー入力なら各々の値、0なら終了
+        x = 0
+        y = 0
         if event.type == MOUSEBUTTONDOWN and event.button == 1:
             x, y = event.pos
             print(x)
             print(y)
-            C_TREASURE = pygame.image.load(takaraake).convert()
-            C_TRE_COLO = C_TREASURE.get_at((0, 0))
-            C_TREASURE.set_colorkey(C_TRE_COLO, RLEACCEL)
-
-    # ----キー入力polling----
 
     pressed_key = pygame.key.get_pressed()
     if pressed_key[K_0] or pressed_key[K_KP0]:
@@ -119,7 +200,37 @@ while True:
     else:
         menu_num = 0
 
-    if menu_num == 1:
-        break
+    """-----
+    
+    タイトル画面作画
+    
+    -----"""
 
-print("END")
+    mwd1 = "　　新規作成　　"
+    mwd2 = "　　続きから　　"
+    mwd3 = ""
+    mwd4 = ""
+    mwd5 = ""
+    mwd6 = ""
+    mwd7 = ""
+    mwd8 = ""
+    mwd9 = ""
+    mwd0 = "　　終了する　　"
+
+    screen.blit(BG, (0, 0))
+    screen.blit(TITLE_NAME_U, (40, 20))
+    screen.blit(TITLE_NAME_M, (300, 150))
+    screen.blit(TITLE_NAME_D, (450, 260))
+    screen.blit(SUB_TITLE, (500, 400))
+    screen.blit(M_NAME, (40, 500))
+    screen.blit(YAR, (690, 0))
+    line()
+
+    pygame.display.update()
+
+    if menu_num == 1:
+        screen.blit(BG, (0, 0))
+        pygame.display.update()
+        time.sleep(1)
+
+        print("END")
