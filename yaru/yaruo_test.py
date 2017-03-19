@@ -10,6 +10,7 @@ import pygame
 from pygame.locals import *
 import sys
 import time
+import conti
 
 pygame.init()
 
@@ -59,6 +60,8 @@ def line():
     """
     メニュー部分のレイアウト作画とメニューの処理
     メニューの文字は8文字まで
+    returns: int
+
     """
     # メニュー文字のレンダリング
     menu1_wd = font_20.render(mwd1, True, (255, 255, 255))
@@ -100,6 +103,29 @@ def line():
     screen.blit(M8, (417, 703))
     screen.blit(M9, (614, 703))
     screen.blit(M0, (811, 703))
+    # メニューボタンクリック
+    if 22 < x < 74 and 652 < y < 700:
+        return 1
+    elif 219 < x < 271 and 652 < y < 700:
+        return 2
+    elif 415 < x < 467 and 652 < y < 700:
+        return 3
+    elif 612 < x < 664 and 652 < y < 700:
+        return 4
+    elif 809 < x < 861 and 652 < y < 700:
+        return 5
+    elif 22 < x < 74 and 702 < y < 750:
+        return 6
+    elif 219 < x < 271 and 702 < y < 750:
+        return 7
+    elif 415 < x < 467 and 702 < y < 750:
+        return 8
+    elif 612 < x < 664 and 702 < y < 750:
+        return 9
+    elif 809 < x < 861 and 702 < y < 750:
+        sys.exit()
+    else:
+        return 0
 
 
 """-----
@@ -229,9 +255,9 @@ while True:
 
     pygame.display.update()
 
-    if menu_num == 1:
+    if menu_num == 1 or line() == 1:
         screen.blit(BG, (0, 0))
         pygame.display.update()
         time.sleep(1)
-
-        print("END")
+    elif menu_num == 2 or line() == 2:
+        conti.con()
