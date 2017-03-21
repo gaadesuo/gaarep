@@ -25,18 +25,18 @@ mona = r'c:\windows\fonts\ipagp-mona.ttf'
 
 # 画像ファイルの読み込み
 
-bg = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\BG.png"
-menu_1 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m1.gif"
-menu_2 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m2.gif"
-menu_3 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m3.gif"
-menu_4 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m4.gif"
-menu_5 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m5.gif"
-menu_6 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m6.gif"
-menu_7 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m7.gif"
-menu_8 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m8.gif"
-menu_9 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m9.gif"
-menu_0 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\m0.gif"
-yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaruo\AA.png"
+bg = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\BG.png"
+menu_1 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m1.gif"
+menu_2 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m2.gif"
+menu_3 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m3.gif"
+menu_4 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m4.gif"
+menu_5 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m5.gif"
+menu_6 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m6.gif"
+menu_7 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m7.gif"
+menu_8 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m8.gif"
+menu_9 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m9.gif"
+menu_0 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m0.gif"
+yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\titleyaru.png"
 
 """-----
 
@@ -195,7 +195,6 @@ while True:
         # 終了イベントが発生したら終了する
         if event.type == QUIT:
             sys.exit()
-            # キー入力なら各々の値、0なら終了
         x = 0
         y = 0
         if event.type == MOUSEBUTTONDOWN and event.button == 1:
@@ -258,6 +257,5 @@ while True:
     if menu_num == 1 or line() == 1:
         screen.blit(BG, (0, 0))
         pygame.display.update()
-        time.sleep(1)
     elif menu_num == 2 or line() == 2:
         conti.con()
