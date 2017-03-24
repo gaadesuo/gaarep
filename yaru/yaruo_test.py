@@ -48,12 +48,73 @@ font_100 = pygame.font.Font(mona, 100)
 font_50 = pygame.font.Font(mona, 50)
 font_40 = pygame.font.Font(mona, 40)
 font_20 = pygame.font.Font(mona, 20)
-
 """------
 
 関数の作成
 
 -----"""
+
+
+def operation():
+    """
+    マウス、キーボード等のpolling処理
+    returns: int
+    """
+
+    for event in pygame.event.get():
+        # 終了イベントが発生したら終了する
+        if event.type == QUIT:
+            sys.exit()
+        if event.type == MOUSEBUTTONDOWN and event.button == 1:
+            x, y = event.pos
+            print(x)
+            print(y)
+            if 22 < x < 74 and 652 < y < 700:
+                return 1
+            elif 219 < x < 271 and 652 < y < 700:
+                return 2
+            elif 415 < x < 467 and 652 < y < 700:
+                return 3
+            elif 612 < x < 664 and 652 < y < 700:
+                return 4
+            elif 809 < x < 861 and 652 < y < 700:
+                return 5
+            elif 22 < x < 74 and 702 < y < 750:
+                return 6
+            elif 219 < x < 271 and 702 < y < 750:
+                return 7
+            elif 415 < x < 467 and 702 < y < 750:
+                return 8
+            elif 612 < x < 664 and 702 < y < 750:
+                return 9
+            elif 809 < x < 861 and 702 < y < 750:
+                sys.exit()
+            else:
+                return 0
+
+    pressed_key = pygame.key.get_pressed()
+    if pressed_key[K_0] or pressed_key[K_KP0]:
+        sys.exit()
+    elif pressed_key[K_1] or pressed_key[K_KP1]:
+        return 1
+    elif pressed_key[K_2] or pressed_key[K_KP2]:
+        return 2
+    elif pressed_key[K_3] or pressed_key[K_KP3]:
+        return 3
+    elif pressed_key[K_4] or pressed_key[K_KP4]:
+        return 4
+    elif pressed_key[K_5] or pressed_key[K_KP5]:
+        return 5
+    elif pressed_key[K_6] or pressed_key[K_KP6]:
+        return 6
+    elif pressed_key[K_7] or pressed_key[K_KP7]:
+        return 7
+    elif pressed_key[K_8] or pressed_key[K_KP8]:
+        return 8
+    elif pressed_key[K_9] or pressed_key[K_KP9]:
+        return 9
+    else:
+        return 0
 
 
 def line():
@@ -103,30 +164,6 @@ def line():
     screen.blit(M8, (417, 703))
     screen.blit(M9, (614, 703))
     screen.blit(M0, (811, 703))
-    # メニューボタンクリック
-    if 22 < x < 74 and 652 < y < 700:
-        return 1
-    elif 219 < x < 271 and 652 < y < 700:
-        return 2
-    elif 415 < x < 467 and 652 < y < 700:
-        return 3
-    elif 612 < x < 664 and 652 < y < 700:
-        return 4
-    elif 809 < x < 861 and 652 < y < 700:
-        return 5
-    elif 22 < x < 74 and 702 < y < 750:
-        return 6
-    elif 219 < x < 271 and 702 < y < 750:
-        return 7
-    elif 415 < x < 467 and 702 < y < 750:
-        return 8
-    elif 612 < x < 664 and 702 < y < 750:
-        return 9
-    elif 809 < x < 861 and 702 < y < 750:
-        sys.exit()
-    else:
-        return 0
-
 
 """-----
 
@@ -175,6 +212,10 @@ TITLE_NAME_D = font_100.render("潜るようです", True, (255, 255, 255))
 SUB_TITLE = font_50.render(u"樹海に魅入られし者", True, (255, 255, 255))
 M_NAME = font_40.render(u"著：がー", True, (255, 255, 255))
 
+WDS_1 = font_20.render\
+    (u"とある町の外れにある樹海。そでもたらされる恵みはその町の支えの一つであった。"\
+     , True, (255, 255, 255))
+
 """-----
 
 
@@ -184,47 +225,6 @@ M_NAME = font_40.render(u"著：がー", True, (255, 255, 255))
 -----"""
 
 while True:
-
-    """-----
-
-    マウス、キーボード等のpolling処理
-
-    -----"""
-
-    for event in pygame.event.get():
-        # 終了イベントが発生したら終了する
-        if event.type == QUIT:
-            sys.exit()
-        x = 0
-        y = 0
-        if event.type == MOUSEBUTTONDOWN and event.button == 1:
-            x, y = event.pos
-            print(x)
-            print(y)
-
-    pressed_key = pygame.key.get_pressed()
-    if pressed_key[K_0] or pressed_key[K_KP0]:
-        sys.exit()
-    elif pressed_key[K_1] or pressed_key[K_KP1]:
-        menu_num = 1
-    elif pressed_key[K_2] or pressed_key[K_KP2]:
-        menu_num = 2
-    elif pressed_key[K_3] or pressed_key[K_KP3]:
-        menu_num = 3
-    elif pressed_key[K_4] or pressed_key[K_KP4]:
-        menu_num = 4
-    elif pressed_key[K_5] or pressed_key[K_KP5]:
-        menu_num = 5
-    elif pressed_key[K_6] or pressed_key[K_KP6]:
-        menu_num = 6
-    elif pressed_key[K_7] or pressed_key[K_KP7]:
-        menu_num = 7
-    elif pressed_key[K_8] or pressed_key[K_KP8]:
-        menu_num = 8
-    elif pressed_key[K_9] or pressed_key[K_KP9]:
-        menu_num = 9
-    else:
-        menu_num = 0
 
     """-----
 
@@ -251,11 +251,38 @@ while True:
     screen.blit(M_NAME, (40, 500))
     screen.blit(YAR, (690, 0))
     line()
-
     pygame.display.update()
 
-    if menu_num == 1 or line() == 1:
-        screen.blit(BG, (0, 0))
-        pygame.display.update()
-    elif menu_num == 2 or line() == 2:
+    if operation() == 1:
+        break
+    elif operation() == 2:
+        print("22")
         conti.con()
+    elif operation() == 3:
+        print("3")
+    else:
+        pass
+
+    """------
+
+    キャラメイク
+
+    -----"""
+while True:
+
+    mwd1 = "　　新規作成　　"
+    mwd2 = "　　続きから　　"
+    mwd3 = ""
+    mwd4 = ""
+    mwd5 = ""
+    mwd6 = ""
+    mwd7 = ""
+    mwd8 = ""
+    mwd9 = ""
+    mwd0 = "　　終了する　　"
+
+    screen.blit(BG, (0, 0))
+    screen.blit(WDS_1, (40,20))
+    line()
+
+    pygame.display.update()
