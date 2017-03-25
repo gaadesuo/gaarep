@@ -11,6 +11,7 @@ from pygame.locals import *
 import sys
 import time
 import conti
+import random
 
 pygame.init()
 
@@ -37,7 +38,7 @@ menu_8 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\im
 menu_9 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m9.gif"
 menu_0 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m0.gif"
 yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\titleyaru.png"
-
+down = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\downBG.png"
 """-----
 
 フォントの設定
@@ -48,6 +49,7 @@ font_100 = pygame.font.Font(mona, 100)
 font_50 = pygame.font.Font(mona, 50)
 font_40 = pygame.font.Font(mona, 40)
 font_20 = pygame.font.Font(mona, 20)
+
 """------
 
 関数の作成
@@ -65,32 +67,33 @@ def operation():
         # 終了イベントが発生したら終了する
         if event.type == QUIT:
             sys.exit()
-        if event.type == MOUSEBUTTONDOWN and event.button == 1:
-            x, y = event.pos
-            print(x)
-            print(y)
-            if 22 < x < 74 and 652 < y < 700:
-                return 1
-            elif 219 < x < 271 and 652 < y < 700:
-                return 2
-            elif 415 < x < 467 and 652 < y < 700:
-                return 3
-            elif 612 < x < 664 and 652 < y < 700:
-                return 4
-            elif 809 < x < 861 and 652 < y < 700:
-                return 5
-            elif 22 < x < 74 and 702 < y < 750:
-                return 6
-            elif 219 < x < 271 and 702 < y < 750:
-                return 7
-            elif 415 < x < 467 and 702 < y < 750:
-                return 8
-            elif 612 < x < 664 and 702 < y < 750:
-                return 9
-            elif 809 < x < 861 and 702 < y < 750:
-                sys.exit()
-            else:
-                return 0
+    pressed_mouse = pygame.mouse.get_pressed()
+    if pressed_mouse[0]:
+        x, y = pygame.mouse.get_pos()
+        print(x)
+        print(y)
+        if 22 < x < 74 and 652 < y < 700:
+            return 1
+        elif 219 < x < 271 and 652 < y < 700:
+            return 2
+        elif 415 < x < 467 and 652 < y < 700:
+            return 3
+        elif 612 < x < 664 and 652 < y < 700:
+            return 4
+        elif 809 < x < 861 and 652 < y < 700:
+            return 5
+        elif 22 < x < 74 and 702 < y < 750:
+            return 6
+        elif 219 < x < 271 and 702 < y < 750:
+            return 7
+        elif 415 < x < 467 and 702 < y < 750:
+            return 8
+        elif 612 < x < 664 and 702 < y < 750:
+            return 9
+        elif 809 < x < 861 and 702 < y < 750:
+            sys.exit()
+        else:
+            return 0
 
     pressed_key = pygame.key.get_pressed()
     if pressed_key[K_0] or pressed_key[K_KP0]:
@@ -135,6 +138,8 @@ def line():
     menu8_wd = font_20.render(mwd8, True, (255, 255, 255))
     menu9_wd = font_20.render(mwd9, True, (255, 255, 255))
     menu0_wd = font_20.render(mwd0, True, (255, 255, 255))
+    # メニュー場所初期化
+    screen.blit(DBG, (0,650))
     # メニュー文字の表記
     screen.blit(menu1_wd, (76, 666))
     screen.blit(menu2_wd, (273, 666))
@@ -165,6 +170,36 @@ def line():
     screen.blit(M9, (614, 703))
     screen.blit(M0, (811, 703))
 
+
+def advance():
+    """
+    文字を進めるためのwait
+    :return: 
+    """
+    while True:
+        ope_num = operation()
+        if ope_num == 5:
+            break
+
+
+def dice():
+    """
+    サイコロの値を返す
+    :return: int
+    """
+    return (random.randint(1, 601) % 6) + 1
+
+
+def d_wait():
+    """
+    サイコロのwait
+    :return: 
+    """
+    while True:
+        ope_num = operation()
+        if ope_num == 6:
+            break
+
 """-----
 
 ウィンドウ作成
@@ -186,6 +221,7 @@ pygame.display.set_caption("やる夫が地下に潜るようです")
 
 # 背景
 BG = pygame.image.load(bg).convert()
+DBG = pygame.image.load(down).convert()
 # メニュー数字
 M1 = pygame.image.load(menu_1).convert()
 M2 = pygame.image.load(menu_2).convert()
@@ -202,35 +238,19 @@ YAR = pygame.image.load(yaruo).convert()
 
 """-----
 
-文字レンダリング
-
------"""
-
-TITLE_NAME_U = font_100.render("やる夫が", True, (255, 255, 255))
-TITLE_NAME_M = font_100.render("地下に", True, (255, 255, 255))
-TITLE_NAME_D = font_100.render("潜るようです", True, (255, 255, 255))
-SUB_TITLE = font_50.render(u"樹海に魅入られし者", True, (255, 255, 255))
-M_NAME = font_40.render(u"著：がー", True, (255, 255, 255))
-
-WDS_1 = font_20.render\
-    (u"とある町の外れにある樹海。そでもたらされる恵みはその町の支えの一つであった。"\
-     , True, (255, 255, 255))
-
-"""-----
-
 
 ここからゲームループ
 
 
 -----"""
 
+"""-----
+
+タイトル画面作画
+
+-----"""
+
 while True:
-
-    """-----
-
-    タイトル画面作画
-
-    -----"""
 
     mwd1 = "　　新規作成　　"
     mwd2 = "　　続きから　　"
@@ -243,6 +263,16 @@ while True:
     mwd9 = ""
     mwd0 = "　　終了する　　"
 
+    ope_num = operation()
+
+    # 文字レンダリング
+    TITLE_NAME_U = font_100.render("やる夫が", True, (255, 255, 255))
+    TITLE_NAME_M = font_100.render("地下に", True, (255, 255, 255))
+    TITLE_NAME_D = font_100.render("潜るようです", True, (255, 255, 255))
+    SUB_TITLE = font_50.render(u"樹海に魅せられし者", True, (255, 255, 255))
+    M_NAME = font_40.render(u"著：がー", True, (255, 255, 255))
+
+    # 画面表示
     screen.blit(BG, (0, 0))
     screen.blit(TITLE_NAME_U, (40, 20))
     screen.blit(TITLE_NAME_M, (300, 150))
@@ -253,36 +283,153 @@ while True:
     line()
     pygame.display.update()
 
-    if operation() == 1:
+    if ope_num == 1:
         break
-    elif operation() == 2:
-        print("22")
+    elif ope_num == 2:
         conti.con()
-    elif operation() == 3:
-        print("3")
     else:
         pass
 
-    """------
+"""------
 
-    キャラメイク
+エピローグ
 
-    -----"""
+-----"""
+
 while True:
 
-    mwd1 = "　　新規作成　　"
-    mwd2 = "　　続きから　　"
-    mwd3 = ""
-    mwd4 = ""
+    mwd1 = ""
+    mwd2 = ""
+    mwd5 = "　文章を進める　"
+
+    ope_num = operation()
+
+    # レンダリング
+    WDS_1 = font_20.render \
+        (u"とある町の外れにある樹海。そこでもたらされる恵みは、その町の支えの一つであった。" \
+         , True, (255, 255, 255))
+    WDS_2 = font_20.render \
+        (u"ある日、その樹海から謎の生物を見かけるようになる。そして、それは人々に対し攻撃的であった。" \
+         , True, (255, 255, 255))
+    WDS_3 = font_20.render \
+        (u"そして生まれる、弱肉強食の世界。不自由なく得られた恵みは、弱者にとっては手の届かぬものになってしまう。" \
+         , True, (255, 255, 255))
+    WDS_4 = font_20.render \
+        (u"それを解決するべく、国は報奨金を出して世界中から猛者を募った。" \
+         , True, (255, 255, 255))
+    WDS_5 = font_20.render \
+        (u"ならず者は吼えた。我こそが栄光を掴む！と。" \
+         , True, (255, 255, 255))
+    WDS_6 = font_20.render \
+        (u"術師はほくそ笑んだ。修行の成果を試すときだ。と" \
+         , True, (255, 255, 255))
+    WDS_7 = font_20.render \
+        (u"騎士は誓った。皆の望みをかなえてやる。と。" \
+         , True, (255, 255, 255))
+    WSD_8 = font_20.render \
+        (u"一人。そして、また一人。次々に挑んではいくが、しばらくすると同じ人を見かけなくなる。" \
+         , True, (255, 255, 255))
+    WSD_9 = font_20.render \
+        (u"不安と混沌が渦巻く地方。そこに今、あなたはたどり着いたばかりだった" \
+         , True, (255, 255, 255))
+    WSD_10 = font_20.render \
+        (u"あなたもこの樹海に魅せられた者の一人だ。さぁ、ひるまずに立ち向かいたまえ！" \
+         , True, (255, 255, 255))
+
+    WDS = [WDS_1, WDS_2, WDS_3, WDS_4, WDS_5, WDS_6, WDS_7, WSD_8, WSD_9]
+
+    # 画面表示
+    screen.blit(BG, (0, 0))
+    line()
+    n = 0
+    for lp_0 in range(9):
+        n += 1
+        screen.blit(WDS[n - 1], (40, (20 + (40 * n))))
+        pygame.display.update()
+        time.sleep(0.5)
+        advance()
+    mwd5 = "　キャラ作成へ　"
+    line()
+    screen.blit(WSD_10, (120, 500))
+    pygame.display.update()
+    time.sleep(0.5)
+    advance()
+    break
+
+"""-----
+
+キャラメイク
+
+-----"""
+
+while True:
     mwd5 = ""
-    mwd6 = ""
+    mwd6 = "　ダイスを振る　"
     mwd7 = ""
     mwd8 = ""
-    mwd9 = ""
-    mwd0 = "　　終了する　　"
+    n = 0
+    flg = 0
+    ope_num = operation()
+    status = []
+    for lp_1 in range(5):
+        status.append(dice())
 
+    # レンダリング
+    WDS_1 = font_20.render(u"＊ キャラクター作成 ＊", True, (255, 255, 255))
+    WDS_2 = font_20.render(u"能力値を決定させるため、ダイスを5回振ります。" \
+                           , True, (255, 255, 255))
+    WDS_3 = font_20.render("{}".format(status[0]),True, (255, 255, 255))
+    WDS_4 = font_20.render("{}".format(status[1]), True, (255, 255, 255))
+    WDS_5 = font_20.render("{}".format(status[2]), True, (255, 255, 255))
+    WDS_6 = font_20.render("{}".format(status[3]), True, (255, 255, 255))
+    WDS_7 = font_20.render("{}".format(status[4]), True, (255, 255, 255))
+    WDS_8 = font_20.render(">>>", True, (255, 255, 255))
+    WDS_9 = font_20.render(u"以上でよろしいですか？", True, (255, 255, 255))
+    WDS_10 = font_20.render(u"キャラクターを作成します。", True, (255, 255, 255))
+    WDS_CM = [WDS_3, WDS_4, WDS_5, WDS_6, WDS_7]
+
+    # 画像表示
     screen.blit(BG, (0, 0))
-    screen.blit(WDS_1, (40,20))
+    screen.blit(WDS_1, (40, 20))
+    screen.blit(WDS_2, (40, 60))
     line()
-
     pygame.display.update()
+    for lp_2 in range(5):
+        n += 1
+        screen.blit(WDS_8, (40, (60 + (40 * n))))
+        pygame.display.update()
+        d_wait()
+        screen.blit(WDS_CM[n - 1], (80, (60 + (40 * n))))
+        pygame.display.update()
+        time.sleep(0.5)
+
+    mwd6 = ""
+    mwd7 = "　　　はい　　　"
+    mwd8 = "　　　いいえ　　"
+    line()
+    screen.blit(WDS_9, (40, 300))
+    pygame.display.update()
+
+    while flg == 0:
+        ope_num = operation()
+        if ope_num == 7:
+            break
+        elif ope_num == 8:
+            flg = 1
+    else:
+        continue
+
+    mwd5 = "　ステータスへ　"
+    mwd7 = ""
+    mwd8 = ""
+    line()
+    screen.blit(WDS_10, (40, 340))
+    pygame.display.update()
+
+    while True:
+        ope_num = operation()
+        if ope_num == 5:
+            break
+
+    print("ok")
+    sys.exit()
