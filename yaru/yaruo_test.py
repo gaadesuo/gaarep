@@ -39,6 +39,9 @@ menu_9 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\im
 menu_0 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m0.gif"
 yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\titleyaru.png"
 down = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\downBG.png"
+stat = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\statwind.png"
+nomal = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\nomal.png"
+
 """-----
 
 フォントの設定
@@ -49,6 +52,59 @@ font_100 = pygame.font.Font(mona, 100)
 font_50 = pygame.font.Font(mona, 50)
 font_40 = pygame.font.Font(mona, 40)
 font_20 = pygame.font.Font(mona, 20)
+
+"""
+
+アイテムデーター
+
+"""
+
+# 武器
+wep_0 = [u"なし",0]
+wep_1 = [u"ブロードソード",5]
+weapon = {0:wep_0, 1: wep_1}
+
+# 盾
+shie_0 = [u"なし",0]
+shie_1 = [u"レザーシールド",1]
+shield = {0:shie_0, 1: shie_1}
+
+# 兜
+hel_0 = [u"なし",0]
+hel_1 = [u"レザーヘルメット",1]
+helmet = {0:hel_0, 1: hel_1}
+
+# 鎧
+arm_0 = [u"なし",0]
+arm_1 = [u"レザーアーマー",1]
+armor = {0: arm_0, 1: arm_1}
+
+# 小手
+gaunt_0 = [u"なし",0]
+gaunt_1 = [u"レザーガントレット",1]
+gauntlet = {0: gaunt_0, 1: gaunt_1}
+
+# 具足
+leg_0 = [u"なし",0]
+leg_1 = [u"レザーアンク",1]
+leg_armor = {0: leg_0, 1:leg_1}
+
+# 指輪
+ring_0 = [u"なし",0,0]
+ring = {0: ring_0}
+
+# ネックレス
+neck_0 = [u"なし",0,0]
+necklace = {0: neck_0}
+
+# お守り
+amu_0 = [u"なし",0,0]
+amulet = {0: amu_0}
+
+# アイテム
+item_0 = [""]
+item_1 = ["ポーション"]
+
 
 """------
 
@@ -200,6 +256,83 @@ def d_wait():
         if ope_num == 6:
             break
 
+
+def status_windows():
+    """
+    ステータス画面    
+    :return: 
+    """
+    while True:
+        global mwd0
+        global mwd1
+        global mwd2
+        global mwd3
+        global mwd4
+        global mwd5
+        global mwd6
+        global mwd7
+        global mwd8
+        global mwd9
+        mwd1 = ""
+        mwd2 = ""
+        mwd3 = ""
+        mwd4 = ""
+        mwd5 = ""
+        mwd6 = ""
+        mwd7 = ""
+        mwd8 = ""
+        mwd9 = ""
+        mwd0 = "　　終了する　　"
+
+        ope_num = operation()
+
+        # 文字レンダリング
+        STAT_LV = font_20.render("LV    {0:3d}".format(LV), True, (255, 255, 255))
+        STAT_HP = font_20.render("HP/MHP  {}/{}".format(HP, MHP), True, (255, 255, 255))
+        STAT_STR = font_20.render("STR   {0:3d}".format(STR), True, (255, 255, 255))
+        STAT_VIT = font_20.render("VIT   {0:3d}".format(VIT), True, (255, 255, 255))
+        STAT_AGI = font_20.render("AGI   {0:3d}".format(AGI), True, (255, 255, 255))
+        STAT_EXP = font_20.render("EXP   {}".format(EXP), True, (255, 255, 255))
+        STAT_WEP = font_20.render("{}".format(R_ARM[0]), True, (255, 255, 255))
+        STAT_SHIE = font_20.render("{}".format(L_ARM[0]), True, (255, 255, 255))
+        STAT_HEL = font_20.render("{}".format(HEAD[0]), True, (255, 255, 255))
+        STAT_ARM = font_20.render("{}".format(BODY[0]), True, (255, 255, 255))
+        STAT_GAUN = font_20.render("{}".format(HAND[0]), True, (255, 255, 255))
+        STAT_LEG = font_20.render("{}".format(FOOT[0]), True, (255, 255, 255))
+        STAT_RING = font_20.render("{}".format(RING[0]), True, (255, 255, 255))
+        STAT_NECK = font_20.render("{}".format(NECK[0]), True, (255, 255, 255))
+        STAT_AMUL = font_20.render("{}".format(AMUL[0]), True, (255, 255, 255))
+        STAT_E_DEF = font_50.render("{0:3d}".format(E_DEF), True, (255, 255, 255))
+        STAT_E_ATT = font_50.render("{0:3d}".format(E_ATT), True, (255, 255, 255))
+        STAT_DEF = font_50.render("{0:3d}".format(DEF), True, (255, 255, 255))
+        STAT_ATT = font_50.render("{0:3d}".format(ATTACK), True, (255, 255, 255))
+
+        # 画面表示
+        screen.blit(STBG, (0, 0))
+        screen.blit(STAT_LV, (646, 40))
+        screen.blit(STAT_HP, (640, 70))
+        screen.blit(STAT_STR, (640, 100))
+        screen.blit(STAT_VIT, (647, 130))
+        screen.blit(STAT_AGI, (645, 160))
+        screen.blit(STAT_EXP, (642, 200))
+        screen.blit(NOR, (800, 50))
+        screen.blit(STAT_WEP, (360, 356))
+        screen.blit(STAT_SHIE, (360, 70))
+        screen.blit(STAT_HEL, (360, 100))
+        screen.blit(STAT_ARM, (360, 130))
+        screen.blit(STAT_GAUN, (360, 160))
+        screen.blit(STAT_LEG, (360, 190))
+        screen.blit(STAT_E_DEF, (203, 111))
+        screen.blit(STAT_E_ATT, (203, 340))
+        screen.blit(STAT_DEF, (58, 111))
+        screen.blit(STAT_ATT, (58, 340))
+        screen.blit(STAT_RING, (48, 548))
+        screen.blit(STAT_NECK, (248, 548))
+        screen.blit(STAT_AMUL, (446, 548))
+        line()
+
+        pygame.display.update()
+
 """-----
 
 ウィンドウ作成
@@ -222,6 +355,7 @@ pygame.display.set_caption("やる夫が地下に潜るようです")
 # 背景
 BG = pygame.image.load(bg).convert()
 DBG = pygame.image.load(down).convert()
+STBG = pygame.image.load(stat).convert()
 # メニュー数字
 M1 = pygame.image.load(menu_1).convert()
 M2 = pygame.image.load(menu_2).convert()
@@ -235,6 +369,8 @@ M9 = pygame.image.load(menu_9).convert()
 M0 = pygame.image.load(menu_0).convert()
 # タイトル顔
 YAR = pygame.image.load(yaruo).convert()
+# ステータス顔
+NOR = pygame.image.load(nomal).convert()
 
 """-----
 
@@ -426,10 +562,32 @@ while True:
     screen.blit(WDS_10, (40, 340))
     pygame.display.update()
 
+    # キャラステータス作成
+    LV = 1
+    STR = (6 + status[0]) // 2
+    VIT = (6 + status[1]) // 2
+    AGI = (6 + status[2]) // 2
+    MHP = (10 + ((status[3] + status[4]) // 2))
+    HP = MHP
+    EXP = 0
+    R_ARM = weapon[1]
+    L_ARM = shield[1]
+    HEAD = helmet[1]
+    BODY = armor[1]
+    HAND = gauntlet[1]
+    FOOT = leg_armor[1]
+    RING = ring[0]
+    NECK = necklace[0]
+    AMUL = amulet[0]
+
+    E_DEF = L_ARM[1] + HEAD[1] + BODY[1] + HAND[1] + FOOT[1] + RING[2] + NECK[2] + AMUL[2]
+    E_ATT = R_ARM[1] + RING[1] + NECK[1] + AMUL[1]
+    DEF = E_DEF + VIT
+    ATTACK = E_ATT + STR
+
     while True:
         ope_num = operation()
         if ope_num == 5:
             break
 
-    print("ok")
-    sys.exit()
+    status_windows()
