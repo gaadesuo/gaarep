@@ -1,1 +1,1 @@
-print(u"しね")
+# -*- coding: utf-8 -*-

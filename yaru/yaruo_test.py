@@ -263,6 +263,7 @@ def status_windows():
     :return: 
     """
     while True:
+
         global mwd0
         global mwd1
         global mwd2
@@ -277,7 +278,7 @@ def status_windows():
         mwd2 = ""
         mwd3 = ""
         mwd4 = ""
-        mwd5 = ""
+        mwd5 = "　　　戻る　　　"
         mwd6 = ""
         mwd7 = ""
         mwd8 = ""
@@ -333,10 +334,13 @@ def status_windows():
 
         pygame.display.update()
 
+        ope_num = operation()
+        if ope_num == 5:
+            break
 """-----
 
 ウィンドウ作成
-
+5
 -----"""
 
 # 画面解像度
@@ -499,6 +503,7 @@ while True:
 -----"""
 
 while True:
+
     mwd5 = ""
     mwd6 = "　ダイスを振る　"
     mwd7 = ""
@@ -555,13 +560,6 @@ while True:
     else:
         continue
 
-    mwd5 = "　ステータスへ　"
-    mwd7 = ""
-    mwd8 = ""
-    line()
-    screen.blit(WDS_10, (40, 340))
-    pygame.display.update()
-
     # キャラステータス作成
     LV = 1
     STR = (6 + status[0]) // 2
@@ -585,9 +583,21 @@ while True:
     DEF = E_DEF + VIT
     ATTACK = E_ATT + STR
 
-    while True:
-        ope_num = operation()
-        if ope_num == 5:
-            break
-
     status_windows()
+
+    break
+
+"""
+
+ストーリー開始
+
+"""
+
+while True:
+
+    ope_num = operation()
+
+    # 画面表示
+    screen.blit(BG, (0, 0))
+    line()
+    pygame.display.update()

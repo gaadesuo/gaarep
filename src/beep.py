@@ -10,9 +10,7 @@ __date__ = "$2017/02/24 19:10:13$"
 import wiringpi as GPIO
 from time import sleep
 
-
 #-----GPIOセットアップ-----
-
 
 buzzer = 26        #左19
 
