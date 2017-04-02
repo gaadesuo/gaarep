@@ -2,7 +2,7 @@
 __author__ = "gaa"
 __date__ = '$2017/04/02 :20:36$'
 
-import PIN14_15_LED as LED
+import pin14_15led as LED
 
 # ２回繰り返して終わりを表示して終了
 for lp1 in range(2):
