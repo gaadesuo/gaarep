@@ -8,7 +8,7 @@ print(u"(´・ω・｀)ここは僕たちのスレだよ。きうり食べる？
 
 while True:
         if GPIO.slide_sw_1(12):
-            print("彡(ﾟ)(ﾟ)なんやて！")
             break
         else:
             continue
+print("彡(ﾟ)(ﾟ)なんやて！")
