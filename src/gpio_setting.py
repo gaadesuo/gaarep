@@ -143,15 +143,15 @@ def push_sw_1(output):
     関数を呼び出す際にはpin番号の値を与える事。
         ---GPIO入力---    
     関数に与えられた値のGPIOを使用でスイッチング。
-    対応GPIOから1KΩの抵抗、スイッチでGNDへ戻す。
-    ラズパイ内部のpullup抵抗に対応。
+    3.3Vから1KΩの抵抗、スイッチで対応GPIOへ戻す。
+    ラズパイ内部のpulldown抵抗に対応。
     押されているときはTrue、押されてないときはFalseを返す。
     :param output: int: スイッチのoutput用pin no
     :returns True False
     """
     SW_PIN = output
     GPIO.pinMode(SW_PIN, GPIO.INPUT)
-    GPIO.pullUpDnControl(SW_PIN, GPIO.PUD_UP)
+    GPIO.pullUpDnControl(SW_PIN, GPIO.PUD_DOWN)
     if (GPIO.digitalRead(SW_PIN) == GPIO.HIGH):
         return True
     else:
