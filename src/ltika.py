@@ -20,8 +20,8 @@ while True:
         continue
 
 for lp1 in range(count):
-    LED_PIN.led1(interval, 14)
-    LED_PIN.led2(interval, 15)
-    LED_PIN.led1and2(interval, 14, 15)
+    LED_PIN.led_flash_1(interval, 14)
+    LED_PIN.led_flash_2(interval, 15)
+    LED_PIN.led_flash_1and2(interval, 14, 15)
 
 print (u"終わり")
