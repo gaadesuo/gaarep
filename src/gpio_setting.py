@@ -9,7 +9,9 @@ import wiringpi as GPIO
 GPIO.wiringPiSetupGpio()
 
 """*****注意*****
+
 関数を呼び出す際にはpin番号の値を与える事。値はint
+
 *****"""
 
 
@@ -121,7 +123,7 @@ def led_flash_1and2(interval, pin1, pin2):
     LED1 = pin1
     LED2 = pin2
     GPIO.pinMode(LED1, GPIO.OUTPUT)
-    GPIO.pinMode(LED2, GPIO.OUTPUT)
+    GPIO.pinMode(LED2, GPIO.OUTBoolPUT)
     GPIO.digitalWrite(LED1, GPIO.HIGH)
     GPIO.digitalWrite(LED2, GPIO.HIGH)
     time.sleep(interval / 10)
@@ -144,10 +146,11 @@ def push_sw_1(output):
         ---GPIO入力---    
     関数に与えられた値のGPIOを使用でスイッチング。
     対応GPIOから1KΩの抵抗、スイッチでGNDへ戻す。
-    ラズパイ内部のpulldown抵抗に対応。
+    ラズパイ内部のpullup抵抗に対応なのでスイッチが押されてない時はHIGH
+    スイッチが押されるとLOW。
     押されているときはTrue、押されてないときはFalseを返す。
     :param output: int: スイッチのoutput用pin no
-    :returns True False
+    :returns 
     """
     SW_PIN = output
     GPIO.pinMode(SW_PIN, GPIO.INPUT)
@@ -156,3 +159,16 @@ def push_sw_1(output):
         return True
     else:
         return False
+
+
+def slide_sw_1(output):
+    """
+        *****注意*****
+    関数を呼び出す際にはpin番号の値を与える事。
+        ---GPIO入力---    
+    関数に与えられた値のGPIOを使用でスイッチング。
+    スライドスイッチなのでプルアッププルダウン抵抗はいらない
+    ONのときはTrue、OFFのときはFalseを返す。
+    :param output: int: スイッチのoutput用pin no
+    :returns 
+    """
