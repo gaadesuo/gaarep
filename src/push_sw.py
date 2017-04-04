@@ -7,7 +7,7 @@ import time
 
 print(u"押すなよ。絶対に押すなよ！")
 while True:
-    if (GPIO.push_sw(12)):
+    if (GPIO.push_sw_1(12)):
         break
     else:
         continue

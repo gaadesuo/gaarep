@@ -137,20 +137,21 @@ def led_flash_1and2(interval, pin1, pin2):
 """
 
 
-def push_sw(output):
+def push_sw_1(output):
     """
         *****注意*****
     関数を呼び出す際にはpin番号の値を与える事。
         ---GPIO入力---    
-    inputに3.3、outputにGPIO pinは関数に与えられた値でスイッチング
-    ラズパイ内部のpulldown抵抗に対応。
+    関数に与えられた値のGPIOを使用でスイッチング。
+    対応GPIOから1KΩの抵抗、スイッチでGNDへ戻す。
+    ラズパイ内部のpullup抵抗に対応。
     押されているときはTrue、押されてないときはFalseを返す。
     :param output: int: スイッチのoutput用pin no
     :returns True False
     """
     SW_PIN = output
     GPIO.pinMode(SW_PIN, GPIO.INPUT)
-    GPIO.pullUpDnControl(SW_PIN, GPIO.PUD_DOWN)
+    GPIO.pullUpDnControl(SW_PIN, GPIO.PUD_UP)
     if (GPIO.digitalRead(SW_PIN) == GPIO.HIGH):
         return True
     else:
