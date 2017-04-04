@@ -1,21 +1,14 @@
 # -*- coding: utf-8 -*-
+__author__ = "gaa"
+__date__ = '$2017/04/0 :10:57$'
 
-# mixi スイッチ回路実践source
-
-import wiringpi as GPIO, time
-
-# 押しボタンスイッチの使用するGPIO番号
-PUSH_SW = 15
-
-GPIO.wiringPiSetupGpio()
-# （注）入力モード
-GPIO.pinMode(PUSH_SW, GPIO.INPUT)
+import gpio_setting as GPIO
+import time
 
 print(u"押すなよ。絶対に押すなよ！")
 while True:
-    if (GPIO.digitalRead(PUSH_SW) == GPIO.HIGH):
-        print("YOU BAN")
+    if GPIO.push_sw(12):
         break
-
     else:
-        time.sleep(0.1)
+        continue
+print("YOU BAN")
