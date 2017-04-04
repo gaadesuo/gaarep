@@ -150,12 +150,12 @@ def push_sw_1(output):
     スイッチが押されるとLOW。
     押されているときはTrue、押されてないときはFalseを返す。
     :param output: int: スイッチのoutput用pin no
-    :returns 
+    :returns bool
     """
     SW_PIN = output
     GPIO.pinMode(SW_PIN, GPIO.INPUT)
     GPIO.pullUpDnControl(SW_PIN, GPIO.PUD_UP)
-    if (GPIO.digitalRead(SW_PIN) == GPIO.LOW):
+    if GPIO.digitalRead(SW_PIN) == GPIO.LOW:
         return True
     else:
         return False
@@ -170,5 +170,11 @@ def slide_sw_1(output):
     スライドスイッチなのでプルアッププルダウン抵抗はいらない
     ONのときはTrue、OFFのときはFalseを返す。
     :param output: int: スイッチのoutput用pin no
-    :returns 
+    :returns bool
     """
+    SW_PIN = output
+    GPIO.pinMode(SW_PIN, GPIO.INPUT)
+    if GPIO.digitalRead(SW_PIN) == GPIO.HIGH:
+        return True
+    else:
+        return False
