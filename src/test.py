@@ -58,7 +58,7 @@ class Led:
             for lp1 in range(self.count):
                 GPIO.softPwmWrite(LED1, self.pwm)
                 time.sleep(self.timer / 10)
-                GPIO.digitalWrite(LED1, GPIO.LOW)
+                GPIO.softPwmWrite(LED1, 0)
                 time.sleep(1)
 
         # mode3 消灯
@@ -70,9 +70,9 @@ class Led:
             raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
 
 
-led100 = Led(12, 2, 5)
-led50 = Led(12, 2, 10, 50, 2)
-led30_HIGH = Led(12, 1, 20, 30, 3)
+led100 = Led(12, 2, 10)
+led50 = Led(12, 2, 20, 50, 2)
+led30_HIGH = Led(12, 1, 30, 30, 3)
 led_LOW = Led(12, 0)
 print(Led.__doc__)
 led100.flash()
