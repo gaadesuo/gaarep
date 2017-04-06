@@ -3,14 +3,10 @@ __author__ = "gaa"
 __date__ = '$2017/04/02 :20:02$'
 
 import time
-# import wiringpi as GPIO
+import wiringpi as GPIO
 
 # GPIOの初期化
-# GPIO.wiringPiSetupGpio()
-x = 1
-y = len(x)
-
-
+GPIO.wiringPiSetupGpio()
 
 """
 
