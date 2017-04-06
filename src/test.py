@@ -82,8 +82,8 @@ class Led:
 
                 # mode0 消灯
                 elif self.mode == 0:
-                    GPIO.digitalWrite(LED1, LOW)
-                    GPIO.digitalWrite(LED2, LOW)
+                    GPIO.digitalWrite(LED1, GPIO.LOW)
+                    GPIO.digitalWrite(LED2, GPIO.LOW)
 
             else:
                 raise Pin_numsError("pin設定を複数にするときは2～5個までの範囲で設定してください")
