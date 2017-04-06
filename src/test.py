@@ -63,7 +63,7 @@ class Led:
 
         # mode3 消灯
         elif self.mode == 0:
-            GPIO.digitalWrite(LED1.LOW)
+            GPIO.digitalWrite(LED1.GPIO.LOW)
 
         # 例外
         else:
