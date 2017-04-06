@@ -3,10 +3,14 @@ __author__ = "gaa"
 __date__ = '$2017/04/02 :20:02$'
 
 import time
-import wiringpi as GPIO
+# import wiringpi as GPIO
 
 # GPIOの初期化
-GPIO.wiringPiSetupGpio()
+# GPIO.wiringPiSetupGpio()
+x = 1
+y = len(x)
+
+
 
 """
 
@@ -43,38 +47,43 @@ class Led:
         if self.pwm < 0 or self.pwm > 101:
             raise PwmError("PWMの数値は0～100(%)です")
 
-        # GPIOの設定
-        LED1 = self.pin
-        GPIO.pinMode(LED1, GPIO.OUTPUT)
-        GPIO.softPwmCreate(LED1, 0, 100)
+        # 複数かどうかの確認
+        try:
+            gpio_num = len(self.pin)
 
-        # mode1 点灯
-        if self.mode == 1:
-            GPIO.softPwmWrite(LED1, self.pwm)
-            time.sleep(self.timer / 10)
+        # 以下LEDが単数指定
+        except TypeError:
+            # GPIOの設定
+            LED1 = self.pin
+            GPIO.pinMode(LED1, GPIO.OUTPUT)
+            GPIO.softPwmCreate(LED1, 0, 100)
 
-        # mode2 点滅
-        elif self.mode == 2:
-            for lp1 in range(self.count):
+            # mode1 点灯
+            if self.mode == 1:
                 GPIO.softPwmWrite(LED1, self.pwm)
                 time.sleep(self.timer / 10)
-                GPIO.softPwmWrite(LED1, 0)
-                time.sleep(0.1)
 
-        # mode3 消灯
-        elif self.mode == 0:
-            GPIO.digitalWrite(LED1, GPIO.LOW)
+            # mode2 点滅
+            elif self.mode == 2:
+                for lp1 in range(self.count):
+                    GPIO.softPwmWrite(LED1, self.pwm)
+                    time.sleep(self.timer / 10)
+                    GPIO.softPwmWrite(LED1, 0)
+                    time.sleep(0.1)
 
-        # 例外
-        else:
-            raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
+            # mode0 消灯
+            elif self.mode == 0:
+                GPIO.digitalWrite(LED1, GPIO.LOW)
+
+            # 例外
+            else:
+                raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
 
 
 led100 = Led(12, 2, 10)
 led50 = Led(12, 2, 20, 50, 2)
 led30_HIGH = Led(12, 1, 30, 30, 3)
 led_LOW = Led(12, 0)
-print(Led.__doc__)
 led100.flash()
 led50.flash()
 led30_HIGH.flash()
