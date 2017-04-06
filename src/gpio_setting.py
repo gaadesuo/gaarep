@@ -8,6 +8,33 @@ import wiringpi as GPIO
 # GPIOの初期化
 GPIO.wiringPiSetupGpio()
 
+"""
+
+CLASS
+
+"""
+
+
+class Led1:
+    """
+
+    :param mode: 
+    :param pin: 
+    :param timer: 
+    :param pwm: 
+    """
+    def __init__(self, mode, pin, timer=0, pwm=100):
+        self.mode = mode
+        self.pin = pin
+        self.timer = timer
+        self.pwm = pwm
+
+    def flash(self):
+        LED1 = pin
+
+
+
+
 """*****注意*****
 
 関数を呼び出す際にはpin番号の値を与える事。値はint
