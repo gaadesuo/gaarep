@@ -56,7 +56,7 @@ class Led:
         # mode2 点滅
         elif self.mode == 2:
             for lp1 in range(self.count):
-                GPIO.softPwmCreate(LED1, self.pwm)
+                GPIO.softPwmWrite(LED1, self.pwm)
                 time.sleep(self.timer / 10)
                 GPIO.digitalWrite(LED1, LOW)
                 time.sleep(0.1)
