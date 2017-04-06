@@ -58,7 +58,7 @@ class Led:
             for lp1 in range(self.count):
                 GPIO.softPwmWrite(LED1, self.pwm)
                 time.sleep(self.timer / 10)
-                GPIO.digitalWrite(LED1, LOW)
+                GPIO.digitalWrite(LED1, GPIO.LOW)
                 time.sleep(0.1)
 
         # mode3 消灯
