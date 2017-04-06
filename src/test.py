@@ -65,7 +65,7 @@ class Led:
                     GPIO.softPwmWrite(LED1, self.pwm)
                     time.sleep(self.timer / 10)
                     GPIO.softPwmWrite(LED1, 0)
-                    time.sleep(0.1)
+                    time.sleep(0.5)
 
             # mode0 消灯
             elif self.mode == 0:
