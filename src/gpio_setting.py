@@ -268,8 +268,6 @@ class Led:
             else:
                 raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
 
-
-
 """
 
 スイッチ関数
