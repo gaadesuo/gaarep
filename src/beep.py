@@ -12,11 +12,10 @@ from time import sleep
 
 # -----GPIOセットアップ-----
 
-buzzer = 26        # 左19
+buzzer = 26  # 左19
 
 GPIO.wiringPiSetupGpio()
 GPIO.softToneCreate(buzzer)
-
 
 # -----音階周波数-----
 lsi = 247
@@ -29,11 +28,16 @@ ra = 440
 si = 494
 hdo = 523
 
-
 # -----楽譜date-----
-onpu = (re,re,do,lsi,re,so,ra,si,si,si,ra,so,mi,mi,mi,fa,so,fa,so,mi,re,mi,re,lsi,re,re,re,re,do,lsi,re,so,ra,si,si,si,ra,so,ra,ra,ra,ra,so,so,fa,fa,so,so,so)
-mtime = (4,2,1,2,1,2,1,2,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,2,1,2,1,2,1,2,1,1,1,1)
-stime = (1,1,1,1,1,1,1,1,1,1,1,8,1,1,1,1,1,1,1,1,1,1,1,1,8,1,1,1,1,1,1,1,1,1,1,1,1,8,1,1,1,1,1,1,1,1,4,4,4)
+onpu = (re, re, do, lsi, re, so, ra, si, si, si, ra, so, mi, mi, mi, fa, so, fa,\
+        so, mi, re, mi, re, lsi, re, re, re, re, do,lsi, re, so, ra, si, si, si,\
+        ra, so, ra, ra, ra, ra, so, so, fa, fa, so, so, so)
+mtime = (4, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,\
+         1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1,2, 1, 2, 1, 2, 1, 1, 1,\
+         1)
+stime = (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
+         8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 1, 1,1, 1, 1, 1, 1, 1, 4, 4,\
+         4)
 
 if __name__ == "__main__":
 
