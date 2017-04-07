@@ -5,6 +5,7 @@ __date__ = '$2017/04/02 :20:36$'
 import gpio_setting as pin
 import time
 
+
 def led_flash():
     """
     LEDの点滅制御設定を決めて、点滅させる
@@ -19,7 +20,7 @@ def led_flash():
         except:
             continue
 
-    brightness = [100, 80, 60, 40, 20, 0]
+    brightness = [100, 60, 20, 0]
 
     for bri in brightness:
         led_1_up = pin.Led(12, 1, interval, bri)
