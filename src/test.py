@@ -178,10 +178,6 @@ class Led:
                 else:
                     raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
 
-            elif gpio_num == 5:
-                # GPIOの設定
-
-
             # LED5つ処理
             elif gpio_num == 5:
                 # GPIOの設定
