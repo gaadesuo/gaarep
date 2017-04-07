@@ -19,7 +19,7 @@ class Led:
     """
     LEDの制御
     コンストラクタ引数はすべてintで書式は以下(self)は除く
-    Led(pin, mode, timer, pwm, count):
+    変数名 = Led(pin, mode, timer, pwm, count):
     :param pin: int: GPIO PIN番号 
     :param mode: int: 点灯の設定
     :param timer: int: 点灯時間
@@ -45,6 +45,8 @@ class Led:
         LEDの制御
         Led()で与えられた値にしたがってLEDを制御する
         コンストラクタ引数はすべてintで(pin番号,モード,点灯時間,PWM割合100%,点滅回数)
+        呼び出す場合はモジュール名はいらない。
+        変数名.flash()
         """
         # pwmの値の確認
         if self.pwm < 0 or self.pwm > 101:
