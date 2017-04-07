@@ -20,7 +20,7 @@ def led_flash():
             continue
 
     led1 = pin.Led(12, 2, 5, 100, 1)
-    led1.pin.flash()
+    led1.flash()
 
 if __name__ == "__main__":
     led_flash()
