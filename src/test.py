@@ -54,7 +54,7 @@ class Led:
         try:
             gpio_num = len(self.pin)
 
-            # 以下pin複数処理
+            # LED2つ処理
             if gpio_num == 2:
                 # GPIOの設定
                 LED1 = self.pin[0]
@@ -85,6 +85,51 @@ class Led:
                     GPIO.digitalWrite(LED1, GPIO.LOW)
                     GPIO.digitalWrite(LED2, GPIO.LOW)
 
+                # Mode例外
+                else:
+                    raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
+
+            # LED3つ処理
+            elif gpio_num == 3:
+                # GPIOの設定
+                LED1 = self.pin[0]
+                LED2 = self.pin[1]
+                LED3 = self.pin[2]
+                GPIO.pinMode(LED1, GPIO.OUTPUT)
+                GPIO.pinMode(LED2, GPIO.OUTPUT)
+                GPIO.pinMode(LED3, GPIO.OUTPUT)
+                GPIO.softPwmCreate(LED1, 0, 100)
+                GPIO.softPwmCreate(LED2, 0, 100)
+                GPIO.softPwmCreate(LED3, 0, 100)
+
+                # mode1 点灯
+                if self.mode == 1:
+                    GPIO.softPwmWrite(LED1, self.pwm)
+                    GPIO.softPwmWrite(LED2, self.pwm)
+                    GPIO.softPwmWrite(LED3, self.pwm)
+                    time.sleep(self.timer / 10)
+
+                # mode2 点滅
+                elif self.mode == 2:
+                    GPIO.softPwmWrite(LED1, self.pwm)
+                    GPIO.softPwmWrite(LED2, self.pwm)
+                    GPIO.softPwmWrite(LED3, self.pwm)
+                    time.sleep(self.timer / 10)
+                    GPIO.softPwmWrite(LED1, 0)
+                    GPIO.softPwmWrite(LED2, 0)
+                    GPIO.softPwmWrite(LED3, 0)
+                    time.sleep(0.5)
+
+                # mode0 消灯
+                elif self.mode == 0:
+                    GPIO.digitalWrite(LED1, GPIO.LOW)
+                    GPIO.digitalWrite(LED2, GPIO.LOW)
+                    GPIO.digitalWrite(LED3, GPIO.LOW)
+
+                # mode例外
+                else:
+                    raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
+            # 2~5本以外の設定は例外処理
             else:
                 raise Pin_numsError("pin設定を複数にするときは2～5個までの範囲で設定してください")
 
@@ -112,15 +157,15 @@ class Led:
             elif self.mode == 0:
                 GPIO.digitalWrite(LED1, GPIO.LOW)
 
-            # 例外
+            # Mode例外
             else:
                 raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
 
 
-led100 = Led((12, 5), 2, 10)
-led50 = Led((12, 5), 2, 20, 50, 2)
-led30_HIGH = Led((12, 5), 1, 30, 30)
-led_LOW = Led((12, 5), 0)
+led100 = Led((12, 5, 6), 2, 10)
+led50 = Led((12, 5, 6), 2, 20, 50, 2)
+led30_HIGH = Led((12, 5, 6), 1, 30, 30)
+led_LOW = Led((12, 5, 6), 0)
 led100.flash()
 led50.flash()
 led30_HIGH.flash()
