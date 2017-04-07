@@ -7,7 +7,7 @@ import ltika
 
 print(u"スイッチを押すと8LED点滅の設定が始まります")
 while True:
-    if GPIO.push_sw_1(12):
+    if GPIO.push_sw_1(26):
         break
     else:
         continue
