@@ -18,12 +18,19 @@ class
 class Led:
     """
     LEDの制御
-    コンストラクタ引数はすべてintで(pin番号,モード,点灯時間,PWM割合100%,点滅回数)
+    コンストラクタ引数はすべてintで書式は以下(self)は除く
+    Led(pin, mode, timer, pwm, count):
+    :param pin: int: GPIO PIN番号 
+    :param mode: int: 点灯の設定
+    :param timer: int: 点灯時間
+    :param pwm: int: PWM制御の割合
+    :param count: int: 繰り返し回数
+
     点灯時間は値の1/10(秒)
-    デフォルト値:点灯時間1秒,pwm100%,回数1回
-    PWM制御は0～100(%)それ以外で例外
-    モードは1が点灯,2が点滅,0が消灯,それ以外で例外
-    点滅時間は点灯は値で変わり消灯の時間は0.1秒の繰り返し
+    点滅時間は点灯は値で変わり消灯の時間は0.5秒の繰り返し
+    pinはタプルもしくはリストで同時複数制御設定。2～5個の間で対応。範囲外で例外処理
+    PWM制御は0～100(%)それ以外で例外処理
+    モードは1が点灯,2が点滅,0が消灯,それ以外で例外処理
     """
 
     def __init__(self, pin, mode, timer=10, pwm=100, count=1):
@@ -43,150 +50,222 @@ class Led:
         if self.pwm < 0 or self.pwm > 101:
             raise PwmError("PWMの数値は0～100(%)です")
 
-        # GPIOの設定
-        LED1 = self.pin
-        GPIO.pinMode(LED1, GPIO.OUTPUT)
-        GPIO.softPwmCreate(LED1, 0, 100)
+        # GPIOの複数かどうかの確認
+        try:
+            gpio_num = len(self.pin)
 
-        # mode1 点灯
-        if self.mode == 1:
-            GPIO.softPwmWrite(LED1, self.pwm)
-            time.sleep(self.timer / 10)
+            # LED2つ処理
+            if gpio_num == 2:
+                # GPIOの設定
+                LED1 = self.pin[0]
+                LED2 = self.pin[1]
+                GPIO.pinMode(LED1, GPIO.OUTPUT)
+                GPIO.pinMode(LED2, GPIO.OUTPUT)
+                GPIO.softPwmCreate(LED1, 0, 100)
+                GPIO.softPwmCreate(LED2, 0, 100)
 
-        # mode2 点滅
-        elif self.mode == 2:
-            for lp1 in range(self.count):
+                # mode1 点灯
+                if self.mode == 1:
+                    GPIO.softPwmWrite(LED1, self.pwm)
+                    GPIO.softPwmWrite(LED2, self.pwm)
+                    time.sleep(self.timer / 10)
+
+                # mode2 点滅
+                elif self.mode == 2:
+                    for lp1 in range(self.count):
+                        GPIO.softPwmWrite(LED1, self.pwm)
+                        GPIO.softPwmWrite(LED2, self.pwm)
+                        time.sleep(self.timer / 10)
+                        GPIO.softPwmWrite(LED1, 0)
+                        GPIO.softPwmWrite(LED2, 0)
+                        time.sleep(0.5)
+
+                # mode0 消灯
+                elif self.mode == 0:
+                    GPIO.digitalWrite(LED1, GPIO.LOW)
+                    GPIO.digitalWrite(LED2, GPIO.LOW)
+
+                # mode例外
+                else:
+                    raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
+
+            # LED3つ処理
+            elif gpio_num == 3:
+                # GPIOの設定
+                LED1 = self.pin[0]
+                LED2 = self.pin[1]
+                LED3 = self.pin[2]
+                GPIO.pinMode(LED1, GPIO.OUTPUT)
+                GPIO.pinMode(LED2, GPIO.OUTPUT)
+                GPIO.pinMode(LED3, GPIO.OUTPUT)
+                GPIO.softPwmCreate(LED1, 0, 100)
+                GPIO.softPwmCreate(LED2, 0, 100)
+                GPIO.softPwmCreate(LED3, 0, 100)
+
+                # mode1 点灯
+                if self.mode == 1:
+                    GPIO.softPwmWrite(LED1, self.pwm)
+                    GPIO.softPwmWrite(LED2, self.pwm)
+                    GPIO.softPwmWrite(LED3, self.pwm)
+                    time.sleep(self.timer / 10)
+
+                # mode2 点滅
+                elif self.mode == 2:
+                    for lp1 in range(self.count):
+                        GPIO.softPwmWrite(LED1, self.pwm)
+                        GPIO.softPwmWrite(LED2, self.pwm)
+                        GPIO.softPwmWrite(LED3, self.pwm)
+                        time.sleep(self.timer / 10)
+                        GPIO.softPwmWrite(LED1, 0)
+                        GPIO.softPwmWrite(LED2, 0)
+                        GPIO.softPwmWrite(LED3, 0)
+                        time.sleep(0.5)
+
+                # mode0 消灯
+                elif self.mode == 0:
+                    GPIO.digitalWrite(LED1, GPIO.LOW)
+                    GPIO.digitalWrite(LED2, GPIO.LOW)
+                    GPIO.digitalWrite(LED3, GPIO.LOW)
+
+                # mode例外
+                else:
+                    raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
+
+            # LED4つ処理
+            elif gpio_num == 4:
+                # GPIOの設定
+                LED1 = self.pin[0]
+                LED2 = self.pin[1]
+                LED3 = self.pin[2]
+                LED4 = self.pin[3]
+                GPIO.pinMode(LED1, GPIO.OUTPUT)
+                GPIO.pinMode(LED2, GPIO.OUTPUT)
+                GPIO.pinMode(LED3, GPIO.OUTPUT)
+                GPIO.pinMode(LED4, GPIO.OUTPUT)
+                GPIO.softPwmCreate(LED1, 0, 100)
+                GPIO.softPwmCreate(LED2, 0, 100)
+                GPIO.softPwmCreate(LED3, 0, 100)
+                GPIO.softPwmCreate(LED4, 0, 100)
+
+                # mode1 点灯
+                if self.mode == 1:
+                    GPIO.softPwmWrite(LED1, self.pwm)
+                    GPIO.softPwmWrite(LED2, self.pwm)
+                    GPIO.softPwmWrite(LED3, self.pwm)
+                    GPIO.softPwmWrite(LED4, self.pwm)
+                    time.sleep(self.timer / 10)
+
+                # mode2 点滅
+                elif self.mode == 2:
+                    for lp1 in range(self.count):
+                        GPIO.softPwmWrite(LED1, self.pwm)
+                        GPIO.softPwmWrite(LED2, self.pwm)
+                        GPIO.softPwmWrite(LED3, self.pwm)
+                        GPIO.softPwmWrite(LED4, self.pwm)
+                        time.sleep(self.timer / 10)
+                        GPIO.softPwmWrite(LED1, 0)
+                        GPIO.softPwmWrite(LED2, 0)
+                        GPIO.softPwmWrite(LED3, 0)
+                        GPIO.softPwmWrite(LED4, 0)
+                        time.sleep(0.5)
+
+                # mode0 消灯
+                elif self.mode == 0:
+                    GPIO.digitalWrite(LED1, GPIO.LOW)
+                    GPIO.digitalWrite(LED2, GPIO.LOW)
+                    GPIO.digitalWrite(LED3, GPIO.LOW)
+                    GPIO.digitalWrite(LED4, GPIO.LOW)
+
+                # mode例外
+                else:
+                    raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
+
+            # LED5つ処理
+            elif gpio_num == 5:
+                # GPIOの設定
+                LED1 = self.pin[0]
+                LED2 = self.pin[1]
+                LED3 = self.pin[2]
+                LED4 = self.pin[3]
+                LED5 = self.pin[4]
+                GPIO.pinMode(LED1, GPIO.OUTPUT)
+                GPIO.pinMode(LED2, GPIO.OUTPUT)
+                GPIO.pinMode(LED3, GPIO.OUTPUT)
+                GPIO.pinMode(LED4, GPIO.OUTPUT)
+                GPIO.pinMode(LED5, GPIO.OUTPUT)
+                GPIO.softPwmCreate(LED1, 0, 100)
+                GPIO.softPwmCreate(LED2, 0, 100)
+                GPIO.softPwmCreate(LED3, 0, 100)
+                GPIO.softPwmCreate(LED4, 0, 100)
+                GPIO.softPwmCreate(LED5, 0, 100)
+
+                # mode1 点灯
+                if self.mode == 1:
+                    GPIO.softPwmWrite(LED1, self.pwm)
+                    GPIO.softPwmWrite(LED2, self.pwm)
+                    GPIO.softPwmWrite(LED3, self.pwm)
+                    GPIO.softPwmWrite(LED4, self.pwm)
+                    GPIO.softPwmWrite(LED5, self.pwm)
+                    time.sleep(self.timer / 10)
+
+                # mode2 点滅
+                elif self.mode == 2:
+                    for lp1 in range(self.count):
+                        GPIO.softPwmWrite(LED1, self.pwm)
+                        GPIO.softPwmWrite(LED2, self.pwm)
+                        GPIO.softPwmWrite(LED3, self.pwm)
+                        GPIO.softPwmWrite(LED4, self.pwm)
+                        GPIO.softPwmWrite(LED5, self.pwm)
+                        time.sleep(self.timer / 10)
+                        GPIO.softPwmWrite(LED1, 0)
+                        GPIO.softPwmWrite(LED2, 0)
+                        GPIO.softPwmWrite(LED3, 0)
+                        GPIO.softPwmWrite(LED4, 0)
+                        GPIO.softPwmWrite(LED5, 0)
+                        time.sleep(0.5)
+
+                # mode0 消灯
+                elif self.mode == 0:
+                    GPIO.digitalWrite(LED1, GPIO.LOW)
+                    GPIO.digitalWrite(LED2, GPIO.LOW)
+                    GPIO.digitalWrite(LED3, GPIO.LOW)
+                    GPIO.digitalWrite(LED4, GPIO.LOW)
+                    GPIO.digitalWrite(LED5, GPIO.LOW)
+                # mode例外
+                else:
+                    raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
+            # 2~5本以外の設定は例外処理
+            else:
+                raise Pin_numsError("pin設定を複数にするときは2～5個までの範囲で設定してください")
+
+        # Typeエラーがでたのでpinは単数指定
+        except TypeError:
+            # GPIOの設定
+            LED1 = self.pin
+            GPIO.pinMode(LED1, GPIO.OUTPUT)
+            GPIO.softPwmCreate(LED1, 0, 100)
+
+            # mode1 点灯
+            if self.mode == 1:
                 GPIO.softPwmWrite(LED1, self.pwm)
                 time.sleep(self.timer / 10)
-                GPIO.softPwmWrite(LED1, 0)
-                time.sleep(0.1)
 
-        # mode3 消灯
-        elif self.mode == 0:
-            GPIO.digitalWrite(LED1, GPIO.LOW)
-            GPIO.digitalWrite(LED2, GPIO.LOW)
-            GPIO.digitalWrite(LED3, GPIO.LOW)
-            GPIO.digitalWrite(LED4, GPIO.LOW)
+            # mode2 点滅
+            elif self.mode == 2:
+                for lp1 in range(self.count):
+                    GPIO.softPwmWrite(LED1, self.pwm)
+                    time.sleep(self.timer / 10)
+                    GPIO.softPwmWrite(LED1, 0)
+                    time.sleep(0.5)
 
-        # 例外
-        else:
-            raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
+            # mode0 消灯
+            elif self.mode == 0:
+                GPIO.digitalWrite(LED1, GPIO.LOW)
 
-"""
+            # Mode例外
+            else:
+                raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
 
-LED関数
-
-"""
-
-
-def led_flash_1(interval , pin):
-    """
-        *****注意*****
-    関数を呼び出す際にはpin番号の値を与える事。
-        ---GPIO出力---
-    与えられたpin NOのGPIO PINのLEDを関数に与えられた値/10秒間点滅させる
-    :param interval: int: 点滅間隔の設定。与えられたの/10感覚で点滅させる
-    :param pin: int: LEDのGPIO PIN NO
-    """
-    LED1 = pin
-    GPIO.pinMode(LED1, GPIO.OUTPUT)
-    GPIO.digitalWrite(LED1, GPIO.HIGH)
-    time.sleep(interval / 10)
-    GPIO.digitalWrite(LED1, GPIO.LOW)
-    time.sleep(interval / 10)
-
-
-def led_flash_2(intterval, pin):
-    """
-        *****注意*****
-    関数を呼び出す際にはpin番号の値を与える事。
-    値を忘れるとエラーなのでtry文を忘れない。
-        ---GPIO出力---
-    与えられたpin NOのGPIO PINのLEDを関数に与えられた値/10秒間点滅させる
-    :param interval: int: 点滅間隔の設定。与えられたの/10感覚で点滅させる
-    :param pin: int: LEDのGPIO PIN NO
-    """
-    LED2 = pin
-    GPIO.pinMode(LED2, GPIO.OUTPUT)
-    GPIO.digitalWrite(LED2, GPIO.HIGH)
-    time.sleep(intterval / 10)
-    GPIO.digitalWrite(LED2, GPIO.LOW)
-    time.sleep((intterval / 10))
-
-
-def led_flash_3(interval, pin):
-    """
-        *****注意*****
-    関数を呼び出す際にはpin番号の値を与える事。
-        ---GPIO出力---
-    与えられたpin NOのGPIO PINのLEDを関数に与えられた値/10秒間点滅させる
-    :param interval: int: 点滅間隔の設定。与えられたの/10感覚で点滅させる
-    :param pin: int: LEDのGPIO PIN NO
-    """
-    LED1 = pin
-    GPIO.pinMode(LED3, GPIO.OUTPUT)
-    GPIO.digitalWrite(LED3, GPIO.HIGH)
-    time.sleep(interval / 10)
-    GPIO.digitalWrite(LED3, GPIO.LOW)
-    time.sleep(interval / 10)
-
-
-def led_flash_4(intterval, pin):
-    """
-        *****注意*****
-    関数を呼び出す際にはpin番号の値を与える事。
-    値を忘れるとエラーなのでtry文を忘れない。
-        ---GPIO出力---
-    与えられたpin NOのGPIO PINのLEDを関数に与えられた値/10秒間点滅させる
-    :param interval: int: 点滅間隔の設定。与えられたの/10感覚で点滅させる
-    :param pin: int: LEDのGPIO PIN NO
-    """
-    LED2 = pin
-    GPIO.pinMode(LED4, GPIO.OUTPUT)
-    GPIO.digitalWrite(LED4, GPIO.HIGH)
-    time.sleep(intterval / 10)
-    GPIO.digitalWrite(LED4, GPIO.LOW)
-    time.sleep((intterval / 10))
-
-
-def led_flash_5(intterval, pin):
-    """
-        *****注意*****
-    関数を呼び出す際にはpin番号の値を与える事。
-    値を忘れるとエラーなのでtry文を忘れない。
-        ---GPIO出力---
-    与えられたpin NOのGPIO PINのLEDを関数に与えられた値/10秒間点滅させる
-    :param interval: int: 点滅間隔の設定。与えられたの/10感覚で点滅させる
-    :param pin: int: LEDのGPIO PIN NO
-    """
-    LED2 = pin
-    GPIO.pinMode(LED5, GPIO.OUTPUT)
-    GPIO.digitalWrite(LED5, GPIO.HIGH)
-    time.sleep(intterval / 10)
-    GPIO.digitalWrite(LED5, GPIO.LOW)
-    time.sleep((intterval / 10))
-
-
-def led_flash_1and2(interval, pin1, pin2):
-    """
-        *****注意*****
-    関数を呼び出す際にはpin番号の値を与える事。
-        ---GPIO出力---
-    与えられたpin NOのGPIO PINのLEDを関数に与えられた値/10秒間点滅させる
-    :param interval: int: 点滅間隔の設定。与えられたの/10感覚で点滅させる
-    :param pin1: int: 1つ目LEDの GPIO PIN NO
-    :param pin2: int: 2つ目LEDの GPIO PIN NO
-    """
-    LED1 = pin1
-    LED2 = pin2
-    GPIO.pinMode(LED1, GPIO.OUTPUT)
-    GPIO.pinMode(LED2, GPIO.OUTBoolPUT)
-    GPIO.digitalWrite(LED1, GPIO.HIGH)
-    GPIO.digitalWrite(LED2, GPIO.HIGH)
-    time.sleep(interval / 10)
-    GPIO.digitalWrite(LED1, GPIO.LOW)
-    GPIO.digitalWrite(LED2, GPIO.LOW)
-    time.sleep(interval / 10)
 
 
 """
