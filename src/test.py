@@ -213,7 +213,7 @@ class Led:
                     GPIO.softPwmWrite(LED3, self.pwm)
                     GPIO.softPwmWrite(LED4, self.pwm)
                     GPIO.softPwmWrite(LED5, self.pwm)
-                    time.sleep(self.timer)
+                    time.sleep(self.timer / 10)
                     GPIO.softPwmWrite(LED1, 0)
                     GPIO.softPwmWrite(LED2, 0)
                     GPIO.softPwmWrite(LED3, 0)
