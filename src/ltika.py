@@ -19,8 +19,8 @@ def led_flash():
         except:
             continue
 
-    pin.Led(12, 2, interval, 100, count)
-    pin.flash()
+    led1 = pin.Led(12, 2, interval, 100, count)
+    led1.pin.flash()
 
 if __name__ == "__main__":
     led_flash()
