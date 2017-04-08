@@ -42,7 +42,10 @@ class Buzzer:
         """
         GPIO.wiringPiSetupGpio()
         GPIO.softToneCreate(self.pin)
-        for (oto, nagasa, yasumi) in zip(self.onpu, self.melody, self.interval):
+        x = self.onpu
+        y = self.melody
+        z = self.interval
+        for (oto, nagasa, yasumi) in zip(x, y, z):
             GPIO.sofltToneWrite(self.pin, oto)
             print(self.pin, oto, nagasa, yasumi)
             time.sleep(nagasa / 10)
