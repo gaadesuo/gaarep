@@ -63,7 +63,7 @@ class Buzzer:
         GPIO.softToneWrite(self.pin, self.onpu)
         time.sleep(self.melody / 10)
         GPIO.softToneWrite(self.pin, self.onpu)
-        if self.interbal > 0:
+        if self.interval > 0:
             time.sleep(self.interval / 10)
         elif self.interval == 0:
             pass
