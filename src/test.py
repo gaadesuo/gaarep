@@ -43,9 +43,9 @@ class Buzzer:
         GPIO.wiringPiSetupGpio()
         GPIO.softToneCreate(self.pin)
 
-        GPIO.softToneWrite(self.pin, oto)
+        GPIO.softToneWrite(self.pin, self.onpu)
         time.sleep(self.meldy / 10)
-        GPIO.softToneWrite(self.pin, oto)
+        GPIO.softToneWrite(self.pin, self.onpu)
         time.sleep(self.interval / 10)
 
 
