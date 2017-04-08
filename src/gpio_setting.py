@@ -10,7 +10,7 @@ GPIO.wiringPiSetupGpio()
 
 """
 
-class
+LEDクラス
 
 """
 
