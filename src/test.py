@@ -52,6 +52,6 @@ class Buzzer:
 if __name__ == "__main__":
 
     BUZ = Buzzer(26, 262, 10, 1)
-    re = Buzzer(26, 330, 10, 1)
+    re = Buzzer(26, 815, 10, 1)
     BUZ.beep()
     re.beep()
