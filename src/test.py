@@ -54,9 +54,9 @@ class Buzzer:
         変数名.beep
         """
         # 値の確認
-        if onpu < 0:
+        if self.onpu < 0:
             raise FrequencyError("周波数の値がマイナスです")
-        if melody < 0:
+        if self.melody < 0:
             raise TimeError("時間の値がマイナスです")
         GPIO.softToneCreate(self.pin)
 
