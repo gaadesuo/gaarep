@@ -51,4 +51,4 @@ class Buzzer:
 
 if __name__ == "__main__":
 
-Buzzer(26, 262 , 10, 11)
+    Buzzer(26, 262 , 10, 11)
