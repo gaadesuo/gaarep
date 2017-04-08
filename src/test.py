@@ -10,7 +10,8 @@ import wiringpi as GPIO
 beepクラス
 
 """
-
+# GPIOの初期化
+GPIO.wiringPiSetupGpio()
 
 class Buzzer:
     """
@@ -40,7 +41,6 @@ class Buzzer:
         """
 
         """
-        GPIO.wiringPiSetupGpio()
         GPIO.softToneCreate(self.pin)
 
         GPIO.softToneWrite(self.pin, self.onpu)
