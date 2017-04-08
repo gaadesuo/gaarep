@@ -10,6 +10,10 @@ def led_flash():
     """
     LEDの点滅制御設定を決めて、点滅させる
     """
+
+    # GPIOの初期化
+    GPIO.wiringPiSetupGpio()
+
     print("""入力された時間の1/10秒ごと入力された回数LEDを最後に点滅させます。
     点滅は片方ずつ1回毎点滅し最後に両方同時に点滅で1ループです。""")
     while True:

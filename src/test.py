@@ -11,6 +11,7 @@ beepクラス
 
 """
 
+
 class Buzzer:
     """
     *** 注意 ***
