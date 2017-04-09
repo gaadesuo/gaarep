@@ -381,7 +381,7 @@ NOR = pygame.image.load(nomal).convert()
 -----"""
 
 """-----
-
+q
 ここからテスト
 
 -----"""
