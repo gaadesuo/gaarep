@@ -15,4 +15,4 @@ while True:
     else:
         LED = PIN.Led(21,0)
         LED.flash()
-        print(a)
+        print("a")
