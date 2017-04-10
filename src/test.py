@@ -10,7 +10,7 @@ pi.wiringPiSetupGpio()
 
 while True:
     if PIN.push_sw_1(26):
-        LED = PIN.Led(21, 1, 0.1)
+        LED = PIN.Led(21, 1, 0.5)
         LED.flash()
     else:
         LED = PIN.Led(21, 0)
