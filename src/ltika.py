@@ -2,6 +2,7 @@
 __author__ = "gaa"
 __date__ = '$2017/04/02 :20:36$'
 
+import wiringpi as pi
 import gpio_setting as pin
 import time
 
@@ -12,7 +13,12 @@ def led_flash():
     """
 
     # GPIOの初期化
-    GPIO.wiringPiSetupGpio()
+    pi.wiringPiSetupGpio()
+    pi.pinMode(12, pi.OUTPUT)
+    pi.pinMode(5, pi.OUTPUT)
+    pi.pinMode(6, pi.OUTPUT)
+    pi.pinMode(13, pi.OUTPUT)
+    pi.pinMode(19, pi.OUTPUT)
 
     print("""入力された時間の1/10秒ごと入力された回数LEDを最後に点滅させます。
     点滅は片方ずつ1回毎点滅し最後に両方同時に点滅で1ループです。""")

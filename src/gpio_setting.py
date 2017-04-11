@@ -12,37 +12,6 @@ import wiringpi as GPIO
 """
 
 
-class Gpioset:
-    """
-    GPIOの入出力の設定
-    コンストラクタ引数はすべてintで書式は以下(self)は除く
-    変数名 = Gpioset(pin, mode)
-    :param pin: int: GPIO PIN番号 
-    :param mode: int: 入出力の設定
-    入出力の設定modeは1が出力、2が入力、それ以外で例外
-    """
-
-    def __init__(self, pin, mode):
-        self.pin = pin
-        self.mode = mode
-
-    def pin_set(self):
-        """
-        GPIOの入出力設定の呼び出し
-        Gpiosetに与えられた値によって設定をする
-        コンストラクタ引数はすべてintで書式は以下(self)は除く
-        変数名 = Gpioset(pin, mode)
-        呼び出す場合はモジュール名はいらない。
-        変数名.pin_set()
-        """
-        if self.mode == 1:
-            GPIO.pinMode(self.pin, GPIO.OUTPUT)
-        elif self.mode == 2:
-            GPIO.pinMode(self.pin, GPIO.INPUT)
-        else:
-            raise ModeError("モードは1:出力 2:入力でそれ以外は例外です")
-
-
 class Led:
     """
     *** 注意 ***
