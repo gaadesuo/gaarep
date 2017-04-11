@@ -38,7 +38,7 @@ class Gpioset:
         if self.mode == 1:
             GPIO.pinMode(self.pin, GPIO.OUTPUT)
         elif self.mode == 2:
-            GPIO.pinMode(self.pin, GPIO.OUTPUT)
+            GPIO.pinMode(self.pin, GPIO.INPUT)
         else:
             raise ModeError("モードは1:出力 2:入力でそれ以外は例外です")
 
