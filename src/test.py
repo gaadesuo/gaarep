@@ -20,6 +20,7 @@ def my_callback(channel):
         else:
             GPIO.output(25, GPIO.LOW)
 
+GPIO.cleanup()
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(25, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
