@@ -7,9 +7,40 @@ import wiringpi as GPIO
 
 """
 
-LEDクラス
+クラス
 
 """
+
+
+class Gpioset:
+    """
+    GPIOの入出力の設定
+    コンストラクタ引数はすべてintで書式は以下(self)は除く
+    変数名 = Gpioset(pin, mode)
+    :param pin: int: GPIO PIN番号 
+    :param mode: int: 入出力の設定
+    入出力の設定modeは1が出力、2が入力、それ以外で例外
+    """
+
+    def __init__(self, pin, mode):
+        self.pin = pin
+        self.mode = mode
+
+    def pin_set(self):
+        """
+        GPIOの入出力設定の呼び出し
+        Gpiosetに与えられた値によって設定をする
+        コンストラクタ引数はすべてintで書式は以下(self)は除く
+        変数名 = Gpioset(pin, mode)
+        呼び出す場合はモジュール名はいらない。
+        変数名.pin_set()
+        """
+        if self.mode == 1:
+            GPIO.pinMode(self.pin, GPIO.OUTPUT)
+        elif self.mode == 2:
+            GPIO.pinMode(self.pin, GPIO.OUTPUT)
+        else:
+            raise ModeError("モードは1:出力 2:入力でそれ以外は例外です")
 
 
 class Led:
@@ -61,8 +92,6 @@ class Led:
                 # GPIOの設定
                 LED1 = self.pin[0]
                 LED2 = self.pin[1]
-                GPIO.pinMode(LED1, GPIO.OUTPUT)
-                GPIO.pinMode(LED2, GPIO.OUTPUT)
                 GPIO.softPwmCreate(LED1, 0, 100)
                 GPIO.softPwmCreate(LED2, 0, 100)
 
@@ -97,9 +126,6 @@ class Led:
                 LED1 = self.pin[0]
                 LED2 = self.pin[1]
                 LED3 = self.pin[2]
-                GPIO.pinMode(LED1, GPIO.OUTPUT)
-                GPIO.pinMode(LED2, GPIO.OUTPUT)
-                GPIO.pinMode(LED3, GPIO.OUTPUT)
                 GPIO.softPwmCreate(LED1, 0, 100)
                 GPIO.softPwmCreate(LED2, 0, 100)
                 GPIO.softPwmCreate(LED3, 0, 100)
@@ -140,10 +166,6 @@ class Led:
                 LED2 = self.pin[1]
                 LED3 = self.pin[2]
                 LED4 = self.pin[3]
-                GPIO.pinMode(LED1, GPIO.OUTPUT)
-                GPIO.pinMode(LED2, GPIO.OUTPUT)
-                GPIO.pinMode(LED3, GPIO.OUTPUT)
-                GPIO.pinMode(LED4, GPIO.OUTPUT)
                 GPIO.softPwmCreate(LED1, 0, 100)
                 GPIO.softPwmCreate(LED2, 0, 100)
                 GPIO.softPwmCreate(LED3, 0, 100)
@@ -190,11 +212,6 @@ class Led:
                 LED3 = self.pin[2]
                 LED4 = self.pin[3]
                 LED5 = self.pin[4]
-                GPIO.pinMode(LED1, GPIO.OUTPUT)
-                GPIO.pinMode(LED2, GPIO.OUTPUT)
-                GPIO.pinMode(LED3, GPIO.OUTPUT)
-                GPIO.pinMode(LED4, GPIO.OUTPUT)
-                GPIO.pinMode(LED5, GPIO.OUTPUT)
                 GPIO.softPwmCreate(LED1, 0, 100)
                 GPIO.softPwmCreate(LED2, 0, 100)
                 GPIO.softPwmCreate(LED3, 0, 100)
@@ -244,7 +261,6 @@ class Led:
         except TypeError:
             # GPIOの設定
             LED1 = self.pin
-#            GPIO.pinMode(LED1, GPIO.OUTPUT)
             GPIO.softPwmCreate(LED1, 0, 100)
 
             # mode1 点灯
