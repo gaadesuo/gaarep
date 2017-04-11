@@ -373,7 +373,6 @@ def push_sw_1(output):
     :returns bool
     """
     SW_PIN = output
-    GPIO.pinMode(SW_PIN, GPIO.INPUT)
     GPIO.pullUpDnControl(SW_PIN, GPIO.PUD_DOWN)
     if GPIO.digitalRead(SW_PIN) == GPIO.HIGH:
         return True
@@ -393,7 +392,6 @@ def slide_sw_1(output):
     :returns bool
     """
     SW_PIN = output
-    GPIO.pinMode(SW_PIN, GPIO.INPUT)
     if GPIO.digitalRead(SW_PIN) == GPIO.HIGH:
         return True
     else:
