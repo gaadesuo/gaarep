@@ -7,6 +7,7 @@ import time
 import gpio_setting as PIN
 
 pi.wiringPiSetupGpio()
+GPIO.pinMode(21, GPIO.OUTPUT)
 
 while True:
     if PIN.push_sw_1(26):
