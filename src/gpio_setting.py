@@ -4,6 +4,7 @@ __date__ = '$2017/04/02 :20:02$'
 
 import time
 import wiringpi as GPIO
+import PRi.GPIO as RPI
 
 """
 
@@ -254,13 +255,6 @@ class Led:
                 raise ModeError("モードは1:点灯 2:点滅 0:消灯 でそれ以外は例外です")
 
 
-"""
-
-beepクラス
-
-"""
-
-
 class Buzzer:
     """
     *** 注意 ***
@@ -324,7 +318,7 @@ class Buzzer:
 
 """
 
-スイッチ関数
+関数
 
 """
 
