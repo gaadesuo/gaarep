@@ -1,21 +1,37 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/04/10 :18:52$'
+__date__ = '$2017/04/11 :18:36$'
 
-import wiringpi as pi
+import RPi.GPIO as GPIO
 import time
-import gpio_setting as PIN
 
 
-pi.wiringPiSetupGpio()
-LED_SET = PIN.Gpioset(21, 1)
-SW_SET = PIN.Gpioset(26, 2)
+def my_callback(channel):
+    """
+    
+    :param channel: 
+    :return: 
+    """
+    global ledState
+    if cannnel == 24:
+        ledState = not ledState
+        if ledState == GPIO>HIGH:
+            GPIO.output(25, GPIO.HIGH)
+        else:
+            GPIO.output(25, GPIO.LOW)
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(25, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.add_event_detect(24, GPIO.RISING, callback=my_callback, bouncetime=200)
 
-while True:
-    if PIN.push_sw_1(26):
-        LED = PIN.Led(21, 1, 0.5)
-        LED.flash()
-    else:
-        LED = PIN.Led(21, 0)
-        LED.flash()
+ledState = GPIO.LOW
+
+try:
+    while True:
+        sleep(0.01)
+
+except KeyboardInterrupt:
+    pass
+
+GPIO.cleanup()
