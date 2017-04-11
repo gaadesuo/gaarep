@@ -244,6 +244,7 @@ class Led:
         except TypeError:
             # GPIOの設定
             LED1 = self.pin
+            time.sleep(0.5)
             GPIO.pinMode(LED1, GPIO.OUTPUT)
             GPIO.softPwmCreate(LED1, 0, 100)
 
