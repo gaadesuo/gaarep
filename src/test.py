@@ -15,7 +15,7 @@ def my_callback(channel):
     global ledState
     if channnel == 24:
         ledState = not ledState
-        if ledState == GPIO>HIGH:
+        if ledState == GPIO.HIGH:
             GPIO.output(25, GPIO.HIGH)
         else:
             GPIO.output(25, GPIO.LOW)
