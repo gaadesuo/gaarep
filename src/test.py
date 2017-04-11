@@ -13,7 +13,7 @@ def my_callback(channel):
     :return: 
     """
     global ledState
-    if channnel == 24:
+    if channel == 24:
         ledState = not ledState
         if ledState == GPIO.HIGH:
             GPIO.output(25, GPIO.HIGH)
