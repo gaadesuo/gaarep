@@ -26,6 +26,8 @@ GPIO.setup(25, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.add_event_detect(24, GPIO.RISING, callback=my_callback, bouncetime=200)
 
+ledState = GPIO.LOW
+
 try:
     while True:
         time.sleep(0.01)
