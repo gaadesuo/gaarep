@@ -80,7 +80,7 @@ if __name__ == '__main__':
     try:
         while True:
             inputVal0 = readadc(0, SPICLK, SPIMOSI, SPIMISO, SPICS)
-            print(inputVal0)
+            print("{}".format(inputVal0 * 0.0008056640625))
             time.sleep(0.2)
 
     except KeyboardInterrupt:
