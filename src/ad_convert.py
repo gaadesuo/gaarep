@@ -32,12 +32,12 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
     PIN.output(cspin, PIN.LOW)
 
     commandout = adcnum
-    # LSBから8bit目を送信するようにする
-    # commandout = commandout | 0x18 (|はorで commandoutまたは0x18が1のときは1)
+    # ループ中はLSB(最下位ビット)から8bit目まに送信するようにする
+    # commandout = commandout | 0x18 (|はorで commandoutは半固定抵抗からのアナログ値)
     commandout |= 0x18
     # commandout = commandout << 3 (<<は値分のbit左へシフト。ここでは3)
     commandout <<= 3
-    # LSBから数えて8bit目から4bit目までを送信。1ループごとに1bitづつずらす
+    # LSBから数えて8bit目から4bit目までに送信。1ループごとに1bitづつずらす
     for lp1 in range(5):
         if commandout & 0x80:
             # D_INへHIGHのデジタル信号送信elseはLOW
@@ -52,7 +52,7 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 
     # 13bitを読む(nullbit～12bitデータ)1ループごとに1bitずらす
     for lp2 in range(13):
-        # 1クロックの信号を与えbitの値を通信させる
+        # 1クロックの信号を与える
         PIN.output(clockpin, PIN.HIGH)
         PIN.output(clockpin, PIN.LOW)
         adcout <<= 1
