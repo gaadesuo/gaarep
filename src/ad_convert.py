@@ -57,7 +57,7 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
         PIN.output(clockpin, PIN.LOW)
         adcout <<= 1
         if lp2 > 0 and PIN.input(misopin) == PIN.HIGH:
-            adcout |= 0x01
+            adcout |= 0x1
     # cspinをHIGHにして通信終了
     PIN.output(cspin, PIN.HIGH)
     return adcout
