@@ -84,7 +84,7 @@ if __name__ == '__main__':
         while True:
             inputVal0 = readadc(0, SPICLK, SPIMOSI, SPIMISO, SPICS)
             print(inputVal0)
-            if inputVal0 > 700:
+            if inputVal0 < 700:
                 PIN.output(LED, PIN.HIGH)
             else:
                 PIN.output(LED, PIN.LOW)
