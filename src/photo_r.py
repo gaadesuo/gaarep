@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/04/17 :18:48$'
+__date__ = '$2017/04/18 :10:48$'
 
 import RPi.GPIO as PIN
 import time
@@ -70,17 +70,24 @@ if __name__ == '__main__':
     SPIMOSI = 10
     SPIMISO = 9
     SPICS = 8
+    LED = 25
 
     # SPI通信用の入出力を定義
     PIN.setup(SPICLK, PIN.OUT)
     PIN.setup(SPIMOSI, PIN.OUT)
     PIN.setup(SPIMISO, PIN.IN)
     PIN.setup(SPICS, PIN.OUT)
+    # LEDの出力設定
+    PIN.setup(LED, PIN.OUT)
 
     try:
         while True:
             inputVal0 = readadc(0, SPICLK, SPIMOSI, SPIMISO, SPICS)
-            print("{:.3f}".format(inputVal0 * 0.0008056640625))
+            print(inputVal0)
+            if inputVal0 > 700:
+                PIN.output(LED, PIN.HIGH)
+            else:
+                PIN.output(LED, PIN.LOW)
             time.sleep(0.2)
 
     except KeyboardInterrupt:
