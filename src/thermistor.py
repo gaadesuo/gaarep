@@ -79,8 +79,14 @@ if __name__ == '__main__':
     try:
         while True:
             val_num = readadc(0, CLK, MOSI, MISO, CS)
-            print("{:.3f}".format(val_num * 0.0008056640625))
-            time.sleep(0.2)
+            inp_val = val_num * 0.0008056640625
+            print("{:.3f}".format(inp_val))
+            X = ((3.3 - inp_val) / 3.3)
+            Y = X / 10000 / 3435
+            Z = 1 / (25 + 273.0)
+            Temp = (1 / (Y + Z)) - 273
+
+            print(Temp)
 
     except KeyboardInterrupt:
         pass
