@@ -87,6 +87,7 @@ if __name__ == '__main__':
             Temp = (1 / (Y + Z)) - 273
 
             print(Temp)
+            time.sleep(1)
 
     except KeyboardInterrupt:
         pass
