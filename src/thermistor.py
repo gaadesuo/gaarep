@@ -4,6 +4,7 @@ __date__ = '$2017/04/22 :09:45$'
 
 import RPi.GPIO as PIN
 import time
+import math
 
 
 def main():
@@ -81,9 +82,9 @@ if __name__ == '__main__':
             val_num = readadc(0, CLK, MOSI, MISO, CS)
             inp_val = val_num * 0.0008056640625
             print("{:.3f}".format(inp_val))
-            X = ((3.3 - inp_val) / 3.3)
-            Y = X / 10000 / 3435
-            Z = 1 / (25 + 273.0)
+            X = ((3.3 - inp_val) / 3.3) * 10000
+            Y = math.log( float(X) / float(10000) / float(3435))
+            Z = 1 / (float(25) + 273.0)
             Temp = (1 / (Y + Z)) - 273
 
             print(Temp)
