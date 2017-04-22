@@ -82,8 +82,8 @@ if __name__ == '__main__':
             val_num = readadc(0, CLK, MOSI, MISO, CS)
             inp_val = val_num * 0.0008056640625
             print("{:.3f}".format(inp_val))
-            X = ((3.3 - inp_val) / inp_val)
-            Y = math.log(float(X) / float(10000) / float(3435))
+            X = ((3.3 - inp_val) / inp_val) * 10000
+            Y = math.log(float(X) / float(10000)) / float(3435)
             Z = 1 / (float(25) + 273.0)
             Temp = (1 / (Y + Z)) - 273
 
