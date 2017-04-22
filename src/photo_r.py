@@ -19,7 +19,7 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
     :param mosipin:  int: SPI MOSIPINのGPIO番号 MCP3208側はD_IN
     :param misopin: int: SPI MISOPINのGPIO番号 MCP3208側はD_OUT
     :param cspin: int: SPI CEOPINのGPIO番号 MCP3208側はCS/SHDN
-    :return: 
+    :return: int: 電圧のデジタル値
     """
 
     if adcnum > 7 or adcnum < 0:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/04/17 :18:48$'
+__date__ = '$2017/04/22 :09:45$'
 
 import RPi.GPIO as PIN
 import time
@@ -25,62 +25,61 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
     if adcnum > 7 or adcnum < 0:
         return -1
 
-    # cspinをHIGHにして通信準備
+    # 初期設定
     PIN.output(cspin, PIN.HIGH)
     PIN.output(clockpin, PIN.LOW)
-    # cspinをLOWにして通信開始
+    # cspinをHIGHにして通信開始
     PIN.output(cspin, PIN.LOW)
 
+    # 通信信号、シングルチャンネル、チャンネル番号の設定設定は頭から5bitのため3bitずらす
     commandout = adcnum
-    # ループ中はLSB(最下位ビット)から8bit目まに送信するようにする
-    # commandout = commandout | 0x18 (|はorで commandoutは半固定抵抗からのアナログ値)
-    commandout |= 0x18
-    # commandout = commandout << 3 (<<は値分のbit左へシフト。ここでは3)
+    commandout |= 0b00011000
     commandout <<= 3
-    # LSBから数えて8bit目から4bit目までに送信。1ループごとに1bitづつずらす
+
+    # 設定の値を上位5bitを上位から1bitずつ送信。1のときはhigh、0のときはLOW
     for lp1 in range(5):
-        if commandout & 0x80:
-            # D_INへHIGHのデジタル信号送信elseはLOW
+        if commandout & 0b10000000:
             PIN.output(mosipin, PIN.HIGH)
         else:
             PIN.output(mosipin, PIN.LOW)
         commandout <<= 1
-        # 1クロックの信号を与えbitの値を通信させる
+        # 1クロック進めて1bit送信
         PIN.output(clockpin, PIN.HIGH)
         PIN.output(clockpin, PIN.LOW)
     adcout = 0
 
-    # 13bitを読む(nullbit～12bitデータ)1ループごとに1bitずらす
+    # 設定を与えて帰ってきた値をadcoutに書き込み1bitづつずらす。最初の1bitはnull設定
+    # HIGHのときは1を書き込みnull含め2進数13桁表示で値を与える
     for lp2 in range(13):
-        # 1クロックの信号を与える
         PIN.output(clockpin, PIN.HIGH)
         PIN.output(clockpin, PIN.LOW)
         adcout <<= 1
         if lp2 > 0 and PIN.input(misopin) == PIN.HIGH:
-            adcout |= 0x1
-    # cspinをHIGHにして通信終了
+            adcout |= 0b0001
+
+    # cspinをHIGHにして通信終了し値を返す
     PIN.output(cspin, PIN.HIGH)
     return adcout
 
 if __name__ == '__main__':
     main()
+
     PIN.setmode(PIN.BCM)
 
-    SPICLK = 11
-    SPIMOSI = 10
-    SPIMISO = 9
-    SPICS = 8
+    CLK = 11
+    MOSI = 10
+    MISO = 9
+    CS = 8
 
-    # SPI通信用の入出力を定義
-    PIN.setup(SPICLK, PIN.OUT)
-    PIN.setup(SPIMOSI, PIN.OUT)
-    PIN.setup(SPIMISO, PIN.IN)
-    PIN.setup(SPICS, PIN.OUT)
+    PIN.setup(CLK, PIN.OUT)
+    PIN.setup(MOSI, PIN.OUT)
+    PIN.setup(MISO, PIN.IN)
+    PIN.setup(CS, PIN.OUT)
 
     try:
         while True:
-            inputVal0 = readadc(0, SPICLK, SPIMOSI, SPIMISO, SPICS)
-            print("{:.3f}".format(inputVal0 * 0.0008056640625))
+            val_num = readadc(0, CLK, MOSI, MISO, CS)
+            print("{:.3f}".format(val_num * 0.0008056640625))
             time.sleep(0.2)
 
     except KeyboardInterrupt:
