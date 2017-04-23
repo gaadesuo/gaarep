@@ -20,6 +20,7 @@ if __name__ == '__main__':
     PIN.setup(21, PIN.OUT)
 
     while True:
+        print(GPIO.slide_sw_1)
         if GPIO.slide_sw_1(5):
             print("ok")
             LED = GPIO.Led(21, 1)
