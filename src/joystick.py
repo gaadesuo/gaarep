@@ -82,8 +82,21 @@ if __name__ == '__main__':
         while True:
             side_num = readadc(0, CLK, MOSI, MISO, CS)
             length_num = readadc(1, CLK, MOSI, MISO, CS)
-            print("{}{}".format("横", side_num))
-            print("{}{}".format("縦", length_num))
+            if side_num < 1000:
+                side = "右"
+            elif side_num > 3000:
+                side = "左"
+            else:
+                side = ""
+
+            if length_num < 1000:
+                length = "下"
+            elif length_num > 3000:
+                length = "上"
+            else:
+                length = ""
+
+            print("{}{}".format(side, length))
             time.sleep(1)
 
     except KeyboardInterrupt:
