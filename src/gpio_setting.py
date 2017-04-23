@@ -4,7 +4,7 @@ __date__ = '$2017/04/02 :20:02$'
 
 import time
 import wiringpi as GPIO
-import PRi.GPIO as RPI
+import RPi.GPIO as RPI
 
 """
 
