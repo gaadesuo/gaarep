@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/04/23 :22:44$'
 
 import gpio_setting as GPIO
-import RPi.GPIO as PIN
+import wringpi as PIN
 import time
 
 
@@ -15,12 +15,11 @@ if __name__ == '__main__':
     main()
 
     # GPIO 初期設定
-    PIN.setmode(PIN.BCM)
-    PIN.setup(5, PIN.IN)
-    PIN.setup(21, PIN.OUT)
+    PIN.wiringPiSetupGpio()
+    PIN.pinMode(5, PIN.INPUT)
+    PIN.pinMode(21, PIN.OUTPUT)
 
     while True:
-        print(GPIO.slide_sw_1)
         if GPIO.slide_sw_1(5):
             print("ok")
             LED = GPIO.Led(21, 1)
