@@ -80,11 +80,11 @@ if __name__ == '__main__':
 
     try:
         while True:
-           side_num = readadc(0, CLK, MOSI, MISO, CS)
-           length_num = readadc(1, CLK, MOSI, MISO, CS)
-           print(side_num)
-           print(length_num)
-           time.sleep(1)
+            side_num = readadc(0, CLK, MOSI, MISO, CS)
+            length_num = readadc(1, CLK, MOSI, MISO, CS)
+            print(side_num)
+            print(length_num)
+            time.sleep(1)
 
     except KeyboardInterrupt:
         pass
