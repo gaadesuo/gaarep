@@ -14,6 +14,11 @@ def main():
 if __name__ == '__main__':
     main()
 
+    # GPIO 初期設定
+    PIN.setmode(PIN.BCM)
+    PIN.setup(5, PIN.IN)
+    PIN.setup(21, PIN.OUT)
+
     while True:
         if GPIO.slide_sw_1(5):
             print("ok")
