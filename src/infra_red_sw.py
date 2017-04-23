@@ -24,8 +24,8 @@ if __name__ == '__main__':
             print("ok")
             LED = GPIO.Led(21, 1)
             LED.flash()
+        else:
             LED = GPIO.Led(21, 2)
             LED.flash()
-        else:
             print("NG")
             time.sleep(0.1)
