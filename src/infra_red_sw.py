@@ -22,11 +22,9 @@ if __name__ == '__main__':
     while True:
         if GPIO.slide_sw_1(5):
             print("ok")
-            LED = GPIO.Led(21, 1)
-            LED.flash()
+            PIN.digitalWrite(21, PIN.HIGH)
             time.sleep(0.1)
         else:
-            LED = GPIO.Led(21, 2)
-            LED.flash()
+            PIN.digitalWrite(21, PIN.LOW)
             print("NG")
             time.sleep(0.1)
