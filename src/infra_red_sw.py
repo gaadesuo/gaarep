@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/04/23 :22:44$'
 
 import gpio_setting as GPIO
-import wringpi as PIN
+import wiringpi as PIN
 import time
 
 
