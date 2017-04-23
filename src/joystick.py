@@ -82,8 +82,8 @@ if __name__ == '__main__':
         while True:
             side_num = readadc(0, CLK, MOSI, MISO, CS)
             length_num = readadc(1, CLK, MOSI, MISO, CS)
-            print("{}".format("横", side_num))
-            print("{}".format("縦", length_num))
+            print("{}{}".format("横", side_num))
+            print("{}{}".format("縦", length_num))
             time.sleep(1)
 
     except KeyboardInterrupt:
