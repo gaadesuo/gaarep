@@ -15,7 +15,7 @@ if __name__ == '__main__':
     main()
 
     while True:
-        if GPIO.push_sw_1(5):
+        if GPIO.slide_sw_1(5):
             print("ok")
             LED = GPIO.Led(21, 1)
             LED.flash()
