@@ -74,7 +74,7 @@ if __name__ == '__main__':
     CS = 8
 
     PIN.setup(CLK, PIN.OUT)
-    PIN.setup(CLK, PIN.OUT)
+    PIN.setup(MOSI, PIN.OUT)
     PIN.setup(MISO, PIN.IN)
     PIN.setup(CS, PIN.OUT)
 
