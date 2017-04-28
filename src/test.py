@@ -2,10 +2,8 @@
 __author__ = "gaa"
 __date__ = '$2017/04/11 :18:36$'
 
-print(0x18)
-print(0b00011000)
 
-a = 0x18
-b = 0b00011000
-if a == b:
-    print(True)
+list = [1, 2, 3, 4, 5]
+
+dict = {"key": nums for nums in list}
+print(dict)
