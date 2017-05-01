@@ -7,4 +7,4 @@ list = [1, 2, 3, 4, 5]
 
 dict = {"key": nums for nums in list}
 print(dict)
-print("fgd")
+print("fsgdss")
