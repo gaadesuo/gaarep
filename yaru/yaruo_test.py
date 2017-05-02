@@ -26,21 +26,21 @@ mona = r'c:\windows\fonts\ipagp-mona.ttf'
 
 # 画像ファイルの読み込み
 
-bg = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\BG.png"
-menu_1 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m1.gif"
-menu_2 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m2.gif"
-menu_3 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m3.gif"
-menu_4 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m4.gif"
-menu_5 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m5.gif"
-menu_6 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m6.gif"
-menu_7 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m7.gif"
-menu_8 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m8.gif"
-menu_9 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m9.gif"
-menu_0 = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m0.gif"
-yaruo = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\titleyaru.png"
-down = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\downBG.png"
-stat = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\statwind.png"
-nomal = r"C:\Users\user\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\nomal.png"
+bg = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\BG.png"
+menu_1 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m1.gif"
+menu_2 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m2.gif"
+menu_3 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m3.gif"
+menu_4 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m4.gif"
+menu_5 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m5.gif"
+menu_6 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m6.gif"
+menu_7 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m7.gif"
+menu_8 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m8.gif"
+menu_9 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m9.gif"
+menu_0 = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\m0.gif"
+yaruo = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\titleyaru.png"
+down = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\downBG.png"
+stat = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\statwind.png"
+nomal = r"C:\Users\gaa\Documents\NetBeansProjects\gaarep\PythonProject\yaru\image\nomal.png"
 
 """-----
 
