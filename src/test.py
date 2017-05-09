@@ -10,4 +10,3 @@ neler = {
         "nanJ": {"やきう", "原住民", "やらない夫", "やらない子"}}
 
 print([ita for ita, name in neler.items() if "やる夫" not in name])
-print(a)
