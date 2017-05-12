@@ -2,4 +2,5 @@
 __author__ = "gaa"
 __date__ = '$2017/04/11 :18:36$'
 
-things = ["mozzarella", "cinderella", "salmone
+things = ["mozzarella", "cinderella", "salmone"]
+print(things)
