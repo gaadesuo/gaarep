@@ -25,6 +25,172 @@ if __name__ == '__main__':
 
     """
     
+    C 010 安息の地を求めて
+    
+    """
+
+    # 騒音の広さの情報の取得
+    sound = [int(lp) for lp in input().split()]
+    # print(sound)
+
+    # 木陰の場所の数
+    s_round = int(input())
+
+    # 木陰の情報の取得と計算
+    for lp0 in range(s_round):
+        wd_list = [int(lp1) for lp1 in input().split()]
+        # print(wd_list)
+        num1 = ((wd_list[0] - sound[0]) ** 2)
+        num2 = ((wd_list[1] - sound[1]) ** 2)
+        num3 = int(sound[2]) ** 2
+        # print(num1, num2, num3)
+        print("silent" if num1 + num2 >= num3 else "noisy")
+
+    """
+    
+    C 008 文字列の抽出
+    
+    """
+
+    # tagを入力
+    tag = input().split()
+    # print(tag)
+
+    # 文字列を入力
+    word = input()
+    # print(word)
+
+    # 処理
+    start = 0
+    while True:
+        if tag[0] in word[start:] and tag[1] in word[start:]:
+            # tag[0]含む文字数を検索
+            # print(int(word[start:].find(tag[0])))
+            # print(len(tag[0]))
+            f_count = int(word[start:].find(tag[0])) + (len(tag[0]))
+            # tag[1]が始まるまでの文字数を検索
+            r_count = int(word[start:].find(tag[1]))
+            # print(f_count + start, r_count + start)
+            print(word[f_count + start:r_count + start] if f_count != r_count else "<blank>")
+            start = start + r_count + int(len(tag[1]))
+            # print(start)
+        else:
+            break
+
+    # あっこの
+
+        inp1 = input().split()
+        inp2 = input()
+        inp3 = list()
+        inp1l0 = len(inp1[0])
+        inp1l1 = len(inp1[1])
+
+        # print(inp1, inp2)
+
+        while len(inp2) > 0:
+            spos = inp2.find(inp1[0])
+            if spos == -1:
+                break;
+
+        epos = inp2.find(inp1[1])
+        if epos == -1:
+            break;
+
+    rslt = inp2[spos + inp1l0:epos]
+    if len(rslt) == 0:
+        print('<blank>')
+    else:
+        print(rslt)
+    inp2 = inp2[epos + inp1l1:]
+
+    """
+    
+    C 006 ハイスコアランキング
+    
+    """
+
+    # 修正版
+
+    import numpy
+
+    # [0]:種類 [1]:人数 [2]:表示数
+    inp_1 = [int(lp0) for lp0 in input().split()]
+
+    # inp[0]個分のパラメーター入力
+    inp_2 = [float(lp1) for lp1 in input().split(" ")]
+    inp_2_ex = numpy.array(inp_2)
+    # print(inp_2_ex)
+
+    # 計算
+    date_list = []
+    for lp0 in range(inp_1[1]):
+        men_date = [int(lp2) for lp2 in input().split()]
+        men_date_ex = numpy.array(men_date)
+        ans = sum(inp_2_ex * men_date_ex)
+        date_list.append(int(ans + 0.5))
+    date_list.sort(reverse=True)
+    # print(date_list)
+
+    for lp3 in range(inp_1[2]):
+        print(date_list[lp3])
+
+    # 80点
+    # [0]:種類 [1]:人数 [2]:表示数
+    inp_1 = [int(lp0) for lp0 in input().split()]
+
+    # inp[0]個分のパラメーター入力
+    inp_2 = [float(lp1) for lp1 in input().split(" ")]
+
+    # inp_1[1]人分のデーターを収納
+    date_list = []
+    for lp0 in range(inp_1[1]):
+        men_date = [int(lp2) for lp2 in input().split()]
+        date_list.append(men_date)
+    # print(inp_2)
+    # print(date_list)
+
+    # ポイントの処理
+    ans = []
+    ans_list = []
+    for lp3 in range(inp_1[1]):
+        for lp4 in range(inp_1[0]):
+            ans.append(inp_2[lp4] * date_list[lp3][lp4])
+        ans_list.append(ans)
+        ans = []
+    # print(ans_list)
+
+    # 合計ポイントの計算とソート
+    all = [int(round(sum(ans_list[lp5]), 0)) for lp5 in range(len(ans_list))]
+    all.sort(reverse=True)
+    # print(all)
+
+    # 表示
+    for lp6 in range(inp_1[2]):
+        print(all[lp6])
+
+    """
+    
+    C 005 アドレスの調査
+    
+    """
+
+    ip_num = []
+    count = int(input())
+    for lp0 in range(count):
+        try:
+            ip = [int(lp1) for lp1 in input().split(".")]
+            for lp2 in ip:
+                # print(lp2)
+                if (lp2 >= 0) & (lp2 <= 255):
+                    ip_num.append(lp2)
+            # print(ip_num)
+            print("True" if len(ip_num) == 4 else "False")
+            ip_num = []
+        except:
+            print("False")
+
+    """
+    
     D070 ほんの残りページ
     
     """
@@ -396,7 +562,11 @@ if __name__ == '__main__':
     D034 どれにしようかな
     
     """
+    # 修正後
+    num = int(input())
+    print((21 % num) if (21 % num) != 0 else num)
 
+    # 修正前
     num = int(input())
     ans = 21 % num
     print(num if ans == 0 else ans)
@@ -415,7 +585,10 @@ if __name__ == '__main__':
     D 032 充電時間
     
     """
+    # 修正後
+    print(100 - int(input()))
 
+    # 修正前
     num = int(input())
     print(100 - num)
 
@@ -424,7 +597,10 @@ if __name__ == '__main__':
     D 031 分から秒へ
     
     """
+    # 修正後
+    print(60 * int(input()))
 
+    # 修正前
     num = int(input())
     print(num * 60)
 
@@ -433,6 +609,10 @@ if __name__ == '__main__':
     D 029 さいころの裏面
     
     """
+    # 修正後
+    print(7 - int(input()))
+
+    # 修正前
     num = int(input())
     print(7 - num)
 
@@ -441,7 +621,10 @@ if __name__ == '__main__':
     D 028 数字の桁数
     
     """
+    # 修正後
+    print(len(input()))
 
+    # 修正前
     ans = [num for num in input()]
     print(len(ans))
 
@@ -453,7 +636,10 @@ if __name__ == '__main__':
     D 027 nまでの和
     
     """
+    # 修正後
+    print(sum(range(0, int(input()) + 1)))
 
+    # 修正前
     ans = 0
     num = int(input())
     for i in range(0, num + 1):
@@ -632,9 +818,62 @@ if __name__ == '__main__':
 
     """
     
+    D 010 Eメールアドレス
+    
+    """
+
+    word = [input() for lp0 in range(2)]
+    print("{}@{}".format(word[0], word[1]))
+
+    """
+    
+    D 009 西暦の計算
+    
+    """
+
+    num = [int(lp0) for lp0 in input().split()]
+    print(num[1] - num[0])
+
+    """
+    
+    D 008 基数か偶数か
+    
+    """
+
+    num = int(input())
+    print("even" if num % 2 == 0 else "odd")
+
+    """
+    
+    D 007 N倍の文字列
+    
+    """
+
+    num = int(input())
+    print("*" * num)
+
+    """
+    
+    D006 単位の計算
+    
+    """
+
+    inp = [lp0 for lp0 in input().split()]
+    num = (int(inp[0]) * 10)
+    print(num if inp[1] == "cm" else (num * 100) if inp[1] == "m" else (num * 100000))
+
+    """
+    
     D005 等差数列
     
     """
+    # 修正後
+
+    num = [int(lp0) for lp0 in input().split()]
+    ans = [str(lp1) for lp1 in range(num[0], (num[0] + num[1] * 10), num[1])]
+    print(" ".join(ans))
+
+    # 修正前
 
     n, m = [int(i) for i in input().split()]
     list = []
@@ -645,10 +884,33 @@ if __name__ == '__main__':
 
     """
     
+    D 004 文字列の結合
+    
+    """
+
+    word = [input() for lp0 in range(int(input()))]
+    print("Hello " + ",".join(word) + ".")
+
+    """
+    
+    D 003 掛け算のリスト
+    
+    """
+    num = int(input())
+    ans = [str(lp0 * num) for lp0 in range(1, 10)]
+    print(" ".join(ans))
+
+    """
+    
     D002 数の比較
     
     """
 
+    # 7/3 再更新
+    num = [int(lp0) for lp0 in input().split()]
+    print("eq" if num[0] == num[1] else max(num))
+
+    # 旧
     num1, num2 = [int(lp0) for lp0 in input().split()]
     if num1 > num2:
         print(num1)
