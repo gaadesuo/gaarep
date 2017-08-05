@@ -12,6 +12,23 @@ if __name__ == '__main__':
 
     """
     
+    C041 メダルランキングの作成
+    
+    """
+
+    # データ入力
+    medals = []
+    for lp0 in range(int(input())):
+        inp_list = [int(lp1) for lp1 in input().split()]
+        medals.append(inp_list)
+    # print(medals)
+
+    ans_list = sorted(medals, reverse=True)
+    for lp2 in ans_list:
+        print("{} {} {}".format(lp2[0], lp2[1], lp2[2]))
+
+    """
+    
     C040 背比べ
     
     """
@@ -22,6 +39,271 @@ if __name__ == '__main__':
         high = input().split()
         hi_list.append(high[1]) if high[0] == "le" else low_list.append(high[1])
     print("{} {}".format(max(low_list), min(hi_list)))
+
+    """
+    
+    C039 古代の数式
+    
+    """
+
+    word = input()
+    # print(word)
+    ten = word.count("<")
+    one = word.count("/")
+    print((ten * 10) + one)
+
+    """
+    
+    C038 お菓子の配分
+    
+    """
+
+    # データ入力
+    inp_num = [int(lp0) for lp0 in input().split()]
+    # print("機械の数とお菓子の数")
+    # print(inp_num)
+
+    # 機械ごとの箱の数の入力と計算
+    box = []
+    ans = []
+    index = []
+    for lp0 in range(inp_num[0]):
+        box.append(int(input()))
+        ans.append(inp_num[1] % box[lp0])
+    # print(box)
+    # print(ans)
+
+    # あまりが最小の機械のインデックスの検索
+    ans_list = []
+    c_num = 0
+    for lp1 in ans:
+        if lp1 == min(ans):
+            index.append(c_num)
+
+        c_num += 1
+    # print(index)
+    for lp2 in index:
+        ans_list.append(box[lp2])
+    # print(ans_list)
+
+    # 表示
+    print((box.index(max(ans_list))) + 1)
+
+    # あっこさんの
+
+    amari = []
+    hako = []
+    n = 0
+
+    # 入力は　機械の数 お菓子の数
+    okasi = [int(lp0) for lp0 in input().split()]
+
+    for lp1 in range(okasi[0]):
+        wari = int(input())
+        kari_amari = okasi[1] % wari
+        kari_hako = int(okasi[1] / wari)
+        amari.append(okasi[1] % wari)
+        hako.append(int(okasi[1] / wari))
+        # print(amari, hako)
+
+        if n == 0:
+            ans = wari
+        else:
+            if kari_amari >= min(amari):
+                if kari_hako > max(hako):
+                    ans = wari
+
+            else:
+                ans = wari
+        n += 1
+    print(ans)
+
+    """
+    
+    C037 アニメの日時
+    
+    """
+
+    # データー入力
+    day_time = input().split()
+    # print(day_time)
+    day_date = [int(lp0) for lp0 in day_time[0].split("/")]
+    # print(day_date)
+    time_date = [int(lp1) for lp1 in day_time[1].split(":")]
+    # print(time_date)
+
+    # 処理
+    time_plus = int(time_date[0] / 24)
+    # print(time_plus)
+    print("{:02d}/{:02d} {:02d}:{:02d}".format(day_date[0], day_date[1] + time_plus, time_date[0] - (24 * time_plus),
+                                               time_date[1]))
+
+    """
+    
+    C036 犬ぞりレース
+    
+    """
+
+    # データ入
+    vs_1_1 = [int(lp0) for lp0 in input().split()]
+    vs_1_2 = [int(lp1) for lp1 in input().split()]
+    # print("1開戦")
+    # print(vs_1_1, vs_1_2)
+    time_1 = [int(lp2) for lp2 in input().split()]
+    time_2 = [int(lp3) for lp3 in input().split()]
+    # print("一回戦時間")
+    # print(time_1)
+    # print("二回戦時間")
+    # print(time_2)
+
+    # 勝利判定1回戦の2戦目
+    if time_1[vs_1_1[0] - 1] < time_1[vs_1_1[1] - 1]:
+        win_1_point = time_1[vs_1_1[0] - 1]
+    else:
+        win_1_point = time_1[vs_1_1[1] - 1]
+
+    win1 = time_1.index(win_1_point) + 1
+
+    # print("勝者: " + str(win1))
+
+    # 勝利判定1回戦の2戦目
+    if time_1[vs_1_2[0] - 1] < time_1[vs_1_2[1] - 1]:
+        win_2_point = time_1[vs_1_2[0] - 1]
+    else:
+        win_2_point = time_1[vs_1_2[1] - 1]
+
+    win2 = time_1.index(win_2_point) + 1
+
+    # print("勝者: " + str(win2))
+
+    vs_2 = [win1, win2]
+    # print("2回戦")
+    # print(vs_2)
+
+    if time_2[0] < time_2[1]:
+        print(min(vs_2))
+        print(max(vs_2))
+    else:
+        print(max(vs_2))
+        print(min(vs_2))
+
+    """
+    
+    C035 試験の合格判定
+    
+    """
+
+    # データ入力
+    ans = 0
+    inp_num = int(input())
+    for lp0 in range(inp_num):
+        date_list = input().split()
+        # print(date_list)
+
+        # 結果判定
+        point_num = 0
+        if date_list[0] == "l":
+            del date_list[0]
+            if int(date_list[-1]) + int(date_list[-2]) >= 160:
+                for lp2 in date_list:
+                    point_num += int(lp2)
+                # print(point_num)
+                if point_num >= 350:
+                    ans += 1
+
+        elif date_list[0] == "s":
+            del date_list[0]
+            if int(date_list[1]) + int(date_list[2]) >= 160:
+                for lp2 in date_list:
+                    point_num += int(lp2)
+                # print(point_num)
+                if point_num >= 350:
+                    ans += 1
+
+    print(ans)
+
+    """
+    
+    C034 先生の宿題
+    
+    """
+
+    # データ入力
+    inp_num = [lp0 for lp0 in input().split()]
+    # print(inp_num)
+
+    # Xがどこにあるか検索
+    ind_num = inp_num.index("x")
+    # print(ind_num)
+
+    # 処理
+    if inp_num[1] == "+":
+        if ind_num == 0:
+            print(int(inp_num[4]) - int(inp_num[2]))
+        elif ind_num == 2:
+            print(int(inp_num[4]) - int(inp_num[0]))
+        else:
+            print(int(inp_num[0]) + int(inp_num[2]))
+
+    else:
+        if ind_num == 0:
+            print(int(inp_num[4]) + int(inp_num[2]))
+        elif ind_num == 2:
+            print(int(inp_num[0]) - int(inp_num[4]))
+        else:
+            print(int(inp_num[0]) - int(inp_num[2]))
+
+    """
+    
+    C033 やきうの審判
+    
+    """
+
+    # データーの入力
+    strike_count = 0
+    ball_count = 0
+    inp_num = int(input())
+    for lp0 in range(inp_num):
+        nanJ = input()
+        if nanJ == "ball":
+            ball_count += 1
+            print("ball!" if ball_count < 4 else "fourball!")
+        elif nanJ == "strike":
+            strike_count += 1
+            print("strike!" if strike_count < 3 else "out!")
+
+    """
+    
+    C32 お得なお買い物
+    
+    """
+
+    # データーの入力
+    point = 0
+    a_payment = 0
+    b_payment = 0
+    c_payment = 0
+    d_payment = 0
+    count = int(input())
+    for lp0 in range(count):
+        date_list = [int(lp1) for lp1 in input().split()]
+        # print(date_list)
+
+        # 種類別の買い物の総金額
+        if date_list[0] == 0:
+            a_payment += date_list[1]
+        elif date_list[0] == 1:
+            b_payment += date_list[1]
+        elif date_list[0] == 2:
+            c_payment += date_list[1]
+        else:
+            d_payment += date_list[1]
+
+    point += int(a_payment / 100) * 5
+    point += int(b_payment / 100) * 3
+    point += int(c_payment / 100) * 2
+    point += int(d_payment / 100)
+    print(point)
 
     """
     
@@ -761,6 +1043,22 @@ if __name__ == '__main__':
             ip_num = []
         except:
             print("False")
+
+    """
+    
+    D072 データーのバックアップ
+    
+    """
+
+    inp_num = [int(lp0) for lp0 in input().split()]
+    # print(inp_num)
+
+    amari = inp_num[0] % inp_num[1]
+    ans = int(inp_num[0] / inp_num[1])
+    if amari > 0:
+        print(inp_num[2] * (ans + 1))
+    else:
+        print(inp_num[2] * ans)
 
     """
     
@@ -1588,32 +1886,3 @@ if __name__ == '__main__':
             print((p_list[kind][0] * b_list[lp4][1]) - (p_list[kind][2] * int(discount)))
         else:
             print(p_list[kind][0] * b_list[lp4][1])
-
-
-amari = []
-hako = []
-n = 0
-
-# 入力は　機械の数 お菓子の数
-okasi = [int(lp0) for lp0 in input().split()]
-
-for lp1 in range(okasi[0]):
-    wari = int(input())
-    kari_amari = okasi[1] % wari
-    kari_hako = int(okasi[1] / wari)
-    amari.append(okasi[1] % wari)
-    hako.append(int(okasi[1] / wari))
-    # print(amari, hako)
-
-    if n == 0:
-        ans = wari
-    else:
-        if kari_amari >= min(amari):
-            if kari_hako > max(hako):
-                ans = wari
-
-        else:
-            ans = wari
-    n += 1
-print(ans)
-
