@@ -12,6 +12,39 @@ if __name__ == '__main__':
 
     """
     
+    C043 使用回数の調査
+    
+    """
+
+    import collections
+
+    # データーの入力
+    count_num = int(input())
+    inp_num = [int(lp0) for lp0 in input().split()]
+    print(inp_num)
+
+    # 入力値を要素別にまとめる
+    # 対象リストの要素を要素別にカウントをしてキーでソートする
+    ans_dict = collections.Counter(inp_num)
+    print(ans_dict)
+    # 辞書の値の最大値を求める
+    max_num = max(ans_dict.values())
+    print(max_num)
+
+    # 最大値の値のkeyを抜き出す
+    ans_list = []
+    for key, val in ans_dict.items():
+        if val == max_num:
+            ans_list.append(key)
+    print(ans_list)
+    ans_list = sorted(ans_list, key=int)
+    ans_list = [str(lp1) for lp1 in ans_list]
+
+    # 表示
+    print(" ".join(ans_list))
+
+    """
+    
     C042 リーグ表の作成
     
     """
@@ -851,32 +884,55 @@ if __name__ == '__main__':
     
     """
 
-    # レシートの数
-    res = int(input())
-    # print("レシート枚数" + str(res))
+    # データー入力
+    ans = 0
+    for lp0 in range(int(input())):
+        inp_date = [int(lp1) for lp1 in input().split()]
+        # print("レシートのデータ。0:日, 1:￥ " + str(inp_date))
 
-    # ポイント倍率の検索
-    point = 0
-    for lp0 in range(res):
-        # レシートのデータ [0]:日付 [1]:金額
-        date = [int(lp1) for lp1 in input().split()]
-        # print("レシートデータ[日付:金額]" + str(date[0]) +" " + str(date[1]))
-        if (str(date[0])[:1] == "3") or (str(date[0])[1:2] == "3"):
-            mag = 0.03
-        elif (str(date[0])[:1] == "5") or (str(date[0])[1:2] == "5"):
-            mag = 0.05
+        # 日にち検索用
+        day = list(str(inp_date[0]))
+
+        # 判定とポイントの加算
+        if day.count("3") > 0:
+            ans += int(inp_date[1] * 0.03)
+        elif day.count("5") > 0:
+            ans += int(inp_date[1] * 0.05)
         else:
-            mag = 0.01
-        ans = mag * date[1]
+            ans += int(inp_date[1] * 0.01)
 
-        point += int(ans)
-    print(point)
+    # 表示
+    print(ans)
 
     """
     
     C 014 ボールが入る箱
     
     """
+
+    # numpyを使用
+
+    import numpy as np
+
+    # データー入力
+    inp_num = [int(lp0) for lp0 in input().split()]
+    # print(inp_num)
+    # 半径を直径にする
+    tyokkei = inp_num[1] * 2
+    # print(tyokkei)
+    count = 1
+    for lp1 in range(inp_num[0]):
+        box = [int(lp2) for lp2 in input().split()]
+
+        # 判定と表示
+        np_box = np.array(box)
+        # print(np_box)
+        # 判定
+        if (np_box >= tyokkei).all():
+            print(count)
+        count += 1
+
+    # 前回
 
     # [0]:箱の数[1]:ボールの半径
     num_0 = [int(lp0) for lp0 in input().split()]
@@ -904,24 +960,26 @@ if __name__ == '__main__':
     
     """
 
-    # 嫌いな番号
-    no_num = int(input())
+    # データーの入力
+    ans_list = []
+    no_num = input()
     # print(no_num)
+    for lp0 in range(int(input())):
+        inp_list = input()
 
-    # 部屋の総数
-    total = int(input())
+        # 処理
+        surch = list(inp_list)
+        # print(surch)
+        if surch.count(no_num) == 0:
+            ans_list.append(inp_list)
 
-    # 部屋番号の抽出と判定
-    count_num = 0
-    for lp0 in range(total):
-        room_num = input()
-        room = [int(lp1) for lp1 in room_num]
-        # print(room)
-        if room.count(no_num) == 0:
-            print(room_num)
-            count_num += 1
-    if count_num == 0:
+    # 表示
+    # print(ans_list)
+    if len(ans_list) == 0:
         print("none")
+    else:
+        for lp2 in ans_list:
+            print(lp2)
 
     """
     
@@ -952,30 +1010,28 @@ if __name__ == '__main__':
     
     """
 
-    # tagを入力
-    tag = input().split()
-    # print(tag)
+    # データ入力
+    ans_list = []
+    date_word = input().split()
+    # print(date_word)
+    word_l_0 = len(date_word[0])
+    word_l_1 = len(date_word[1])
+    inp_word = input()
 
-    # 文字列を入力
-    word = input()
-    # print(word)
+    # スリットと答えの抜出
+    while inp_word.count(date_word[0]) > 0 and inp_word.count(date_word[1]) > 0:
+        f_word = inp_word.find(date_word[0])
+        inp_word = inp_word[f_word + word_l_0:]
+        r_word = inp_word.find(date_word[1])
+        # print(inp_word)
+        ans_list.append(inp_word[:r_word])
+        inp_word = inp_word[r_word + word_l_1:]
+        # print(inp_word)
 
-    # 処理
-    start = 0
-    while True:
-        if tag[0] in word[start:] and tag[1] in word[start:]:
-            # tag[0]含む文字数を検索
-            # print(int(word[start:].find(tag[0])))
-            # print(len(tag[0]))
-            f_count = int(word[start:].find(tag[0])) + (len(tag[0]))
-            # tag[1]が始まるまでの文字数を検索
-            r_count = int(word[start:].find(tag[1]))
-            # print(f_count + start, r_count + start)
-            print(word[f_count + start:r_count + start] if f_count != r_count else "<blank>")
-            start = start + r_count + int(len(tag[1]))
-            # print(start)
-        else:
-            break
+    # 表示
+    # print(ans_list)
+    for lp0 in ans_list:
+        print(lp0 if len(lp0) > 0 else "<blank>")
 
     # あっこの
 
@@ -1009,64 +1065,39 @@ if __name__ == '__main__':
     
     """
 
-    # 修正版
+    import numpy as np
 
-    import numpy
-
-    # [0]:種類 [1]:人数 [2]:表示数
-    inp_1 = [int(lp0) for lp0 in input().split()]
-
-    # inp[0]個分のパラメーター入力
-    inp_2 = [float(lp1) for lp1 in input().split(" ")]
-    inp_2_ex = numpy.array(inp_2)
-    # print(inp_2_ex)
-
-    # 計算
-    date_list = []
-    for lp0 in range(inp_1[1]):
-        men_date = [int(lp2) for lp2 in input().split()]
-        men_date_ex = numpy.array(men_date)
-        ans = sum(inp_2_ex * men_date_ex)
-        date_list.append(int(ans + 0.5))
-    date_list.sort(reverse=True)
-    # print(date_list)
-
-    for lp3 in range(inp_1[2]):
-        print(date_list[lp3])
-
-    # 80点
-    # [0]:種類 [1]:人数 [2]:表示数
-    inp_1 = [int(lp0) for lp0 in input().split()]
-
-    # inp[0]個分のパラメーター入力
-    inp_2 = [float(lp1) for lp1 in input().split(" ")]
-
-    # inp_1[1]人分のデーターを収納
-    date_list = []
-    for lp0 in range(inp_1[1]):
-        men_date = [int(lp2) for lp2 in input().split()]
-        date_list.append(men_date)
-    # print(inp_2)
-    # print(date_list)
-
-    # ポイントの処理
-    ans = []
+    # データ入力
     ans_list = []
-    for lp3 in range(inp_1[1]):
-        for lp4 in range(inp_1[0]):
-            ans.append(inp_2[lp4] * date_list[lp3][lp4])
-        ans_list.append(ans)
-        ans = []
-    # print(ans_list)
+    inp_date = [int(lp0) for lp0 in input().split()]
+    # print("[0]:パラメータの数 [1]: 人数 [2]:表示人数")
+    # print(inp_date)
+    magni = [float(lp1) for lp1 in input().split()]
+    np_magni = np.array(magni)
+    # print("倍率 " + str(np_magni))
+    for lp2 in range(inp_date[1]):
+        men_date = [int(lp3) for lp3 in input().split()]
 
-    # 合計ポイントの計算とソート
-    all = [int(round(sum(ans_list[lp5]), 0)) for lp5 in range(len(ans_list))]
-    all.sort(reverse=True)
-    # print(all)
+        # ポイントの計算
+        np_men_date = np.array(men_date)
+        # print("個人ポイント" + str(np_men_date))
+        point_list = np_magni * np_men_date
+        # print("倍率後ポイント" + str(point_list))
+        total = sum(point_list)
+        # print("合計ポイント" + str(total))
+        ans = int(total + 0.5)
+        # print("四捨五入後" + str(ans))
+        ans_list.append(ans)
 
     # 表示
-    for lp6 in range(inp_1[2]):
-        print(all[lp6])
+    ans_list.sort(reverse=True)
+    count_num = 0
+    for lp4 in ans_list:
+        if count_num == inp_date[2]:
+            break
+        else:
+            print(lp4)
+            count_num += 1
 
     """
     
@@ -1088,6 +1119,44 @@ if __name__ == '__main__':
             ip_num = []
         except:
             print("False")
+
+    # numpyを使う
+    import numpy as np
+
+    # データーの入力
+    count_num = int(input())
+    for lp0 in range(count_num):
+
+        # IPが正しいかの判定
+        try:
+            inp_num = [int(lp1) for lp1 in input().split(".")]
+            # print(inp_num)
+            if len(inp_num) == 4:
+                np_list = np.array(inp_num)
+                # print(np_list)
+                if (0 <= np_list).all() & (np_list <= 255).all():
+                    print("True")
+                else:
+                    print("False")
+
+            else:
+                print("False")
+        except:
+            print("False")
+
+    """
+    
+    D073 文字の反転
+    
+    """
+
+    inp_word = input()
+    ans_list = list(inp_word)
+    ans_list.reverse()
+    # print(ans_list)
+
+    for lp0 in ans_list:
+        print(lp0, end="")
 
     """
     
@@ -1931,3 +2000,38 @@ if __name__ == '__main__':
             print((p_list[kind][0] * b_list[lp4][1]) - (p_list[kind][2] * int(discount)))
         else:
             print(p_list[kind][0] * b_list[lp4][1])
+
+"""
+
+イベント サラリーマン巡回問題
+
+"""
+
+import math
+
+# データー入力
+grid_list = []
+long_list = []
+for lp0 in range(int(input())):
+    inp_num = [int(lp1) for lp1 in input().split()]
+    # print("座標 inp_num: " + str(inp_num))
+    grid_list.append(inp_num)
+    long_num = (inp_num[0] ** 2) + (inp_num[1] ** 2)
+    sq_num = math.sqrt(long_num)
+    long_list.append(sq_num)
+
+# 最短の処理
+ans_list = []
+while len(grid_list) > 0:
+    # print("処理する座標: " + str(grid_list))
+    # print("原点からの距離: " + str(long_list))
+    min_num = min(long_list)
+    ind_num = long_list.index(min_num)
+    ans_list.append(grid_list.pop(ind_num))
+    del long_list[ind_num]
+    # print("最短コース: " + str(ans_list))
+    # print("最短座標を除いた残りの座標リスト: " + str(grid_list))
+
+# 表示
+for lp2 in ans_list:
+    print(lp2[0], lp2[1])
