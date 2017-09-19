@@ -829,22 +829,16 @@ if __name__ == '__main__':
     
     """
 
-    # 親の手札入力
+    # ***データー入力***
     oya = [int(lp0) for lp0 in input().split()]
-    # print("親")
-    # print(oya)
-    # print("子")
-
-    # 子の人数
-    humen = int(input())
-
-    # 勝敗判定
-    for lp1 in range(humen):
-        # 子の手札入力
+    # print("親のカードの一枚目, 二枚目" + str(oya))
+    for lp1 in range(int(input())):
         ko = [int(lp2) for lp2 in input().split()]
-        # print(ko)
+        # print("子のカードの一枚目, 二枚目" + str(ko))
+
+        # ***処理と表示***
         if oya[0] == ko[0]:
-            print("High" if oya[1] < ko[1] else "Low")
+            print("Low" if oya[1] > ko[1] else "High")
         else:
             print("High" if oya[0] > ko[0] else "Low")
 
@@ -854,29 +848,20 @@ if __name__ == '__main__':
     
     """
 
-    # 文字の入力と格納
-    word = [lp0 for lp0 in input()]
-    # print(word)
+    # ***変換データー用のリスト***
+    befoer = ["A", "E", "G", "I", "O", "S", "Z"]
+    after = ["4", "3", "6", "1", "0", "5", "2"]
 
-    # 文字列の変更
-    count = 0
-    for enc in word:
-        if word[count] == "A":
-            word[count] = "4"
-        elif word[count] == "E":
-            word[count] = "3"
-        elif word[count] == "G":
-            word[count] = "6"
-        elif word[count] == "I":
-            word[count] = "1"
-        elif word[count] == "O":
-            word[count] = "0"
-        elif word[count] == "S":
-            word[count] = "5"
-        elif word[count] == "Z":
-            word[count] = "2"
-        count += 1
-    print("".join(word))
+    # ***データー入力***
+    inp_word = input()
+    # print("入力された文字列は " + str(inp_word))
+
+    # ***変換***
+    for (bef_word, aft_word) in zip(befoer, after):
+        inp_word = inp_word.replace(bef_word, aft_word)
+
+    # ***表示***
+    print(inp_word)
 
     """
     
@@ -910,49 +895,19 @@ if __name__ == '__main__':
     
     """
 
-    # numpyを使用
-
     import numpy as np
 
-    # データー入力
+    # データ入力
     inp_num = [int(lp0) for lp0 in input().split()]
-    # print(inp_num)
-    # 半径を直径にする
-    tyokkei = inp_num[1] * 2
-    # print(tyokkei)
-    count = 1
+    # print("箱の種類, 球の半径" + str(inp_num))
     for lp1 in range(inp_num[0]):
         box = [int(lp2) for lp2 in input().split()]
+        # print("箱の縦, 横, 高さ" + str(box))
 
-        # 判定と表示
+        # ***判定***
         np_box = np.array(box)
-        # print(np_box)
-        # 判定
-        if (np_box >= tyokkei).all():
-            print(count)
-        count += 1
-
-    # 前回
-
-    # [0]:箱の数[1]:ボールの半径
-    num_0 = [int(lp0) for lp0 in input().split()]
-    # 半径を直径にする
-    num_0[1] = num_0[1] * 2
-    # print(num_0)
-
-    # 箱の大きさの情報の取得
-    for lp1 in range(num_0[0]):
-        box = [int(lp2) for lp2 in input().split()]
-        # print(box)
-        count_num = 0
-        for lp3 in box:
-            # print("#" + str(lp3))
-            if lp3 >= num_0[1]:
-                count_num += 1
-            else:
-                break
-            if count_num == 3:
-                print(lp1 + 1)
+        if (np_box >= (inp_num[1] * 2)).all():
+            print(lp1 + 1)
 
     """
     
@@ -960,26 +915,24 @@ if __name__ == '__main__':
     
     """
 
-    # データーの入力
+    # ***データー入力***
     ans_list = []
-    no_num = input()
-    # print(no_num)
+    non_num = input()
+    # print("嫌いな数字は" + str(non_num))
     for lp0 in range(int(input())):
-        inp_list = input()
+        room_no = input()
+        # print("部屋番号は " + str(room_no))
 
-        # 処理
-        surch = list(inp_list)
-        # print(surch)
-        if surch.count(no_num) == 0:
-            ans_list.append(inp_list)
+        # ***判定***
+        no_list = list(room_no)
+        if no_list.count(non_num) == 0:
+            ans_list.append(room_no)
 
-    # 表示
-    # print(ans_list)
+    # ***表示***
     if len(ans_list) == 0:
         print("none")
     else:
-        for lp2 in ans_list:
-            print(lp2)
+        for lp1 in ans_list:
 
     """
     
@@ -987,22 +940,17 @@ if __name__ == '__main__':
     
     """
 
-    # 騒音の広さの情報の取得
-    sound = [int(lp) for lp in input().split()]
-    # print(sound)
+    # ***データー入力***
+    noize = [int(lp0) for lp0 in input().split()]
+    # print("工事x, 工事y, 範囲 " + str(noize))
+    for lp1 in range(int(input())):
+        wood = [int(lp2) for lp2 in input().split()]
+        # print("木陰x, 木陰y " + str(wood))
 
-    # 木陰の場所の数
-    s_round = int(input())
-
-    # 木陰の情報の取得と計算
-    for lp0 in range(s_round):
-        wd_list = [int(lp1) for lp1 in input().split()]
-        # print(wd_list)
-        num1 = ((wd_list[0] - sound[0]) ** 2)
-        num2 = ((wd_list[1] - sound[1]) ** 2)
-        num3 = int(sound[2]) ** 2
-        # print(num1, num2, num3)
-        print("silent" if num1 + num2 >= num3 else "noisy")
+        # ***判定***
+        print("silent" if ((wood[0] - noize[0]) ** 2) +
+                          ((wood[1] - noize[1]) ** 2) >= noize[2] ** 2
+              else "noisy")
 
     """
     
@@ -1010,54 +958,29 @@ if __name__ == '__main__':
     
     """
 
-    # データ入力
-    ans_list = []
-    date_word = input().split()
-    # print(date_word)
-    word_l_0 = len(date_word[0])
-    word_l_1 = len(date_word[1])
+    # ***データー入力***
+    cut_word = input().split()
+    # print("切り抜き文字は" + str(cut_word))
     inp_word = input()
+    # print("入力された文字列は " + str(inp_word))
 
-    # スリットと答えの抜出
-    while inp_word.count(date_word[0]) > 0 and inp_word.count(date_word[1]) > 0:
-        f_word = inp_word.find(date_word[0])
-        inp_word = inp_word[f_word + word_l_0:]
-        r_word = inp_word.find(date_word[1])
-        # print(inp_word)
-        ans_list.append(inp_word[:r_word])
-        inp_word = inp_word[r_word + word_l_1:]
-        # print(inp_word)
+    # ***文字列の整理***
+    ans_list = []
+    while inp_word.count(cut_word[0]) > 0 and inp_word.count(cut_word[1]) > 0:
+        front_num = (inp_word.find(cut_word[0])) + len(cut_word[0])  # 1文字目が見つかった場所に1文字目の文字数を足す
+        # print("前半カットする文字数は " + str(front_num))
+        inp_word = inp_word[front_num:]
+        # print("前半カット後の文字列は " + str(inp_word))
+        rear_num = inp_word.find(cut_word[1])
+        # print("後半カットの文字の場所は " + str(rear_num))
+        ans_list.append(inp_word[:rear_num])
+        # print("答えのリスト" + str(ans_list))
+        inp_word = inp_word[rear_num + len(cut_word[1]):]  # 後半のカット文字が見つかった場所に文字列を足してスリット
+        # print("後半カット後の文字列は " + str(inp_word))
 
-    # 表示
-    # print(ans_list)
-    for lp0 in ans_list:
-        print(lp0 if len(lp0) > 0 else "<blank>")
-
-    # あっこの
-
-        inp1 = input().split()
-        inp2 = input()
-        inp3 = list()
-        inp1l0 = len(inp1[0])
-        inp1l1 = len(inp1[1])
-
-        # print(inp1, inp2)
-
-        while len(inp2) > 0:
-            spos = inp2.find(inp1[0])
-            if spos == -1:
-                break;
-
-        epos = inp2.find(inp1[1])
-        if epos == -1:
-            break;
-
-    rslt = inp2[spos + inp1l0:epos]
-    if len(rslt) == 0:
-        print('<blank>')
-    else:
-        print(rslt)
-    inp2 = inp2[epos + inp1l1:]
+    # ***表示***
+    for ans_word in ans_list:
+        print("<blank>" if len(ans_word) == 0 else ans_word)
 
     """
     
@@ -1067,37 +990,32 @@ if __name__ == '__main__':
 
     import numpy as np
 
-    # データ入力
-    ans_list = []
-    inp_date = [int(lp0) for lp0 in input().split()]
-    # print("[0]:パラメータの数 [1]: 人数 [2]:表示人数")
-    # print(inp_date)
-    magni = [float(lp1) for lp1 in input().split()]
-    np_magni = np.array(magni)
-    # print("倍率 " + str(np_magni))
-    for lp2 in range(inp_date[1]):
-        men_date = [int(lp3) for lp3 in input().split()]
+    # ***基本データー入力***
+    point_list = []
+    inp_num = [int(lp0) for lp0 in input().split()]
+    # print("データーの数, 人数, 表示:" + str(inp_num))
+    point_mag = [float(lp1) for lp1 in input().split()]
+    # print("ポイント倍率" + str(point_mag))
+    np_mag = np.array(point_mag)
 
-        # ポイントの計算
-        np_men_date = np.array(men_date)
-        # print("個人ポイント" + str(np_men_date))
-        point_list = np_magni * np_men_date
-        # print("倍率後ポイント" + str(point_list))
-        total = sum(point_list)
-        # print("合計ポイント" + str(total))
-        ans = int(total + 0.5)
-        # print("四捨五入後" + str(ans))
-        ans_list.append(ans)
+    # ***各アイテム数の入力***
+    for lp2 in range(inp_num[1]):
+        item_date = [int(lp3) for lp3 in input().split()]
+        # print("各人のアイテムデータ" + str(item_date))
 
-    # 表示
-    ans_list.sort(reverse=True)
-    count_num = 0
-    for lp4 in ans_list:
-        if count_num == inp_date[2]:
-            break
-        else:
-            print(lp4)
-            count_num += 1
+        # ***計算***
+        np_list = np.array(item_date)
+        cal_point_list = np_mag * np_list
+        # print("計算後のポイント" + str(cal_point_list))
+        total_point = sum(cal_point_list)
+        # print("総ポイント" + str(total_point))
+        point_list.append(int(total_point + 0.5))  # roundを使うと不正解が出るので0.5足して切り捨てる
+    sort_list = sorted(point_list, reverse=True)
+    # print("ポイント上位からのリスト" + str(sort_list))
+
+    # ***表示***
+    for lp4 in range(inp_num[2]):
+        print(int(sort_list[lp4]))
 
     """
     
@@ -1105,40 +1023,18 @@ if __name__ == '__main__':
     
     """
 
-    ip_num = []
-    count = int(input())
-    for lp0 in range(count):
-        try:
-            ip = [int(lp1) for lp1 in input().split(".")]
-            for lp2 in ip:
-                # print(lp2)
-                if (lp2 >= 0) & (lp2 <= 255):
-                    ip_num.append(lp2)
-            # print(ip_num)
-            print("True" if len(ip_num) == 4 else "False")
-            ip_num = []
-        except:
-            print("False")
-
-    # numpyを使う
     import numpy as np
 
-    # データーの入力
-    count_num = int(input())
-    for lp0 in range(count_num):
+    # ***データー入力***
+    for lp0 in range(int(input())):
 
-        # IPが正しいかの判定
+        # ***判定***
         try:
             inp_num = [int(lp1) for lp1 in input().split(".")]
-            # print(inp_num)
+            # print("入力された数字は" + str(inp_num))
             if len(inp_num) == 4:
                 np_list = np.array(inp_num)
-                # print(np_list)
-                if (0 <= np_list).all() & (np_list <= 255).all():
-                    print("True")
-                else:
-                    print("False")
-
+                print("True" if (0 <= np_list).all() & (np_list <= 255).all() else "False")
             else:
                 print("False")
         except:
