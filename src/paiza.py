@@ -12,6 +12,31 @@ if __name__ == '__main__':
 
     """
     
+    C044 手の組み合わせ
+    
+    """
+    import collections
+
+    # ***データ入力***
+    hand_game = []
+    for lp0 in range(int(input())):
+        hand = input()
+        hand_game.append(hand)
+    # print(hand_game)
+
+    # ***処理***
+    if len(collections.Counter(hand_game)) == 3 or len(collections.Counter(hand_game)) == 1:
+        print("draw")
+    else:
+        if "rock" in hand_game and "paper" in hand_game:
+            print("paper")
+        elif "scissors" in hand_game and "paper" in hand_game:
+            print("scissors")
+        else:
+            print("rock")
+
+    """
+    
     C043 使用回数の調査
     
     """
@@ -271,32 +296,32 @@ if __name__ == '__main__':
     
     """
 
-    # データ入力
+    # ***データ入力***
+    point_list = []
     ans = 0
-    inp_num = int(input())
-    for lp0 in range(inp_num):
-        date_list = input().split()
-        # print(date_list)
+    for lp0 in range(int(input())):
+        inp_date = input().split()
 
-        # 結果判定
-        point_num = 0
-        if date_list[0] == "l":
-            del date_list[0]
-            if int(date_list[-1]) + int(date_list[-2]) >= 160:
-                for lp2 in date_list:
-                    point_num += int(lp2)
-                # print(point_num)
-                if point_num >= 350:
+        # ***処理***
+        for points in inp_date:
+            try:
+                point_list.append(int(points))
+            except:
+                pass
+        # print("点数のリスト" + str(point_list))
+        # print("合計, 文系, 理系" + str(sum(point_list)) +", " + str(point_list[3] + point_list[4] ) +", " + str(point_list[1] + point_list[2]))
+        if sum(point_list) >= 350:
+            if inp_date[0] == "l":
+                if point_list[3] + point_list[4] >= 160:
                     ans += 1
+            else:
+                if point_list[1] + point_list[2] >= 160:
+                    ans += 1
+        inp_date = []
+        point_list = []
 
-        elif date_list[0] == "s":
-            del date_list[0]
-            if int(date_list[1]) + int(date_list[2]) >= 160:
-                for lp2 in date_list:
-                    point_num += int(lp2)
-                # print(point_num)
-                if point_num >= 350:
-                    ans += 1
+    # ***表示***
+    print(ans)
 
     print(ans)
 
@@ -306,30 +331,25 @@ if __name__ == '__main__':
     
     """
 
-    # データ入力
-    inp_num = [lp0 for lp0 in input().split()]
-    # print(inp_num)
+    # ***データ入力***
+    form = input().split()
+    # print("入力された式は" + str(form))
 
-    # Xがどこにあるか検索
-    ind_num = inp_num.index("x")
-    # print(ind_num)
-
-    # 処理
-    if inp_num[1] == "+":
-        if ind_num == 0:
-            print(int(inp_num[4]) - int(inp_num[2]))
-        elif ind_num == 2:
-            print(int(inp_num[4]) - int(inp_num[0]))
+    # ***処理***
+    if form[1] == "+":
+        if form.index("x") == 0:
+            print(int(form[4]) - int(form[2]))
+        elif form.index("x") == 2:
+            print(int(form[4]) - int(form[0]))
         else:
-            print(int(inp_num[0]) + int(inp_num[2]))
-
+            print(int(form[0]) + int(form[2]))
     else:
-        if ind_num == 0:
-            print(int(inp_num[4]) + int(inp_num[2]))
-        elif ind_num == 2:
-            print(int(inp_num[0]) - int(inp_num[4]))
+        if form.index("x") == 0:
+            print(int(form[4]) + int(form[2]))
+        elif form.index("x") == 2:
+            print(int(form[0]) - int(form[4]))
         else:
-            print(int(inp_num[0]) - int(inp_num[2]))
+            print(int(form[0]) - int(form[2]))
 
     """
     
@@ -337,18 +357,19 @@ if __name__ == '__main__':
     
     """
 
-    # データーの入力
-    strike_count = 0
-    ball_count = 0
-    inp_num = int(input())
-    for lp0 in range(inp_num):
-        nanJ = input()
-        if nanJ == "ball":
-            ball_count += 1
-            print("ball!" if ball_count < 4 else "fourball!")
-        elif nanJ == "strike":
-            strike_count += 1
-            print("strike!" if strike_count < 3 else "out!")
+    # ***データ入力***
+    st = 0
+    ba = 0
+    for lp0 in range(int(input())):
+        call = input()
+
+        # ***処理と表示***
+        if call == "strike":
+            st += 1
+            print("out!" if st == 3 else "strike!")
+        else:
+            ba += 1
+            print("fourball!" if ba == 4 else "ball!")
 
     """
     
@@ -356,32 +377,28 @@ if __name__ == '__main__':
     
     """
 
-    # データーの入力
-    point = 0
-    a_payment = 0
-    b_payment = 0
-    c_payment = 0
-    d_payment = 0
-    count = int(input())
-    for lp0 in range(count):
-        date_list = [int(lp1) for lp1 in input().split()]
-        # print(date_list)
+    # ***データ入力***
+    num_0 = 0
+    num_1 = 0
+    num_2 = 0
+    num_3 = 0
+    for lp0 in range(int(input())):
+        buy_date = [int(lp1) for lp1 in input().split()]
+        # print("購入種類, 値段" + str(buy_date))
 
-        # 種類別の買い物の総金額
-        if date_list[0] == 0:
-            a_payment += date_list[1]
-        elif date_list[0] == 1:
-            b_payment += date_list[1]
-        elif date_list[0] == 2:
-            c_payment += date_list[1]
+        # ***処理***
+        if buy_date[0] == 0:
+            num_0 += buy_date[1]
+        elif buy_date[0] == 1:
+            num_1 += buy_date[1]
+        elif buy_date[0] == 2:
+            num_2 += buy_date[1]
         else:
-            d_payment += date_list[1]
+            num_3 += buy_date[1]
+    ans = (int(num_0 / 100) * 5) + (int(num_1 / 100) * 3) + (int(num_2 / 100) * 2) + int(num_3 / 100)
 
-    point += int(a_payment / 100) * 5
-    point += int(b_payment / 100) * 3
-    point += int(c_payment / 100) * 2
-    point += int(d_payment / 100)
-    print(point)
+    # ***表示***
+    print(ans)
 
     """
     
@@ -389,38 +406,36 @@ if __name__ == '__main__':
     
     """
 
-    # 70点
-    import math
+    # ***データ入力***
+    date_list = []
+    diff = []
+    for lp0 in range(int(input())):
+        inp_date = input().split()
+        # print("入力されたデータは" + str(inp_date))
+        diff.append(int(inp_date[1]))
+        date_list.append(inp_date)
+    # print("入力されたデータリスト " + str(date_list))
+    # print("時差リスト" +str(diff))
+    standerd = input().split()
+    # print("標準は " + str(standerd))
+    hore = standerd[1].split(":")
+    # print("標準時間は " +str(hore))
 
-    # 最大で持てる量
-    max = int(input())
-    # print("最大で持てる量:" +str(max))
+    # ***処理***
+    for lp1 in date_list:
+        if lp1[0] == standerd[0]:
+            standerd_time = lp1[1]
+            # print("標準地の時差は " + str(standerd_time))
+    for lp2 in diff:
+        ans_time = int(hore[0]) + (lp2 - int(standerd_time))
+        # print("時差を計算した結果" + str(ans_time))
+        while ans_time < 0:  # 0～23以外ならそれ以内にする
+            ans_time += 24
+        while ans_time > 23:
+            ans_time -= 24
 
-    # faxのデーター入力
-    fax_list = []
-    count = int(input())
-    for lp1 in range(count):
-        fax = [int(lp2) for lp2 in input().split()]
-        fax_list.append(fax)
-    # print("fax date list")
-    # print(fax_list)
-
-    # データーの処理
-    ans = 0
-    peper = 0
-    # print("時間ごとのfax date")
-    for lp3 in range(25):
-        for lp4 in fax_list:
-            if lp3 == lp4[0]:
-                # print(lp3, lp4)
-                peper += lp4[2]
-                # print("時間ごとの紙の数" + str(peper))
-            else:
-                ans += math.ceil(peper / max)
-                peper = 0
-
-    # 表示
-    print(ans)
+        # ***表示***
+        print("{:02d}:{}".format(ans_time, hore[1]))
 
     """
     
@@ -428,17 +443,19 @@ if __name__ == '__main__':
     
     """
 
-    # 画面の縦横数[0]:縦 [1]:横
-    screen = [int(lp0) for lp0 in input().split()]
-    # print("縦:横  " +str(screen))
+    # ***データ入力***
+    pixel = [int(lp0) for lp0 in input().split()]
+    # print("縦, 横" + str(pixel))
+    for lp1 in range(pixel[0]):
+        color_num = [int(lp2) for lp2 in input().split()]
+        # print("縦一列の色コード" + str(color_num))
 
-    ans_list = []
-    for lp1 in range(screen[0]):
-        color = [int(lp2) for lp2 in input().split()]
-        # print(color)
-        ans_list = ["1" if lp3 >= 128 else "0" for lp3 in color]
-        # print(ans_list)
+        # ***処理***
+        ans_list = ["1" if color > 127 else "0" for color in color_num]
+
+        # ***表示とリストの初期化***
         print(" ".join(ans_list))
+        ans_list = []
 
     """
     
@@ -446,39 +463,35 @@ if __name__ == '__main__':
     
     """
 
-    # 休みと旅行のデータ入力[0]:連休 [1]:旅行の日
-    day = [int(lp0) for lp0 in input().split()]
-    # print("連休と旅行の日数" + str(day))
+    # ***データ入力***
+    rain_date = []
+    travel_date = [int(lp0) for lp0 in input().split()]
+    # print("連休の期間, 旅行の期間" + str(travel_date))
+    for lp1 in range(travel_date[0]):
+        day_date = [int(lp2) for lp2 in input().split()]
+        rain_date.append(day_date)
+    # print("連休期間の日にち, 降水確率" + str(rain_date))
 
-    # 連休の日にちと降水確率のデータ入力
-    rain_list = []
-    for lp1 in range(day[0]):
-        rain = [int(lp2) for lp2 in input().split()]
-        rain_list.append(rain)
-    # print("連休の日にちと降水確率")
-    # print(rain_list)
+    # ***処理***
+    travel_dict = {}
+    total_rain = 0
+    count_num = len(rain_date) - (travel_date[1] - 1)  # 旅行期間から出発できる最終日までで計算を終わらせる為の変数
+    # print("計算するべき必要な回数 " + str(count_num))
+    for lp3 in range(count_num):
+        for lp4 in range(travel_date[1]):
+            total_rain += rain_date[lp3 + lp4][1]
+        travel_dict[rain_date[lp3][0]] = total_rain
+        total_rain = 0
+    # print("計算初日: 合計降水確率" + str(travel_dict))
 
-    # 旅行の日程期間の降水確率のデータ集め
-    rain_date = 0
-    rain_date_list = []
-    for lp3 in range(len(rain_list)):
-        if lp3 == (len(rain_list) - (day[1] - 1)):
+    # ***表示***
+    min_num = min(travel_dict.values())
+    # print("計算された最小降水確率は " + str(min_num))
+    for day, rainy in travel_dict.items():
+        if rainy == min_num:
+            ans = day
             break
-        else:
-            for lp4 in range(day[1]):
-                rain_date += rain_list[lp3 + lp4][1]
-
-            # rain_date = rain_list[lp3][1] + rain_list[lp3 + 1][1] + rain_list[lp3 + 2][1]
-            rain_date_list.append(rain_date)
-            rain_date = 0
-    # print("各々の旅行期間の降水確率" + str(rain_date_list))
-
-    # 最小値を求める
-    trabel = rain_date_list.index(min(rain_date_list))
-    # print("最小のインデックスNO: " + str(trabel))
-
-    # 表示
-    print("{} {}".format(rain_list[trabel][0], rain_list[trabel + day[1] - 1][0]))
+    print("{} {}".format(ans, ans + (travel_date[1] - 1)))
 
     """
     
@@ -486,30 +499,28 @@ if __name__ == '__main__':
     
     """
 
-    # データー入力
-    ans = 0
-    count = 0
-    w_list1 = []
-    w_list2 = []
+    # ***データ入力***
+    point = 0
     for lp0 in range(int(input())):
-        word = input().split()
-        # print(word)
-        if len(word[0]) == len(word[1]):
-            w_list1 = [lp1 for lp1 in word[0]]
-            w_list2 = [lp2 for lp2 in word[1]]
-            for lp3 in range(len(word[0])):
-                # print(w_list1[lp3], w_list2[lp3])
-                if w_list1[lp3] != w_list2[lp3]:
-                    count += 1
-            # print(count)
-            if count == 0:
-                ans += 2
-            elif count == 1:
-                ans += 1
-            else:
-                ans += 0
-            count = 0
-    print(ans)
+        inp_word = input().split()
+        # print("正解, 回答" +str(inp_word))
+
+        # ***判定***
+        ans_word = list(inp_word[0])
+        answer = list(inp_word[1])
+        if len(ans_word) == len(answer):
+            count_num = 0
+            for word1, word2 in zip(ans_word, answer):
+                if word1 != word2:
+                    count_num += 1
+            if count_num == 0:
+                point += 2
+            elif count_num == 1:
+                point += 1
+            count_num = 0
+
+    # ***表示***
+    print(point)
 
     """
     
@@ -517,38 +528,22 @@ if __name__ == '__main__':
     
     """
 
-    # 条件入力
-    inp_num = [int(lp0) for lp0 in input().split()]
-    # print(inp_num)
+    # ***データ入力***
+    ans = "not found"
+    mass = 0
+    carrot = [int(lp0) for lp0 in input().split()]
+    # print("人参の数:{} 糖分の目安:{} 糖分の範囲:{}".format(carrot[0], carrot[1], carrot[2]))
+    for lp1 in range(carrot[0]):
+        carrot_date = [int(lp2) for lp2 in input().split()]
+        # print("人参の質量, 人参の糖度" + str(carrot_date))
 
-    # ニンジンのデーター入力
-    food = []
-    count = []
-    for lp1 in range(inp_num[0]):
-        carrot = [int(lp2) for lp2 in input().split()]
-        # print(carrot)
-        if (inp_num[1] - inp_num[2]) <= carrot[1] <= (inp_num[1] + inp_num[2]):
-            food.append(carrot[0])
-            count.append(lp1 + 1)
-            # print("規定内の重量" + str(food))
-            # print("規定内の順番" + str(count))
+        # ***判定***
+        if (carrot[1] + carrot[2]) >= carrot_date[1] >= (carrot[1] - carrot[2]):
+            if mass < carrot_date[0]:
+                mass = carrot_date[0]
+                ans = lp1 + 1
 
-    # 処理
-    # 規定内の人参がなかった時の処理
-    if len(food) == 0:
-        ans = "not found"
-    else:
-        big = max(food)
-        # print("最大の人参の大きさ  " + str(big))
-        cheke = food.count(big)
-        # print("最大の人参が何個あるか  " + str(cheke))
-        # 人参の最大値が複数時の処理
-        if cheke > 1:
-            ans = (count[food.index(big)])
-        # それ以外は重量の最大値
-        else:
-            ans = (count[food.index(max(food))])
-
+    # ***表示***
     print(ans)
 
     """
@@ -557,70 +552,31 @@ if __name__ == '__main__':
     
     """
 
-    # 正解
     import math
 
-    # 最大で持てる量
-    max = int(input())
-    # print("最大で持てる量:" +str(max))
-
-    # faxのデーター入力
-    fax_list = []
-    count = int(input())
-    for lp1 in range(count):
-        fax = [int(lp2) for lp2 in input().split()]
-        fax_list.append(fax)
-    # print("fax date list")
-    # print(fax_list)
-
-    # データーの処理
+    # ***データー入力***
+    hour = 0
+    peper = 0
     ans = 0
-    peper = 0
-    # print("時間ごとのfax date")
-    for lp3 in range(25):
-        for lp4 in fax_list:
-            if lp3 == lp4[0]:
-                # print(lp3, lp4)
-                peper += lp4[2]
-                # print("時間ごとの紙の数" + str(peper))
-            else:
-                ans += math.ceil(peper / max)
-                peper = 0
-
-    # 表示
-    print(ans)
-
-    # 不正解
-    import math
-
-    # 持てる最大数
-    limit = int(input())
-    # print(limit)
-
-    # FAXのデーター入力
-    count = int(input())
-    fax_list = []
-    for lp0 in range(count):
+    max_num = int(input())
+    # print("最大所持量は " + str(max_num))
+    for lp0 in range(int(input())):
         fax = [int(lp1) for lp1 in input().split()]
-        fax_list.append(fax)
-    # print(fax_list)
+        # print("faxデータ " + str(fax))
 
-    # データー処理
-    peper = 0
-    for lp2 in range(len(fax_list)):
-        try:
-            if fax_list[lp2][0] == fax_list[lp2 + 1][0]:
-                peper += fax_list[lp2][2]
-            else:
-                peper += fax_list[lp2][2]
-                # print(peper)
-                ans = math.ceil(peper / limit)
-                # print(ans)
-                peper = 0
-        except:
-            # print(peper + fax_list[-1][2])
-            ans += (math.ceil(((peper + fax_list[-1][2]) / limit)))
-            print(ans)
+        # ***処理***
+        if fax[0] == hour:
+            peper += fax[2]
+        else:
+            # print("{}時の総ＦＡＸ数は{}".format(hour, peper))
+            hour = fax[0]
+            ans += math.ceil(peper / max_num)
+            peper = fax[2]
+    # print("{}時の総ＦＡＸ数は{}".format(hour, peper))
+    ans += math.ceil(peper / max_num)  # 最後の入力の計算
+
+    # ***表示***
+    print(ans)
 
     """
     
@@ -628,34 +584,25 @@ if __name__ == '__main__':
     
     """
 
-    # データーの入力
-    count = int(input())
-    num1 = 0
-    num2 = 0
-    for lp0 in range(count):
-        command = [lp1 for lp1 in input().split()]
-        # print(command)
+    # ***データ入力***
+    num_list = [0, 0]
+    for lp0 in range(int(input())):
+        inp_date = input().split()
+        # print("入力されたデータは " + str(inp_date))
 
-        # 実行処理
-        if command[0] == "SET":
-            if command[1] == "1":
-                num1 = int(command[2])
-                # print("num1  " + str(num1))
+        # ***処理***
+        if inp_date[0] == "SET":
+            if inp_date[1] == "1":
+                num_list[0] = int(inp_date[2])
             else:
-                num2 = int(command[2])
-                # print("num2  " + str(num2))
-        elif command[0] == "ADD":
-            num2 = num1 + int(command[1])
-            # print(num2)
-        elif command[0] == "SUB":
-            num2 = num1 - int(command[1])
-            # print(num2)
-
+                num_list[1] = int(inp_date[2])
+        elif inp_date[0] == "ADD":
+            num_list[1] = num_list[0] + int(inp_date[1])
         else:
-            print("適正命令を入れてください")
+            num_list[1] = num_list[0] - int(inp_date[1])
 
-    # 結果表示
-    print(num1, num2)
+    # ***表示***
+    print("{} {}".format(num_list[0], num_list[1]))
 
     """
     
@@ -663,24 +610,21 @@ if __name__ == '__main__':
     
     """
 
-    # 当たりの入力
-    chance = [int(lp0) for lp0 in input().split()]
-    # print(chance)
+    import numpy as np
 
-    # くじの入力
-    count = int(input())
-    for lp1 in range(count):
-        kuji = [int(lp2) for lp2 in input().split()]
-        # print(kuji)
+    # ***データー入力***
+    surch_num = [int(lp0) for lp0 in input().split()]
+    # print("当選番号リスト" + str(surch_num))
+    for lp1 in range(int(input())):
+        inp_num = [int(lp2) for lp2 in input().split()]
+        # print("購入番号リスト" + str(inp_num))
+        np_inp_num = np.array(inp_num)
 
-        # あたり判定と表示
-        hit = 0
-        for lp4 in range(len(chance)):
-            for lp3 in kuji:
-                if chance[lp4] == lp3:
-                    hit += 1
-        print(hit)
-        hit = 0
+        # ***処理***
+        count_num = 0
+        for lp2 in surch_num:
+            count_num += len(np.where(np_inp_num == lp2)[0])
+        print(count_num)
 
     """
     
@@ -688,18 +632,27 @@ if __name__ == '__main__':
     
     """
 
-    # 株価のデーター入力
-    count = int(input())
-    datelist = []
-    for lp0 in range(count):
-        date = [int(lp1) for lp1 in input().split()]
-        # print(date)
-        for lp1 in date:
-            datelist.append(lp1)
-            # print(datelist)
+    # ***データー入力***
+    num_list = []
+    for lp0 in range(int(input())):
+        inp_num = [int(lp1) for lp1 in input().split()]
+        # print("始値, 終値, 高値, 安値" + str(inp_num))
+        num_list.append(inp_num)
 
-    # 処理と結果
-    print(datelist[0], datelist[-3], max(datelist), min(datelist))
+    # ***処理***
+    max_list = []
+    min_list = []
+    for lp2 in range(len(num_list)):
+        max_list.append(num_list[lp2][2])
+        # print("最大値リスト" + str(max_list))
+        min_list.append(num_list[lp2][3])
+        # print("最小値リスト" + str(min_list))
+
+    # ***表示***
+    print(num_list[0][0], end=" ")
+    print(num_list[-1][1], end=" ")
+    print(max(max_list), end=" ")
+    print(min(min_list))
 
     """
     
@@ -707,29 +660,18 @@ if __name__ == '__main__':
     
     """
 
-    # 台風のデータ入力と範囲の計算
-    circle = [int(lp0) for lp0 in input().split()]
-    # print("台風の情報")
-    # print(circle)
-    anti = circle[2] ** 2
-    dang = circle[3] ** 2
-    # print("台風の目と暴風圏")
-    # print(anti)
-    # print(dang)
+    # ***データ入力***
+    center_num = [int(lp0) for lp0 in input().split()]
+    # print("中心x座標, y座標, 目の半径, 暴風域の半径 " + str(center_num))
+    for lp1 in range(int(input())):
+        grid = [int(lp2) for lp2 in input().split()]
+        # print("座標の位置は " + str(grid))
 
-    # 人数の入力
-    men = int(input())
-
-    # 人間の座標入力と台風の判定
-    map_list = []
-    for lp1 in range(men):
-        map = [int(lp2) for lp2 in input().split()]
-        # print("人の座標")
-        # print(map)
-        iti = ((circle[0] - map[0]) ** 2) + ((circle[1] - map[1]) ** 2)
-        # print("計算結果")
-        # print("iti")
-        print("yes" if anti <= iti <= dang else "no")
+        # ***判定と表示***
+        print("yes"
+              if center_num[2] ** 2 <= (grid[0] - center_num[0]) ** 2 + (grid[1] - center_num[1]) ** 2 <= center_num[
+                                                                                                              3] ** 2
+              else "no")
 
     """
     
@@ -737,17 +679,17 @@ if __name__ == '__main__':
     
     """
 
-    # データーの入力
-    inp = [int(lp0) for lp0 in input().split()]
-    # print(inp)
+    # ***データ入力***
+    inp_num = [int(lp0) for lp0 in input().split()]
+    print("元の重量, 売上%, 加工%" + str(inp_num))
 
-    # 処理
-    if inp[1] == 100:
-        print(0)
-    else:
-        a = inp[0] - (inp[0] * (inp[1] * 0.01))
-        b = a - (a * (inp[2] * 0.01))
-        print(b)
+    # ***処理***
+    unsold = inp_num[0] - (inp_num[0] * (inp_num[1] / 100))
+    print("売れ残りは " + str(unsold))
+    ans = unsold - (unsold * (inp_num[2] / 100))
+
+    # ***表示***
+    print(round(ans, 3))
 
     """
     
@@ -755,28 +697,24 @@ if __name__ == '__main__':
     
     """
 
-    # 数字の入力
+    # ***データー入力***
+
     for lp0 in range(int(input())):
-        num = int(input())
         ans_list = []
-        # print("入力された数字")
-        # print(num)
-        # print("約数")
-        for lp1 in range(num):
-            # 約数を取得
-            if (num % (lp1 + 1)) == 0:
-                ans_list.append(lp1 + 1)
-        # print(ans_list)
+        inp_num = int(input())
+        # print("入力された数字は " +str(inp_num))
 
-        # 自身を抜いた約数の総和を計算
-        ans_num = sum(ans_list) - ans_list[-1]
-        # print("自身を抜いた総和")
-        # print(ans_num)
+        # ***約数計算***
+        for division in range(1, inp_num):  # 約数に自身の数を入れないためにrangeの範囲はinp_num + 1にしない
+            if inp_num % division == 0:
+                ans_list.append(division)
+        # print("自身を抜いた約数は " +str(ans_list))
+        ans_num = sum(ans_list)
 
-        # 結果判定
-        if ans_num == num:
+        # ***判定***
+        if ans_num == inp_num:
             print("perfect")
-        elif ans_num == num - 1:
+        elif ans_num - 1 == inp_num or ans_num + 1 == inp_num:
             print("nearly")
         else:
             print("neither")
@@ -786,42 +724,42 @@ if __name__ == '__main__':
     C 018 何人前作れる？
     
     """
-    # 一部結果エラー
+    # ***データー入力***
+    recipe_list = []
+    ans_list = []
+    for lp0 in range(int(input())):
+        recipe = [lp1 for lp1 in input().split()]
+        # print("レシピの食材, 数 " + str(recipe))
+        recipe_list.append(recipe)
+    # print("必要食材リスト " +str(recipe_list))
+    for lp2 in range(int(input())):
+        have = [lp3 for lp3 in input().split()]
+        # print("持ってる食材, 数 " + str(have))
 
-    # 必要な食材の種類
-    must_num = int(input())
+        # ***処理***
+        for lp4 in recipe_list:
+            if lp4[0] == have[0]:
+                make = int(have[1]) / int(lp4[1])
+                ans_list.append(int(make))
 
-    # 必要な食材データーの入力
-    must_food_list = []
-    # print("必要な食材と数")
-    for lp0 in range(must_num):
-        must_food = [lp1 for lp1 in input().split()]
-        must_food_list.append(must_food)
-    # print(must_food_list)
+    # ***表示***
+    print("0" if len(ans_list) == 0 else min(ans_list))
 
-    # 手持ちの食材の種類
-    have = int(input())
+# あっこの
 
-    # 手持ちの食材のデーター入力
-    # print("手持ちの食材と数")
-    have_food_list = []
-    for lp2 in range(have):
-        have_food = [lp3 for lp3 in input().split()]
-        have_food_list.append(have_food)
-    # print(have_food_list)
+    recp = list()
+    inp = int(input())
+    for lpw in range(inp):
+        inw = input().split()
+        recp.append([inw[0], int(inw[1])])
 
-    # 判定
-    ans = []
-    for lp4 in range(len(must_food_list)):
-        # print(lp4)
-        for lp5 in range(len(have_food_list)):
-            # print(lp5)
-            if must_food_list[lp4][0] == have_food_list[lp5][0]:
-                # print(must_food_list[lp4][0], have_food_list[lp5][0])
-                ans_num = (int(have_food_list[lp5][1]) / int(must_food_list[lp4][1]))
-                # print(ans_num)
-                ans.append(int(ans_num))
-    print("0" if len(ans) == 0 else min(ans))
+    temo = list()
+    inp = int(input())
+    for lpw in range(inp):
+        inw = input().split()
+        temo.append([inw[0], int(inw[1])])
+
+    print(recp, temo)
 
     """
     

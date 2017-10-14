@@ -1,2 +1,1 @@
-a = range(0, 6)
-print(a)
+print(round(2.5))
