@@ -17,24 +17,23 @@ if __name__ == '__main__':
     """
     import collections
 
-    # ***データ入力***
-    hand_game = []
+    # ***
+    # データ入力***
+    hand_list = []
     for lp0 in range(int(input())):
-        hand = input()
-        hand_game.append(hand)
-    # print(hand_game)
+        hand_list.append(input())
 
-    # ***処理***
-    if len(collections.Counter(hand_game)) == 3 or len(collections.Counter(hand_game)) == 1:
+    # ***処理と表示***
+    hand = collections.Counter(hand_list)
+    hand_num = len(hand)
+    if hand_num == 3 or hand_num == 1:
         print("draw")
+    elif hand_list.count("paper") and hand_list.count("rock"):
+        print("paper")
+    elif hand_list.count("scissors") and hand_list.count("paper"):
+        print("scissors")
     else:
-        if "rock" in hand_game and "paper" in hand_game:
-            print("paper")
-        elif "scissors" in hand_game and "paper" in hand_game:
-            print("scissors")
-        else:
-            print("rock")
-
+        print("rock")
     """
     
     C043 使用回数の調査
@@ -74,44 +73,23 @@ if __name__ == '__main__':
     
     """
 
-    # データ入力
-    ans = {}
-    win = {}
-    num_list = []
-    lp_num = int(input())
-    # 対戦数の計算
-    vs_num = int((lp_num - 1) * lp_num / 2)
+    # ***データ入力***
+    win_list = []
+    inp_num = int(input())
+    for lp0 in range(inp_num):
+        win_list.append([])
+        for lp1 in range(inp_num):
+            win_list[lp0].append("-")
+    for lp2 in range(int(((inp_num ** 2) - inp_num) / 2)):  # 対戦数は二乗から対戦人数を引いたものの半分
+        win_num = [int(lp3) for lp3 in input().split()]
+        # print("勝ち, 負け" + str(win_num))
+        win_list[win_num[0] - 1][win_num[1] - 1] = "W"
+        win_list[win_num[1] - 1][win_num[0] - 1] = "L"
+    # print("勝敗表のリスト" + str(win_list))
 
-    # 勝敗検索
-    # 全敗の場合リストが作成されないのであらかじめ選手全員のリストを作成
-    for lp2 in range(lp_num):
-        win[lp2 + 1] = []
-    for lp0 in range(vs_num):
-        inp_num = [int(lp1) for lp1 in input().split()]
-        # print(inp_num)
-        win[inp_num[0]].append(inp_num[1])
-        # リストの要素をソート
-        win[inp_num[0]].sort()
-    # print(win)
-
-    # 勝敗表の作成
-    for lp3 in range(lp_num):
-        ans[lp3 + 1] = []
-    for key, num in win.items():
-        # print(key, num)
-        for lp3 in range(lp_num):
-            # print(lp3 + 1)
-            if lp3 + 1 == key:
-                ans[lp3 + 1].append("-")
-            elif lp3 + 1 in num:
-                ans[lp3 + 1].append("L")
-            else:
-                ans[lp3 + 1].append("W")
-    # print(ans)
-
-    # 表示
-    for non, ans in ans.items():
-        print(" ".join(ans))
+    # ***表示***
+    for lp4 in win_list:
+        print(" ".join(lp4))
 
     """
     
@@ -119,16 +97,18 @@ if __name__ == '__main__':
     
     """
 
-    # データ入力
-    medals = []
+    # ***データ入力***
+    medals_list = []
     for lp0 in range(int(input())):
-        inp_list = [int(lp1) for lp1 in input().split()]
-        medals.append(inp_list)
-    # print(medals)
-
-    ans_list = sorted(medals, reverse=True)
-    for lp2 in ans_list:
-        print("{} {} {}".format(lp2[0], lp2[1], lp2[2]))
+        medal = [int(lp1) for lp1 in input().split()]
+        # print("金, 銀, 銅" + str(medal))
+        medals_list.append(medal)
+    # print("メダルリスト" + str(medals_list))
+    sort_list = sorted(medals_list, key=lambda x: (x[0], x[1], x[2]),
+                       reverse=True)  # 一番目のインデックスでソートして同じ場合は2番目、そして3番目とやっていく
+    for pri_list in sort_list:
+        ans_list = [str(str_num) for str_num in pri_list]
+        print(" ".join(ans_list))
 
     """
     
@@ -136,12 +116,20 @@ if __name__ == '__main__':
     
     """
 
-    hi_list = ["200"]
-    low_list = ["100"]
-    for lp1 in range(int(input())):
-        high = input().split()
-        hi_list.append(high[1]) if high[0] == "le" else low_list.append(high[1])
-    print("{} {}".format(max(low_list), min(hi_list)))
+    # ***データ入力***
+
+    hi_list = [200]
+    low_list = [100]
+    for lp0 in range(int(input())):
+        inp_word = input().split()
+        if inp_word[0] == "le":
+            hi_list.append(float(inp_word[1]))
+        else:
+            low_list.append(float(inp_word[1]))
+    # print("背が高いほう" + str(hi_list))
+    # print("背が低いほう" + str(low_list))
+
+    print("{:.1f} {:.1f}".format(max(low_list), min(hi_list)))
 
     """
     
@@ -149,11 +137,17 @@ if __name__ == '__main__':
     
     """
 
-    word = input()
-    # print(word)
-    ten = word.count("<")
-    one = word.count("/")
-    print((ten * 10) + one)
+    # ***データ入力***
+    inp_word = input().split("+")
+    num = 0
+
+    # ***処理***
+    for word in inp_word:
+        num += word.count("/")
+        num += (word.count("<") * 10)
+
+    # ***表示***
+    print(num)
 
     """
     
@@ -161,85 +155,51 @@ if __name__ == '__main__':
     
     """
 
-    # データ入力
+    import numpy as np
+
+    # ***データ入力***
+    box_list = []
+    amari_list = []
     inp_num = [int(lp0) for lp0 in input().split()]
-    # print("機械の数とお菓子の数")
-    # print(inp_num)
+    # print("機械の数, お菓子の数" + str(inp_num))
+    for lp1 in range(inp_num[0]):
+        box = int(input())
+        # print("箱に入れるお菓子の数 " + str(box))
 
-    # 機械ごとの箱の数の入力と計算
-    box = []
-    ans = []
-    index = []
-    for lp0 in range(inp_num[0]):
-        box.append(int(input()))
-        ans.append(inp_num[1] % box[lp0])
-    # print(box)
-    # print(ans)
+        # ***処理***
+        box_list.append(box)
+        amari_list.append(inp_num[1] % box)
+    np_amari_list = np.array(amari_list)
+    min_ind = np.where(np_amari_list == np_amari_list.min())
+    # print("余りが最小値のインデックスリスト " + str(min_ind))
 
-    # あまりが最小の機械のインデックスの検索
+    # ***表示処理***
     ans_list = []
-    c_num = 0
-    for lp1 in ans:
-        if lp1 == min(ans):
-            index.append(c_num)
-
-        c_num += 1
-    # print(index)
-    for lp2 in index:
-        ans_list.append(box[lp2])
-    # print(ans_list)
-
-    # 表示
-    print((box.index(max(ans_list))) + 1)
-
-    # あっこさんの
-
-    amari = []
-    hako = []
-    n = 0
-
-    # 入力は 機械の数 お菓子の数
-    okasi = [int(lp0) for lp0 in input().split()]
-
-    for lp1 in range(okasi[0]):
-        wari = int(input())
-        kari_amari = okasi[1] % wari
-        kari_hako = int(okasi[1] / wari)
-        amari.append(okasi[1] % wari)
-        hako.append(int(okasi[1] / wari))
-        # print(amari, hako)
-
-        if n == 0:
-            ans = wari
-        else:
-            if kari_amari >= min(amari):
-                if kari_hako > max(hako):
-                    ans = wari
-
-            else:
-                ans = wari
-        n += 1
-    print(ans)
+    if len(min_ind[0]) == 1:
+        print(min_ind[0][0] + 1)
+    else:
+        for index_num in min_ind[0]:
+            ans_list.append(box_list[index_num])
+        max_box_in = max(ans_list)
+        print((box_list.index(max_box_in) + 1))
 
     """
     
     C037 アニメの日時
     
     """
+    # ***データ入力***
+    inp_date = input().split()
+    day = [int(lp0) for lp0 in inp_date[0].split("/")]
+    # print("入力された月, 日" + str(day))
+    time = [int(lp1) for lp1 in inp_date[1].split(":")]
+    # print("入力された時間, 分" + str(time))
+    plus = int(time[0] / 24)
 
-    # データー入力
-    day_time = input().split()
-    # print(day_time)
-    day_date = [int(lp0) for lp0 in day_time[0].split("/")]
-    # print(day_date)
-    time_date = [int(lp1) for lp1 in day_time[1].split(":")]
-    # print(time_date)
-
-    # 処理
-    time_plus = int(time_date[0] / 24)
-    # print(time_plus)
-    print("{:02d}/{:02d} {:02d}:{:02d}".format(day_date[0], day_date[1] + time_plus, time_date[0] - (24 * time_plus),
-                                               time_date[1]))
+    # ***表示***
+    print("{:02d}/{:02d} {:02d}:{:02d}"
+          .format(day[0], (day[1] + plus),
+                  (time[0] - (24 * plus)),time[1]))
 
     """
     
@@ -247,43 +207,23 @@ if __name__ == '__main__':
     
     """
 
-    # データ入
+    # ***データ入力***
     vs_1_1 = [int(lp0) for lp0 in input().split()]
     vs_1_2 = [int(lp1) for lp1 in input().split()]
-    # print("1開戦")
-    # print(vs_1_1, vs_1_2)
-    time_1 = [int(lp2) for lp2 in input().split()]
-    time_2 = [int(lp3) for lp3 in input().split()]
-    # print("一回戦時間")
-    # print(time_1)
-    # print("二回戦時間")
-    # print(time_2)
+    vs1_time = [int(lp2) for lp2 in input().split()]
+    vs2_time = [int(lp3) for lp3 in input().split()]
+    # print("1回戦1試合目の対戦者" + str(vs_1_1))
+    # print("1回戦2試合目の対戦者" + str(vs_1_2))
+    # print("1回戦のタイム" + str(vs1_time))
+    # print("2回戦のタイム" + str(vs2_time))
 
-    # 勝利判定1回戦の2戦目
-    if time_1[vs_1_1[0] - 1] < time_1[vs_1_1[1] - 1]:
-        win_1_point = time_1[vs_1_1[0] - 1]
-    else:
-        win_1_point = time_1[vs_1_1[1] - 1]
-
-    win1 = time_1.index(win_1_point) + 1
-
-    # print("勝者: " + str(win1))
-
-    # 勝利判定1回戦の2戦目
-    if time_1[vs_1_2[0] - 1] < time_1[vs_1_2[1] - 1]:
-        win_2_point = time_1[vs_1_2[0] - 1]
-    else:
-        win_2_point = time_1[vs_1_2[1] - 1]
-
-    win2 = time_1.index(win_2_point) + 1
-
-    # print("勝者: " + str(win2))
-
-    vs_2 = [win1, win2]
-    # print("2回戦")
-    # print(vs_2)
-
-    if time_2[0] < time_2[1]:
+    # ***処理と表示***
+    vs2_1 = vs_1_1[0] if vs1_time[vs_1_1[0] - 1] < vs1_time[vs_1_1[1] - 1] else vs_1_1[1]
+    # print("1回戦1試合目の勝者は" +str(vs2_1))
+    vs2_2 = vs_1_2[0] if vs1_time[vs_1_2[0] - 1] < vs1_time[vs_1_2[1] - 1] else vs_1_2[1]
+    # print("1回戦2試合目の勝者は" + str(vs2_2))
+    vs_2 = [vs2_1, vs2_2]
+    if vs2_time[0] < vs2_time[1]:
         print(min(vs_2))
         print(max(vs_2))
     else:
