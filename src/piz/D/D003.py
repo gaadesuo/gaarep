@@ -16,7 +16,7 @@ def inp_com():
 def mag(n):
     """
     1～9まで掛けたものを返す
-    :param num: 掛ける元の数字
+    :param num: int 掛ける元の数字
     :return: 答え
     """
     ans_num = [n * mag_num for mag_num in range(1, 10)]

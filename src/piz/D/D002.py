@@ -18,8 +18,8 @@ def big_small(num1, num2):
     num1とnum2の大きさを比べる
     大きいほうの数字を返す
     数字が同じ場合はeqを返す
-    :param num1: num[0]
-    :param num2: num[1]
+    :param num1: int num[0]
+    :param num2: int num[1]
     :return: 正解
     """
     if num1 == num2:
