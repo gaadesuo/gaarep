@@ -15,4 +15,5 @@ def inp_com():
     return str_list
 
 
+# ***処理***
 print("Hello " + ",".join(inp_com()) + ".")

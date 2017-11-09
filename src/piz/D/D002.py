@@ -30,5 +30,6 @@ def big_small(num1, num2):
         return num2
 
 
+# ***処理***
 num = inp_com()
 print(big_small(num[0], num[1]))

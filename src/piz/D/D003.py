@@ -24,5 +24,6 @@ def mag(n):
     return map(str, ans_num)
 
 
+# ***処理***
 inp_num = inp_com()
 print(" ".join(mag(inp_num)))

@@ -26,5 +26,6 @@ def math_com(n, m):
     return map(str, ans_list)
 
 
+# ***処理***
 syokou, kousa = inp_com()
 print(" ".join(math_com(syokou, kousa)))

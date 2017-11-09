@@ -27,5 +27,6 @@ def math_com(n, m):
     return ans_num
 
 
+# ***処理***
 num, unit = inp_com()
 print("{:0d}".format(math_com(int(num), unit)))
