@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/00/00 :00:00$'
 
 
-def inp_com():
+def inp_func():
     """
     入力された文字列をリストに入れて返す
     :return: 入力された文字列
@@ -16,4 +16,4 @@ def inp_com():
 
 
 # ***処理***
-print("Hello " + ",".join(inp_com()) + ".")
+print("Hello " + ",".join(inp_func()) + ".")

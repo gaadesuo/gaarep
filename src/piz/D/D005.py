@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/11/08 :17:02$'
 
 
-def inp_com():
+def inp_func():
     """
     数字の入力
     0 <= 入力の数字 <= 100
@@ -14,7 +14,7 @@ def inp_com():
     return num_list[0], num_list[1]
 
 
-def math_com(n, m):
+def math_func(n, m):
     """
     等差数列そ求める
     初期値nにm倍された数字を10回ぶん計算し文字列に変更したリストにして返す
@@ -27,5 +27,5 @@ def math_com(n, m):
 
 
 # ***処理***
-syokou, kousa = inp_com()
-print(" ".join(math_com(syokou, kousa)))
+syokou, kousa = inp_func()
+print(" ".join(math_func(syokou, kousa)))

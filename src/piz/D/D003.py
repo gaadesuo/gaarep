@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/11/08 :07:55$'
 
 
-def inp_com():
+def inp_func():
     """
     数字の入力
     1 ≦ n ≦ 100
@@ -25,5 +25,5 @@ def mag(n):
 
 
 # ***処理***
-inp_num = inp_com()
+inp_num = inp_func()
 print(" ".join(mag(inp_num)))

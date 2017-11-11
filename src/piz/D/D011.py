@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/11/09 :11:00$'
 
 
-def inp_com():
+def inp_func():
     """
     s は以下の半角英字大文字の中から1文字が与えられます。
     ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -14,7 +14,7 @@ def inp_com():
     return s_ascii
 
 
-def str_num(s):
+def str_func(s):
     """
     入力された文字sのアスキーコードからaのアスキーコードを引く
     :param s: int 入力された文字列のアスキーコード
@@ -27,5 +27,5 @@ def str_num(s):
 
 
 # ***処理***
-ascii_num = inp_com()
-print(str_num(ascii_num))
+ascii_num = inp_func()
+print(str_func(ascii_num))

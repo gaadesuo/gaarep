@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/11/08 :18:19$'
 
 
-def inp_com():
+def inp_func():
     """
     入力された数字を返す
     1 ≦ a, b ≦ 2014
@@ -14,7 +14,7 @@ def inp_com():
     return inp_num[0], inp_num[1]
 
 
-def math_com(a, b):
+def math_func(a, b):
     """
     bからaを引いて年数の差を求める
     :param a: int 引く数
@@ -26,5 +26,5 @@ def math_com(a, b):
 
 
 # ***処理***
-num_a, num_b = inp_com()
-print("{:0d}".format(math_com(num_a, num_b)))
+num_a, num_b = inp_func()
+print("{:0d}".format(math_func(num_a, num_b)))

@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/00/00 :00:00$'
 
 
-def inp_com():
+def inp_func():
     """
     入力された数字nを返す
     -100 ≦ n ≦ 100
@@ -14,7 +14,7 @@ def inp_com():
     return n
 
 
-def change_com(n):
+def change_func(n):
     """
     負の数字の場合-1を掛けて絶対値にして返す
     :param n: int 入力された数字
@@ -26,5 +26,5 @@ def change_com(n):
 
 
 # ***処理***
-inp_num = inp_com()
-print("{:0d}".format(change_com(inp_num)))
+inp_num = inp_func()
+print("{:0d}".format(change_func(inp_num)))

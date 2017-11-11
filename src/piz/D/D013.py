@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/11/09 :13:58$'
 
 
-def inp_com():
+def inp_func():
     """
     数字の入力割られる数m割る数nを入力して返す
     1 ≦ m ≦ 100
@@ -14,7 +14,7 @@ def inp_com():
     return inp_num[0], inp_num[1]
 
 
-def math_com(m, n):
+def math_func(m, n):
     """
     mをnで割った商と余りを返す
     :param m: int 割られる数
@@ -27,6 +27,6 @@ def math_com(m, n):
 
 
 # ***処理***
-waru, warare = inp_com()
-syou, amari = math_com(waru, warare)
+waru, warare = inp_func()
+syou, amari = math_func(waru, warare)
 print("{:0d} {:0d}".format(syou, amari))

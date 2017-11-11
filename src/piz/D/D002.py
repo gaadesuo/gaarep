@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/11/08 :07:40$'
 
 
-def inp_com():
+def inp_func():
     """
     数字の入力
     1 <= num <= 1000
@@ -31,5 +31,5 @@ def big_small(num1, num2):
 
 
 # ***処理***
-num = inp_com()
+num = inp_func()
 print(big_small(num[0], num[1]))

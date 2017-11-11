@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/11/08 :17:24$'
 
 
-def inp_com():
+def inp_func():
     """
     基準となる数値nと距離の単位sが入力される
     1 <= n <= 1000
@@ -14,7 +14,7 @@ def inp_com():
     return inp_date[0], inp_date[1]
 
 
-def math_com(n, m):
+def math_func(n, m):
     """
     基準になる数字に単位ごとの倍率をかけてmmで返す
     n int 基準数値
@@ -28,5 +28,5 @@ def math_com(n, m):
 
 
 # ***処理***
-num, unit = inp_com()
-print("{:0d}".format(math_com(int(num), unit)))
+num, unit = inp_func()
+print("{:0d}".format(math_func(int(num), unit)))

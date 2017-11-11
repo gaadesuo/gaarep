@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/00/00 :00:00$'
 
 
-def inp_com():
+def inp_func():
     """
     入力された文字列sを返す
     1 ≦ 文字数 ≦ 100
@@ -14,7 +14,7 @@ def inp_com():
     return inp_word
 
 
-def change_com(s):
+def change_func(s):
     """
     小文字の英語を大文字に変換する
     :param s: 入力された文字列
@@ -25,5 +25,5 @@ def change_com(s):
 
 
 # ***処理***
-word_list = inp_com()
-print(change_com(word_list))
+word_list = inp_func()
+print("{}".format(change_func(word_list)))

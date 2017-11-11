@@ -3,7 +3,7 @@ __author__ = "gaa"
 __date__ = '$2017/11/9 :10:20$'
 
 
-def inp_com():
+def inp_func():
     """
     文字の入力ローカル部Sとドメイン部tが入力される
     1 ≦ 文字列 ≦ 64
@@ -16,5 +16,5 @@ def inp_com():
 
 
 # ***処理***
-local, domain = inp_com()
+local, domain = inp_func()
 print("{}@{}".format(local, domain))
