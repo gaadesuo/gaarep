@@ -1,22 +1,37 @@
-# ***データ入力***
-vs_1_1 = [int(lp0) for lp0 in input().split()]
-vs_1_2 = [int(lp1) for lp1 in input().split()]
-vs1_time = [int(lp2) for lp2 in input().split()]
-vs2_time = [int(lp3) for lp3 in input().split()]
-# print("1回戦1試合目の対戦者" + str(vs_1_1))
-# print("1回戦2試合目の対戦者" + str(vs_1_2))
-# print("1回戦のタイム" + str(vs1_time))
-# print("2回戦のタイム" + str(vs2_time))
+word_dick_list = [
+    {"t": list("ty"), "g": list("gh"), "b": list("bn"), "y": list("yt"), "h": list("hg"), "n": list("nb")},
+    {"r": ["r", "e", "f", "t"], "f": ["f", "r", "d", "v", "g"], "v": ["v", "f", "c", "b"]}]
 
-# ***処理と表示***
-vs2_1 = vs_1_1[0] if vs1_time[vs_1_1[0] - 1] < vs1_time[vs_1_1[1] - 1] else vs_1_1[1]
-# print("1回戦1試合目の勝者は" +str(vs2_1))
-vs2_2 = vs_1_2[0] if vs1_time[vs_1_2[0] - 1] < vs1_time[vs_1_2[1] - 1] else vs_1_2[1]
-# print("1回戦2試合目の勝者は" + str(vs2_2))
-vs_2 = [vs2_1, vs2_2]
-if vs2_time[0] < vs2_time[1]:
-    print(min(vs_2))
-    print(max(vs_2))
-else:
-    print(max(vs_2))
-    print(min(vs_2))
+flag = 0
+ans = 0
+
+inp_word = list(input())
+
+for num in range(len(inp_word)):
+    print("押したキーは" + str(inp_word[num]))
+    dick = word_dick_list[flag]
+    print("今回使う辞書" + str(dick))
+    if inp_word[num] in dick:
+        # 入力された文字が辞書のキーに登録されていればTrue
+        for ng_word in dick:
+            # 初めての範囲枠ならフラグを立てる。今回の入力文字を代入
+            if flag == 0:
+                flag = 1
+                befoer_word = dick[inp_word[num]]
+                print("範囲枠上なので次回のNGキー'" + str(befoer_word))
+                print(flag)
+                break
+
+            # 前回範囲枠なので規定文字の場合カウントを増やす
+            else:
+                print(flag)
+                if befoer_word.count(ng_word) > 0:
+                    ans += 1
+                    befoer_word = dick[ng_word]
+                    print("タッチミス発生。次回のカウントきーは'" + str(befoer_word))
+                    break
+                else:
+                    flag = 0
+    else:
+        flag = 0
+print(ans)
