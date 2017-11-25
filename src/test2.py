@@ -3,6 +3,8 @@ import numpy as np
 
 def word_check():
     """
+    chech_wordがキーボードのどこにあるかを探し、x座標y座標を返す
+    :return: list[x:int, y:int] x座標とy座標
     """
     if check_word in all_word[0]:
         l_grid_no = [all_word[0].find(check_word), 0]
