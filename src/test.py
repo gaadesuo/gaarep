@@ -1,2 +1,6 @@
-i = int(input())
-print("OK" if 1 <= i <= 10 else "NG")
+card_num = []
+for num in range(1, 14):
+    for lp0 in range(4):
+        card_num.append(num)
+
+print(card_num.count(1))
