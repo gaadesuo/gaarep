@@ -145,7 +145,7 @@ else:
         if dealer >= 21:
             print("STAND")
         # ディラーより数値が低い場合は無条件で引く
-        elif total < dealer:
+        elif total <= dealer:
             print("HIT")
         # 18～21なら引かない
         elif 18 <= total <= 21:
