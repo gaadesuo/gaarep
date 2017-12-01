@@ -59,7 +59,7 @@ def point_check(card_list):
             temp_total += 10
         else:
             temp_total += num
-    # print("自分のポイントは: {:0d}".format(total))
+    # print("仮ポイントは: {:0d}".format(temp_total))
 
     # ***1がある時の条件判定***
     if flag > 0:
@@ -70,7 +70,7 @@ def point_check(card_list):
                 if temp_total > 21:
                     pass
                 # 1を1の計算で18～21なら抜ける
-                elif stand_min <= total <= 21:
+                elif stand_min <= temp_total <= 21:
                     break
     return temp_total
 
@@ -87,7 +87,7 @@ dealer = 0
 # flag = 0
 dealer_flag = 0
 # チップを掛けるベース, 連勝ごとに数値の倍数を掛けていく
-chip = 1
+chip = 50
 # standの最低数値 これ以上ならSTAND指示
 stand_min = 18
 round_num = 0
@@ -100,7 +100,7 @@ for num in range(1, 14):
     for lp0 in range(4):
         card_num.append(num)
 
-# ***入力***
+# ***チップベット***
 
 my_card = list(map(int, input().split()))
 # 緑川つばめ以降の入力
@@ -120,7 +120,7 @@ if my_card[0] == 0:
     # 連勝時には基本betに連勝数を掛けてbet
     print(str(chip * (win_num + 1)))
 
-# カード入力
+# standかhitの判定
 else:
     # 自分のポイント判定
     total = point_check(my_card)
@@ -136,6 +136,8 @@ else:
     elif dealer_select == 2:
         # デーラーポイント計算
         dealer = point_check(dealer_card)
+        # print("想定される自分のポイント{:0d}".format(total))
+        # print("想定される相手のポイント{:0d}".format(dealer))
 
         # 残りのカードから21になるまでのカードの残りを別リストに入れる
         np_card_num = np.array(card_num)
@@ -147,12 +149,18 @@ else:
         # ディラーより数値が低い場合は無条件で引く
         elif total <= dealer:
             print("HIT")
-        # 18～21なら引かない
-        elif 18 <= total <= 21:
+        # 20～21なら引かない
+        elif 20 <= total <= 21:
             print("STAND")
         else:
             # 21までの残りカードが今まで一枚も出ていない場合
             if len(remaining_list) > ((21 - total) * 4):
                 print("HIT")
             else:
-                print("STAND")
+                # 自分が17以下且つディーラーが16以下なら引く
+                if total < 18 and dealer < 16:
+                    print("HIT")
+                else:
+                    print("STAND")
+
+# 相手が引かない場合の条件判定
