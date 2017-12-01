@@ -1,49 +1,42 @@
-import numpy as np
+# coding: utf-8
+# 自分の得意な言語で
+# Let's チャレンジ！！
+# coding: utf-8
+# 自分の得意な言語で
+# Let's チャレンジ！！
 
-all_word = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
-side_limit = list("yhntgb")
+kbn = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
+kbh = "qwertasdfgzxcvb"
+kbm = "yuiophjklnm"
 
-inp_word = list(input())
+inp = input()
+#inp = "lkfhakmwnleighlaid"
+rst = 0
+bfr = inp[0]
+if  (kbh.find(bfr) != -1): typ = 0
+elif(kbm.find(bfr) != -1): typ = 1
+#print(inp, bfr, typ)
 
-counter = 0
-grid_0 = [0, 0]
-grid_1 = [0, 0]
-for check_word in inp_word:
-    # 前回間違えぎりぎりのフラグが立ってない場合
-    if grid_0[0] == 0 and grid_0[1] == 0:
-        if check_word in side_limit:
-            # 間違えぎりぎりをタッチしたので文字からx, y座標を求める
-            if check_word in all_word[0]:
-                grid_0 = [all_word[0].find(check_word), 0]
-            elif check_word in all_word[1]:
-                grid_0 = [all_word[0].find(check_word), 1]
-            else:
-                grid_0 = [all_word[0].find(check_word), 2]
+for trg in inp[1:]:
+    if  (kbh.find(trg) != -1): hmp = 0
+    elif(kbm.find(trg) != -1): hmp = 1
+    if  (kbn[0].find(trg) != -1): y = 0
+    elif(kbn[1].find(trg) != -1): y = 1
+    elif(kbn[2].find(trg) != -1): y = 2
+    x = kbn[y].find(trg)
+    z = len(kbn[y])-1
 
-    # 前回間違えのフラグが立ってる場合
-    else:
-        print("flagが立ってるため前回の座標チェック x:{:0d}, y:{:0d}".format(grid_0[0], grid_0[1]))
-        # 今回の座標取得
-        if check_word in all_word[0]:
-            grid_1 = [all_word[0].find(check_word), 0]
-        elif check_word in all_word[1]:
-            grid_1 = [all_word[0].find(check_word), 1]
-        else:
-            grid_1 = [all_word[0].find(check_word), 2]
+    rin = kbn[y+0][x+0]
+    if((x-1)>=0): rin = rin + kbn[y+0][x-1]
+    if((x+1)<=z): rin = rin + kbn[y+0][x+1]
+    if(((y-1)>=0) and ((len(kbn[y-1])-1) >= x)): rin = rin + kbn[y-1][x+0]
+    if(((y+1)<=2) and ((len(kbn[y+1])-1) >= x)): rin = rin + kbn[y+1][x+0]
 
-        # 座標が前回と近似値かどうかの確認。近似値ならカウントしgrid_0上書き。違う場合はgrid_0初期化
-        np_grid_0 = np.array(grid_0)
-        np_grid_1 = np.array(grid_1)
-        diff_grid = np_grid_0 - np_grid_1
-        print("前回との座標の差異 x:{:0d}, y:{:0d}".format(diff_grid[0], diff_grid[1]))
-        if (-1 <= diff_grid[0] <= 1 and diff_grid[1] == 0)\
-                or (-1 <= diff_grid[1] <= 1 and diff_grid[0] == 0):
-            counter += 1
-            grid_0 = grid_1
-        else:
-            grid_0 = [0, 0]
+#    print(typ, hmp, bfr, rin)
 
-print(counter)
+    if(typ != hmp):
+        if(rin.find(bfr) != -1): rst = rst + 1
+        else                   : typ = hmp
 
-# 右手と左手判別
-右手が左に行った後みぎてにもどったらかうんとしない
+    bfr = kbn[y][x]
+print(rst)
