@@ -9,26 +9,20 @@ import numpy as np
     数字のカード（2～10）は数字どおりの点数です。 
     A（1）は1点または11点、J,Q,K（11,12,13）は10点として計算します。 
     なお、Aはカードの合計値が22点以上にならない限りは11点として扱います。 
-
 バースト
     カードの合計点数が21点をオーバー（22点以上）してしまうと
     その時点でゲームオーバー・相手の勝利となります。 
-
 HIT
     カードを追加で1枚引きます。
-
 STAND
     カードを追加せず、手持ちのカードのみで勝負します。
-
 ディーラーの行動
     ディーラーは基本的に手持ちカードの合計が17以上の場合はSTAND（勝負）し
     17未満の場合はHIT（カードを引く）しますが、ディーラーによっては
     上記以外の行動を取る場合があります。 
-
 連続勝負
     選択する相手ディーラーによって、1回のコード提出で勝負する回数が異なります。
     ディーラー選択画面の「連続勝負」欄を参照してください。
-
 入出力の詳細
     カードを引くか(HIT)、引かないか(STAND)の出力。 
     BET金額を出力する場合以外は、カードを引く場合は'HIT'を
@@ -45,29 +39,21 @@ def point_check(card_list):
     global card_num
     flag = 0
     temp_total = 0
-    ten_count = 0
-    eleven_count = 0
-    twelve_count = 0
 
-    # 六村リオ(バニー)以降はカードを配られた後のリストになるので数字を抜かない
-    if dealer_select == 3:
-        pass
-    else:
-        # 与えられたリストの数字を残カードリストから引く
-        for num in card_list:
-            # 11以上のカードは10にする
-            if num >= 11:
-                num = 10
-            card_num.remove(num)
-
-        for num in card_list:
-            # 1のカードがある場合枚数分カウント
-            if num == 1:
-                flag += 1
-                temp_total += 11
-            else:
-                temp_total += num
-        # print("仮ポイントは: {:0d}".format(temp_total))
+    # 与えられたリストの数字を残カードリストから引く
+    for num in card_list:
+        card_num.remove(num)
+    for num in card_list:
+        # 1のカードがある場合枚数分カウント
+        if num == 1:
+            flag += 1
+            temp_total += 11
+        # カードが10以上の時10にする
+        elif num == 11 or num == 12 or num == 13:
+            temp_total += 10
+        else:
+            temp_total += num
+    # print("仮ポイントは: {:0d}".format(temp_total))
 
     # ***1がある時の条件判定***
     if flag > 0:
@@ -86,17 +72,16 @@ def point_check(card_list):
 # ***変数***
 
 # ディーラーの選択
-dealer_select = 3
+dealer_select = 2
 # 0: 猫先生 霧島京子
 # 1:緑川つばめ 六村リオ
-# 2:霧島京子(バニー) 緑川つばめ（バニー）
-# 3:六村リオ(バニー)
+# 2: 霧島京子(バニー)
 total = 0
 dealer = 0
 # flag = 0
 dealer_flag = 0
 # チップを掛けるベース, 連勝ごとに数値の倍数を掛けていく
-chip = 100
+chip = 50
 # standの最低数値 これ以上ならSTAND指示
 stand_min = 18
 round_num = 0
@@ -105,13 +90,11 @@ win_num = 0
 # ***全カードのリスト作成***
 
 card_num = []
-for num in range(1, 10):
+for num in range(1, 14):
     for lp0 in range(4):
         card_num.append(num)
-for lp in range(16):
-    card_num.append(10)
 
-# ***データー入力部***
+# ***チップベット***
 
 my_card = list(map(int, input().split()))
 # 緑川つばめ以降の入力
@@ -122,16 +105,14 @@ if dealer_select >= 1:
 if dealer_select >= 2 and my_card[0] != 0:
     max_bet = int(input())
     dealer_card = list(map(int, input().split()))
-# 六村リオ(バニー)以降で与えられたカード情報でリストを上書き
-if dealer_select >= 3 and my_card[0] != 0:
-    card_num = list(map(int, input().split()))
+
 
 # ***判定***
 
 # インデックス0が0の値の時はチップのベットタイミング
 if my_card[0] == 0:
     # 連勝時には基本betに連勝数を掛けてbet
-    print(str((chip * win_num) + chip))
+    print(str(chip * (win_num + 1)))
 
 # standかhitの判定
 else:
@@ -145,47 +126,35 @@ else:
         else:
             print("HIT")
 
-    # ***ディーラーの選択が2以上の場合
-    elif dealer_select >= 2:
+    # ***ディーラーの選択が2の場合
+    elif dealer_select == 2:
         # デーラーポイント計算
         dealer = point_check(dealer_card)
         # print("想定される自分のポイント{:0d}".format(total))
         # print("想定される相手のポイント{:0d}".format(dealer))
 
-        # 残りのカードから21になるカードの割合を求める
+        # 残りのカードから21になるまでのカードの残りを別リストに入れる
         np_card_num = np.array(card_num)
-        remaining_list = len(np.where(np_card_num <= (21 - total))[0])
-        remaining_par = (remaining_list / len(card_num)) * 100
-        # print("カードを引いたときにドボンしない確率: {}%".format(remaining_par))
+        remaining_list = np.where(np_card_num <= (21 - total))
 
         # ディーラーがブラックジャックかドボンの場合はひかない
         if dealer >= 21:
             print("STAND")
-        # 自分が21かドボンしてるときはひかない
-        elif total >= 21:
-            print("STAND")
-        # ドボン以外ほぼ引けないなら引かない
-        elif remaining_par <= 5:
-            print("STAND")
-        # 21までのカード確率が90%なら引く
-        elif remaining_par >= 90:
-            print("HIT")
-        # ディラーより数値が低い場合でドボン以外の確率があるなら無条件で引く
+        # ディラーより数値が低い場合は無条件で引く
         elif total <= dealer:
             print("HIT")
         # 20～21なら引かない
-        elif total == 21 and total == 20:
-            print("STAND")
-        # ディーラーがSTAND状態でポイント超えた時点で引かない
-        elif len(my_card) > len(dealer_card) and total > dealer:
-            print("STAND")
-        # 18以上で残カード70%以上なら引く
-        elif (total >= 18 and remaining_par >= 70):
-            print("HIT")
-        # 40%以下なら引かない
-        elif remaining_par <= 40:
+        elif total == 20 and total == 21:
             print("STAND")
         else:
-            print("HIT")
+            # 21までの残りカードが今まで一枚も出ていない場合
+            if len(remaining_list) > ((21 - total) * 4):
+                print("HIT")
+            else:
+                # 自分が17以下且つディーラーが16以下なら引く
+                if total < 18 and dealer < 16:
+                    print("HIT")
+                else:
+                    print("STAND")
 
-# 連勝してるときのひくひかなi
+# 相手が引かない場合の条件判
