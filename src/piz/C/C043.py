@@ -7,11 +7,11 @@ import collections
 # テスト入力txtの読み込み
 read_txt = []
 try:
-    with open("C43","r",encoding="utf-8") as inp_txt:
+    with open("C43", "r", encoding="utf-8") as inp_txt:
         read_txt = [txt for txt in inp_txt]
         print("入力されたテストtxtデータは: {}".format(read_txt))
         inp_txt.close()
-except:
+except FileNotFoundError:
     pass
 
 # テキスト入力がなければinput()入力

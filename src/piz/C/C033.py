@@ -4,11 +4,11 @@ __date__ = "2017/12/16"
 
 txt_list = []
 try:
-    with open("C33","r",encoding="utf-8") as inp_txt:
+    with open("C33", "r", encoding="utf-8") as inp_txt:
         txt_list = [word.strip() for word in inp_txt]
         # print("入力されたテキストは: {}".format(txt_list))
     inp_txt.close()
-except:
+except FileNotFoundError:
     pass
 
 calls_list = []

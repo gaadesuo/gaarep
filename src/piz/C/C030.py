@@ -5,10 +5,10 @@ __date__ = "2017/12/18"
 txt_list = []
 try:
     with open("C30", "r", encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for  txt in inp_txt]
+        txt_list = [txt.strip() for txt in inp_txt]
         # print("入力されたテキストリストは: {}".format(txt_list))
         inp_txt.close()
-except:
+except FileNotFoundError:
     pass
 
 inp_list = []
@@ -21,4 +21,13 @@ else:
     for index in range(1, int(txt_list[0][0]) + 1):
         num = list(map(int, txt_list[index].split()))
         inp_list.append(num)
-print("入力されたデータは: {}".format(inp_list))
+# print("入力されたデータは: {}".format(inp_list))
+enc_list = []
+for color_list in inp_list:
+    for color_num in color_list:
+        if color_num >= 128:
+            enc_list.append("1")
+        else:
+            enc_list.append("0")
+    print(" ".join(enc_list))
+    enc_list = []

@@ -6,11 +6,11 @@ import os
 # テスト入力テキストの読み込み
 read_txt = []
 try:
-    with open("C40","r",encoding="utf-8") as inp_txt:
+    with open("C40", "r", encoding="utf-8") as inp_txt:
         read_txt = [txt.strip() for txt in inp_txt]
         # print("テスト入力テキストの中身は: {}".format(read_txt))
         inp_txt.close()
-except:
+except FileNotFoundError:
     pass
 
 # テスト入力txtがないならinput()入力

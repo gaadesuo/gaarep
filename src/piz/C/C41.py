@@ -5,11 +5,11 @@ __date__ = "2017/12/07"
 # テキストからの読み込み
 txt_list = []
 try:
-    with open("C41","r",encoding="utf-8") as inp_txt:
+    with open("C41", "r", encoding="utf-8") as inp_txt:
         txt_list = [txt for txt in inp_txt]
         # print("入力されたテキストは: {}".format(txt_list))
         inp_txt.close()
-except:
+except FileNotFoundError:
     pass
 
 medals_list =[]

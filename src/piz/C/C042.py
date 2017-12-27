@@ -4,11 +4,11 @@ __date__ =  "2017 / 11 / 28"
 
 txt_list = []
 try:
-    with open("C42","r",encoding="utf-8") as inp_txt:
+    with open("C42", "r", encoding="utf-8") as inp_txt:
         txt_list = [txt for txt in inp_txt]
         # print("テキストから入力されたデータは{}".format(txt_list))
         inp_txt.close()
-except:
+except FileNotFoundError:
     pass
 
 w_l_list = []

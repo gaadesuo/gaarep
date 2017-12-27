@@ -5,11 +5,11 @@ import collections
 
 txt_list = []
 try:
-    with open("C44","r",encoding="utf-8") as inp_txt:
+    with open("C44", "r", encoding="utf-8") as inp_txt:
         txt_list = [word.strip() for word in inp_txt]
         # print("入力したテキストは: {}".format(txt_list))
         inp_txt.close()
-except:
+except FileNotFoundError:
     pass
 
 hand_list = []

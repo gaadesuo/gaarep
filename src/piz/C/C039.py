@@ -5,11 +5,11 @@ __date__ =  2017 / 11 / 28
 # テキストから入力
 txt_list = []
 try:
-    with open("C39","r",encoding="utf-8") as inp_txt:
+    with open("C39", "r", encoding="utf-8") as inp_txt:
         txt_list = [word.strip() for word in inp_txt]
         # print("入力されたテキストは: {}".format(txt_list))
         inp_txt.close()
-except:
+except FileNotFoundError:
     pass
 
 if len(txt_list) == 0:

@@ -5,11 +5,11 @@ __date__ = "2017/12/13"
 
 txt_list = []
 try:
-    with open("C37","r",encoding="utf-8") as txt_date:
+    with open("C37", "r", encoding="utf-8") as txt_date:
         txt_list = [word.strip() for word in txt_date]
         # print("入力されたテキストデータのリストは: {}".format(txt_list))
         txt_date.close()
-except:
+except FileNotFoundError:
     pass
 
 if len(txt_list) == 0:

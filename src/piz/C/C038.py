@@ -6,11 +6,11 @@ import  numpy as np
 
 txt_list = []
 try:
-    with open("C38","r",encoding="utf-8") as inp_txt:
+    with open("C38", "r", encoding="utf-8") as inp_txt:
         txt_list = [txt.strip() for txt in inp_txt]
         # print("入力されたテキストは: {}".format(txt_list))
         inp_txt.close()
-except:
+except FileNotFoundError:
     pass
 
 if len(txt_list) == 0:
