@@ -1,31 +1,23 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/08 :17:02$'
+__date__ = '$2018/03/17 $'
 
 
-def inp_func():
-    """
-    数字の入力
-    0 <= 入力の数字 <= 100
-    初項、公差が与えられる
-    :return: 入力された数字のリスト
-    """
-    num_list = [int(num) for num in input().split()]
-    return num_list[0], num_list[1]
+txt_list = []
+paiza = 0
+try:
+    with open("D005", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
+if paiza == 1:
+    inp_num = [int(num) for num in input().split()]
+else:
+    inp_num = [int(num) for num in txt_list[0].split()]
 
-def math_func(n, m):
-    """
-    等差数列そ求める
-    初期値nにm倍された数字を10回ぶん計算し文字列に変更したリストにして返す
-    :param n: int 初項
-    :param m: int 公差
-    :return: 答えのリスト
-    """
-    ans_list = [n + num for num in range(0, m * 10, m)]
-    return map(str, ans_list)
-
-
-# ***処理***
-syokou, kousa = inp_func()
-print(" ".join(math_func(syokou, kousa)))
+# print("入力された数字は【{}】です".format(inp_num))
+ans_list = [str(ans_num) for ans_num in range(inp_num[0], inp_num[0] + inp_num[1] * 10, inp_num[1])]
+print(" ".join(ans_list))

@@ -6,8 +6,7 @@ __date__ = 2017 / 12 / 22
 txt_list = []
 try:
     with open("C029", "r", encoding="utf-8") as inp_txt:
-        txt_date = [txt.strip() for txt in inp_txt]
-        txt_list.append(txt_date)
+        txt_list = [txt.strip() for txt in inp_txt]
         # print("入力されたテキストデータは: {}".format(txt_list))
         inp_txt.close()
 except FileNotFoundError:

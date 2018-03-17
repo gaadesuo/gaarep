@@ -1,35 +1,22 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/08 :07:40$'
+__date__ = '$2018/03/17'
 
+txt_list = []
+paiza = 0
+try:
+    with open("D002", "r", encoding="utf-8") as inp_txt:
+        txt_list = [word.strip() for word in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def inp_func():
-    """
-    数字の入力
-    1 <= num <= 1000
-    :return: 入力された数字
-    """
+inp_num = []
+if paiza == 1:
     inp_num = [int(num) for num in input().split()]
-    return inp_num
-
-
-def big_small(num1, num2):
-    """
-    num1とnum2の大きさを比べる
-    大きいほうの数字を返す
-    数字が同じ場合はeqを返す
-    :param num1: int num[0]
-    :param num2: int num[1]
-    :return: 正解
-    """
-    if num1 == num2:
-        return "eq"
-    elif num1 > num2:
-        return num1
-    else:
-        return num2
-
-
-# ***処理***
-num = inp_func()
-print(big_small(num[0], num[1]))
+else:
+    for inp_date in txt_list:
+        inp_num = [int(num) for num in inp_date.split()]
+# print("入力された数字は【{}】です".format(inp_num))
+print(inp_num[0] if inp_num[0] > inp_num[1] else inp_num[1] if inp_num[0] < inp_num[1] else "eq" )

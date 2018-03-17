@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/00/00 :00:00$'
+__date__ = '$2018/03/17 $'
 
 
-def inp_func():
-    """
-    入力された文字列をリストに入れて返す
-    :return: 入力された文字列
-    """
-    str_list = []
-    for lp0 in range(int(input())):
-        s = input()
-        str_list.append(s)
-    return str_list
+txt_list = []
+paiza = 0
+try:
+    with open("D004", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
+inp_word = []
+if paiza == 1:
+    inp_word = [input() for lp0 in range(int(input()))]
+else:
+    inp_word = [txt_list[index_num + 1]for index_num in range(int(txt_list[0]))]
+# print("入力された文字は【{}】です".format(inp_word))
 
-# ***処理***
-print("Hello " + ",".join(inp_func()) + ".")
+print("Hello " + ",".join(inp_word) + ".")
