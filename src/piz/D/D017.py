@@ -1,35 +1,23 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/00/00 :00:00$'
+__date__ = "2018 / 03 / 20"
 
 
-def inp_func():
-    """
-    入力された5つの数字nをリストにして返す
-    1 ≦n ≦ 99
-    nは整数である
-    return: 入力された数字のリスト
-    """
-    n_list = []
-    for lp0 in range(5):
-        n = int(input())
-        n_list.append(n)
-    return n_list
+txt_list = []
+paiza = 0
 
+try:
+    with open("D017", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデーターは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def max_min_func(n_list):
-    """
-    入力された数字のリストの最大値と最小値を求めて表示する
-    :param n_list: 入力された数字のリスト
-    :return: int 最大値, 最小値
-    """
-    ans_list = []
-    ans_list.append(max(n_list))
-    ans_list.append(min(n_list))
-    for num in ans_list:
-        print(num)
-
-
-# ***処理***
-inp_num_list = inp_func()
-max_min_func(inp_num_list)
+if paiza == 1:
+    inp_num = [int(input()) for lp0 in range(5)]
+else:
+    inp_num = list(map(int, txt_list))
+# print("入力された数字のリストは【{}】です".format(inp_num))
+print(max(inp_num))
+print(min(inp_num))

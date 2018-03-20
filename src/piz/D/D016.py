@@ -1,31 +1,25 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/00/00 :00:00$'
+__date__ = '$2018/03/20'
 
 
-def inp_func():
-    """
-    入力された文字列sと入力された数字nを返す
-    1 ≦ 入力された文字列sの長さ ≦ 100
-    1≦ n ≦ 文字列sの長さ
-    :return: s, n
-    """
-    s = input()
-    n = int(input())
-    return s, n
+txt_list = []
+paiza = 0
 
+try:
+    with open("D015", "r", encoding="utf-8")as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def word_cut_func(s, n):
-    """
-    入力された文字列sをn番目まで返す
-    :param s: str 入力された文字列
-    :param n: int 入力された数字
-    :return: str カット後の文字列
-    """
-    cut_word = s[0: n]
-    return cut_word
+if paiza == 1:
+    inp_word = input()
+    inp_num = int(input())
+else:
+    inp_word = txt_list[0]
+    inp_num = int(txt_list[1])
+# print("入力された文字は{}で、数字は{}です".format(inp_word, inp_num))
 
-
-# ***処理***
-inp_word, inp_num = inp_func()
-print("{}".format(word_cut_func(inp_word, inp_num)))
+print(inp_word[0:inp_num])

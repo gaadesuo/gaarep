@@ -1,30 +1,19 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/00/00 :00:00$'
+__date__ = "2018 / 03 / 20"
 
 
-def inp_func():
-    """
-    入力された文字列sと数字nをリストにして返す
-    1 ≦ n ≦ 文字列sの長さ
-    1 ≦ 文字列sの長さ ≦ 10
-    :return: str 入力された文字列, int 数字
-    """
-    inp_list = input().split()
-    return inp_list[0], int(inp_list[1])
+txt_list = []
+paiza = 0
 
+try:
+    with open("D019", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def word_func(s, n):
-    """
-    文字列sのn番目の文字を返す
-    :param s: str 入力された文字列
-    :param n: int 抜き出す場所の数字
-    :return: str 指定された文字
-    """
-    after = s[n - 1: n]
-    return after
-
-
-# ***処理***
-word, num = inp_func()
-print("{}".format(word_func(word, num)))
+inp_date = input().split() if paiza == 1 else txt_list[0].split()
+# print("入力された文字と数字は【{}】です".format(inp_date))
+print(inp_date[0][int(inp_date[1]) - 1: int(inp_date[1])])

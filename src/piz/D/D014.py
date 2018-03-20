@@ -1,29 +1,17 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/00/00 :00:00$'
+__date__ = '$2018/03/20'
 
+txt_list = []
+paiza = 0
+try:
+    with open("D014", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def inp_func():
-    """
-    入力された文字列sを返す
-    1 ≦ 文字数 ≦ 100
-    s は半角アルファベットの小文字のみで構成されています。
-    :return: 入力された文字列
-    """
-    inp_word = input()
-    return inp_word
-
-
-def change_func(s):
-    """
-    小文字の英語を大文字に変換する
-    :param s: 入力された文字列
-    :return: 変更した文字列
-    """
-    chang_word = s.upper()
-    return chang_word
-
-
-# ***処理***
-word_list = inp_func()
-print("{}".format(change_func(word_list)))
+inp_word = input() if paiza == 1 else txt_list[0]
+# print("入力された文字は【{}】です".format(inp_word))
+print(inp_word.upper())

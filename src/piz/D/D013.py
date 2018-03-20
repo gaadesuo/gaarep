@@ -1,32 +1,22 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/09 :13:58$'
+__date__ = '$2018/03/19'
 
 
-def inp_func():
-    """
-    数字の入力割られる数m割る数nを入力して返す
-    1 ≦ m ≦ 100
-    1 ≦ n ≦ 100
-    :return: int 入力した数字
-    """
+txt_list = []
+paiza = 0
+try:
+    with open("D013", "r", encoding="utf-8")as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデーターは【{}】です".format(txat_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
+
+if paiza == 1:
     inp_num = [int(num) for num in input().split()]
-    return inp_num[0], inp_num[1]
-
-
-def math_func(m, n):
-    """
-    mをnで割った商と余りを返す
-    :param m: int 割られる数
-    :param n: int 割る数
-    :return: int 商と余り
-    """
-    ans_syou = int(m / n)
-    ans_amari = m % n
-    return ans_syou, ans_amari
-
-
-# ***処理***
-waru, warare = inp_func()
-syou, amari = math_func(waru, warare)
-print("{:0d} {:0d}".format(syou, amari))
+else:
+    inp_num = [int(num) for num in txt_list[0].split()]
+# print("入力された数値は【{}】です".format(inp_num))
+ans_num = divmod(inp_num[0], inp_num[1])
+print("{} {}".format(ans_num[0], ans_num[1]))

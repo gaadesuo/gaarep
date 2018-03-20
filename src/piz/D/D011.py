@@ -1,31 +1,29 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/09 :11:00$'
+__date__ = '$2018/03/18'
 
 
-def inp_func():
-    """
-    s は以下の半角英字大文字の中から1文字が与えられます。
-    ABCDEFGHIJKLMNOPQRSTUVWXYZ
-    入力された文字のアスキーコードを返す
-    :return: int 入力された文字のアスキーコート
-    """
-    s_ascii = ord(input())
-    return s_ascii
+txt_list = []
+paiza = 0
 
+try:
+    with open("D011", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def str_func(s):
-    """
-    入力された文字sのアスキーコードからaのアスキーコードを引く
-    :param s: int 入力された文字列のアスキーコード
-    :return: a から何番目後かの数字
-    """
-    # aのアスキーコードを代入
-    a_ascii_num = ord("a") - 1
-    ans_num = s - a_ascii_num
-    return ans_num
+# Aのアスキーコードを代入
+ascii_A_num = ord("A")
+# print("Aのアスキーコード番号は【{}】です".format(ascii_A_num))
 
+if paiza == 1:
+    inp_word = input()
+else:
+    inp_word = txt_list[0]
 
-# ***処理***
-ascii_num = inp_func()
-print(str_func(ascii_num))
+ascii_inp_word_num = ord(inp_word)
+# print("入力された文字は【{}】でアスキーコードは【{}】です".format(inp_word, ascii_inp_word_num))
+print((ascii_inp_word_num - ascii_A_num) + 1)
+

@@ -1,28 +1,19 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/10 :06:00$'
+__date__ = "2018 / 03 / 20"
 
 
-def inp_func():
-    """
-    入力した数字nを返す
-    1 ≦ n ≦ 100
-    :return: int 入力された数字
-    """
-    n = int(input())
-    return n
+txt_list = []
+paiza = 0
+try:
+    with open("D015", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-
-def count_down_func(n):
-    """
-    入力された数字から１づつカウントダウンさせ１までの数字を表示する
-    :param n: int カウントダウンが始まる数字
-    :return: int カウントダウンしていってる数字
-    """
-    for num in range(n, 0, -1):
-        print("{:0d}".format(num))
-
-
-# ***処理***
-inp_num = inp_func()
-count_down_func(inp_num)
+inp_num = int(input()) if paiza == 1 else int(txt_list[0])
+# print("入力された数字は【{}】です".format(inp_num))
+for ans in range(inp_num, 0, -1):
+    print(ans)

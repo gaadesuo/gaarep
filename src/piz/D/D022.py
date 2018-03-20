@@ -1,29 +1,19 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/10 :17:37$'
+__date__ = "2018/03/20"
 
 
-def inp_func():
-    """
-    入力した数字aを返す
-    1 ≦ a ≦ 20
-    a は正の整数
-    :return: 入力された数字
-    """
-    n = int(input())
-    return n
+txt_list = []
+paiza = 0
 
+try:
+    with open("D022", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def math_func(a):
-    """
-    一辺がaの長さの正立方体の表面積を求めて返す
-    :param a: int 一辺の長さ
-    :return: int 立方体の表面積
-    """
-    ans_num = 6 * (a ** 2)
-    return ans_num
-
-
-# ***処理***
-side_num = inp_func()
-print("{:0d}".format(math_func(side_num)))
+inp_num = int(input()) if paiza == 1 else int(txt_list[0])
+# print("入力された数値は【{}】です".format(inp_num))
+print((inp_num ** 2) * 6)

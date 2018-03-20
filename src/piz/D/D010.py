@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/9 :10:20$'
+__date__ = '$2018/03/18'
 
 
-def inp_func():
-    """
-    文字の入力ローカル部Sとドメイン部tが入力される
-    1 ≦ 文字列 ≦ 64
-    s , t は半角英数と「.」(半角ドット)で構成された文字列
-    :return: str 入力された文字列を返す
-    """
-    s = input()
-    t = input()
-    return s, t
+txt_list = []
+paiza = 0
 
+try:
+    with open("D010", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-# ***処理***
-local, domain = inp_func()
-print("{}@{}".format(local, domain))
+if paiza == 1:
+    word_1 = input()
+    word_2 = input()
+else:
+    word_1 = txt_list[0]
+    word_2 = txt_list[1]
+
+print("{}@{}".format(word_1, word_2))

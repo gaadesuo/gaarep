@@ -1,29 +1,22 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/08 :17:54$'
+__date__ = '$2018/03/18 $'
 
 
-def inp_func():
-    """
-    数字Nを入力する
-    1 ≦ N ≦ 100
-    :return: int 入力された数字
-    """
+txt_list = []
+paiza = 0
+
+try:
+    with open("D008", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
+
+if paiza == 1:
     inp_num = int(input())
-    return inp_num
-
-
-def math_func(n):
-    """
-    偶数か奇数かを処理する
-    n が奇数なら"odd" 偶数なら"even" と半角英文字で出力
-    :param N: int 判定する数値
-    :return: str 結果
-    """
-    ans_word = "even" if n % 2 == 0 else "odd"
-    return ans_word
-
-
-# ***処理***
-inp_num = inp_func()
-print("{}".format(math_func(inp_num)))
+else:
+    inp_num = int(txt_list[0])
+# print("入力された数字は【{}】です".format(inp_num))
+print("even" if inp_num % 2 == 0 else "odd")

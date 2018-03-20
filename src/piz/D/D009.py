@@ -1,30 +1,22 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/08 :18:19$'
+__date__ = '$2018/03/18 '
 
 
-def inp_func():
-    """
-    入力された数字を返す
-    1 ≦ a, b ≦ 2014
-    a < b
-    :return: 入力された数字
-    """
+txt_list = []
+paiza = 0
+
+try:
+    with open("D009", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
+
+if paiza == 1:
     inp_num = [int(num) for num in input().split()]
-    return inp_num[0], inp_num[1]
-
-
-def math_func(a, b):
-    """
-    bからaを引いて年数の差を求める
-    :param a: int 引く数
-    :param b: int ひかれる数
-    :return: int 結果
-    """
-    ans_num = b - a
-    return ans_num
-
-
-# ***処理***
-num_a, num_b = inp_func()
-print("{:0d}".format(math_func(num_a, num_b)))
+else:
+    inp_num = [int(num) for num in txt_list[0].split()]
+# print("入力された数字は【{}】です".format(inp_num))
+print(inp_num[1] - inp_num[0])
