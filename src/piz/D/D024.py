@@ -1,29 +1,24 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/11 :17:20$'
+__date__ = "2018/03/21"
 
 
-def inp_func():
-    """
-    入力された２つの角の数字a, bを返す
-    :return: int 入力された２つの数字
-    """
-    a = int(input())
-    b = int(input())
-    return a, b
+txt_list = []
+paiza = 0
 
+try:
+    with open("D024", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def angle_math(a, b):
-    """
-    三角形の内角のうち2つの角度が与えられるので残りの一つを計算し返す
-    :param a: int 内角一つ
-    :param b: int 内角一つ
-    :return: int 残りの角の角度
-    """
-    ans_num = 180 - (a + b)
-    return ans_num
+if paiza == 1:
+    num_1 = int(input())
+    num_2 = int(input())
+else:
+    num_1 = int(txt_list[0])
+    num_2 = int(txt_list[1])
 
-
-# ***処理***
-angle_a, angle_b = inp_func()
-print("{:0d}".format(angle_math(angle_a, angle_b)))
+print(180 - (num_1 + num_2))

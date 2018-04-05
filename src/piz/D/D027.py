@@ -1,31 +1,21 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/13 :16:55$'
+__date__ = '$2018/03/22'
 
+txt_list = []
+paiza = 0
 
-def inp_func():
-    """
-    入力された数字nを返す
-    ・2 ≦ n ≦ 100
-    n は整数
-    :return: int 入力された数字
-    """
-    n = int(input())
-    return n
+try:
+    with open("D027", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-
-def math_func(n):
-    """
-    1から入力されたnまでの総和を求めて返す
-    :param n: 入力された数字
-    :return: int nまでの総和
-    """
-    ans_num = 0
-    for num in range(1, n + 1):
-        ans_num += num
-    return ans_num
-
-
-# ***処理***
-inp_num = inp_func()
-print("{:0d}".format(math_func(inp_num)))
+ans = 0
+inp_num = int(input()if paiza == 1 else int(txt_list[0]))
+# print("入力された数字は【{}】です".format(inp_num))
+for num in range(1, inp_num + 1):
+    ans += num
+print(ans)

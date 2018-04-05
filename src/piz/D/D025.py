@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/13 :15:41$'
+__date__ = "2018/03/21"
 
 
-def inp_func():
-    """
-    入力された数字nを返す
-    ・1 ≦ n ≦ 100
-    n は整数
-    :return: int 入力された数字
-    """
-    n = int(input())
-    return n
+txt_list = []
+paiza = 0
 
+try:
+    with open("D025", "r", encoding="utf-8")as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-# ***処理***
-inp_num = inp_func()
-print("{:03d}".format(inp_num))
+inp_num = int(input()) if paiza == 1 else int(txt_list[0])
+# print("入力された数字は【{}】です".format(inp_num))
+print("{0:03d}".format(inp_num))

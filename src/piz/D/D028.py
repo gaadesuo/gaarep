@@ -1,29 +1,20 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/13 :17:19$'
+__date__ = '$2018/03/22'
 
+import math
 
-def inp_func():
-    """
-    入力された数列nを文字としてひとつづつリストに入れて返す
-    ・1 ≦ n ≦ 10000
-    n は整数
-    :return: 文字列のリスト
-    """
-    n_list = list(input())
-    return n_list
+txt_list = []
+paiza = 0
 
+try:
+    with open("D028", "r", encoding="utf-8" )as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def digit_num_func(n_list):
-    """
-    リストの要素数を数えて桁数として返す
-    :param n_list: 入力された数字を桁ごとに分けたリスト
-    :return: int 桁数
-    """
-    n_digit = len(n_list)
-    return n_digit
-
-
-# ***処理***
-inp_num_list = inp_func()
-print("{:0d}".format(digit_num_func(inp_num_list)))
+inp_num = int(input()) if paiza == 1 else int(txt_list[0])
+# print("入力された数字は【{}】です".format(inp_num))
+print(int(math.log10(inp_num)) + 1)
