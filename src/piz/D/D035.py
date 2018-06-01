@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/14 :16:02$'
+__date__ = '$2018/04/03'
 
 
-def inp_func():
-    """
-    入力された数字dをスペースで分割してリストにして返す
-    d は整数
-    実在の日付でない可能性もあります。
-    :return: 入力された数字の文字列のリスト
-    """
-    d = input().split()
-    return d
+txt_list = []
+paiza = 0
 
+try:
+    with open("D035", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-inp_day = inp_func()
-print("/".join(inp_day))
+inp_list = input().split() if paiza == 1 else txt_list[0].split()
+# print("入力された文字リストは【{}】です".format(inp_list))
+print("/".join(inp_list))

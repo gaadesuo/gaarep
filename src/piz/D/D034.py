@@ -1,32 +1,19 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/14 :10:01$'
+__date__ = '$2018/03/30'
 
+txt_list = []
+paiza = 0
 
-def inp_conf():
-    """
-    入力された数字nを返す
-    ・2 ≦ n ≦ 21
-    n は整数
-    :return: int 入力された数字
-    """
-    n = int(input())
-    return n
+try:
+    with open("D034", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-
-def god_choise_conf(n):
-    """
-    21から入力された数字を割って余りの数字を返す
-    あまりが0の時は入力された数字を返す
-    :param n:
-    :return: int あまりの数
-    """
-    ans_num = 21 % n
-    if ans_num == 0:
-        ans_num = n
-    return ans_num
-
-
-# ***処理***
-inp_num = inp_conf()
-print("{:0d}".format(god_choise_conf(inp_num)))
+inp_num = int(input()) if paiza == 1 else int(txt_list[0])
+# print("入力された数字は【{}】です".format(inp_num))
+ans_num = 21 % inp_num
+print(inp_num if ans_num == 0 else ans_num)

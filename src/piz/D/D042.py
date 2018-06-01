@@ -1,37 +1,24 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/16 :11:11$'
+__date__ = '$2017/04/22'
 
 
-def inp_func():
-    """
-    2次行列abcdが入力される
-    abとcdは改行で入力され各々スペースで区切られている
-    この数字を返す
-    ・-1000 ≦ a ≦ 1000
-    ・-1000 ≦ b ≦ 1000
-    ・-1000 ≦ c ≦ 1000
-    ・-1000 ≦ d ≦ 1000
-    :return: int 入力された数字
-    """
-    inp_num_a_b = [int(num) for num in input().split()]
-    inp_num_c_d = [int(num) for num in input().split()]
-    return inp_num_a_b[0], inp_num_a_b[1], inp_num_c_d[0], inp_num_c_d[1]
+txt_list = []
+paiza = 0
+try:
+    with open("D042", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
+if paiza == 1:
+    inp_num_1 = [int(num) for num in input().split()]
+    inp_num_2 = [int(num) for num in input().split()]
+else:
+    inp_num_1 = [int(num) for num in txt_list[0].split()]
+    inp_num_2 = [int(num) for num in txt_list[1].split()]
 
-def math_func(a, b, c, d):
-    """
-    入力された数字を計算して返す
-    :param a: int 一次の行列の数字a
-    :param b: int 一時の行列の数字b
-    :param c: int 二次の行列の数字c
-    :param d: int 二次の行列の数字d
-    :return: int 計算結果
-    """
-    ans_num = (a * d) - (b * c)
-    return ans_num
-
-
-# ***処理***
-num_a, num_b, num_c, num_d = inp_func()
-print("{:0d}".format(math_func(num_a, num_b, num_c, num_d)))
+# print("入力された数字は【{}】と【{}】です".format(inp_num_1, inp_num_2))
+print((inp_num_1[0] * inp_num_2[1]) - (inp_num_1[1] * inp_num_2[0]))

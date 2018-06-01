@@ -1,35 +1,17 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/13 :19:11$'
+__date__ = '$2018/03/29'
 
+txt_list = []
+paiza = 0
+try:
+    with open("D033", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-def inp_func():
-    """
-    入力された文字列sを空白で分けリストにして返す
-    ・2 ≦ 文字列 sの長さ ≦ 20
-    sは半角アルファベットで構成された文字列
-    1文字目は必ず半角アルファベット大文字で入力されます。
-    :return: 入力された文字列のリスト
-    """
-    s_list = input().split()
-    return s_list
-
-
-def initial_word_func(s_list):
-    """
-    入力された性と名から一文字だけを返す
-    :param f_name: 性
-    :param l_name: 名
-    :return: 性名の頭文字
-    """
-    fast_name_list = list(name[0])
-    last_name_list = list(name[1])
-    f_initial = fast_name_list[0]
-    l_initial = last_name_list[0]
-    return f_initial, l_initial
-
-
-# ***処理***
-name = inp_func()
-fast_name, last_name = initial_word_func(name)
-print("{}.{}".format(fast_name, last_name))
+inp_word_list = input().split() if paiza == 1 else txt_list[0].split()
+print("入力された名前は【{}】です".format(inp_word_list))
+print("{}.{}".format(inp_word_list[0][0:1], inp_word_list[1][0:1]))

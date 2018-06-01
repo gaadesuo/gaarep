@@ -1,29 +1,20 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/14 :16:10$'
+__date__ = '$2018/04/03'
 
 
-def inp_func():
-    """
-    入力された文字列sを返す
-    ・s は半角小文字アルファベットで構成された文字列
-    ・1 ≦ 文字列 s の長さ ≦ 100
-    :return: int s
-    """
-    s = input()
-    return s
+txt_list = []
+paiza = 0
 
+try:
+    with open("D036", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
 
-def change_at_func(s):
-    """
-    入力された文字列から'at'っを探し@と置き換える
-    :param s: 入力された文字列
-    :return: 変更した文字列
-    """
-    split_word = s.split("at")
-    return split_word
+except FileNotFoundError:
+    paiza = 1
 
+inp_list =input().split("at") if paiza == 1 else txt_list[0].split("at")
+print("@".join(inp_list))
 
-# ***処理***
-inp_word = inp_func()
-print("@".join(change_at_func(inp_word)))

@@ -1,34 +1,28 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/16 :15:38$'
-
-import numpy as np
+__date__ = '$2017/04/07'
 
 
-def inp_func():
-    """
-    7降水確率nを7日分入力しリストにして返す
-    0 ≦ n ≦ 100
-    :return: 入力された数字のリスト
-    """
-    n_list = []
+txt_list = []
+paiza = 0
+
+try:
+    with open("D040", "r", encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
+
+inp_num_list = []
+count = 0
+if paiza == 1:
     for lp0 in range(7):
-        n = int(input())
-        n_list.append(n)
-    return n_list
-
-
-def outing_choise(n_list):
-    """
-    入力されたリストの数値で30以下の数値が何個あるかをカウントし返す
-    :param n_list: 入力された数字のリスト
-    :return: int 30以下の数字の個数
-    """
-    np_n_list = np.array(n_list)
-    ans_num = len(np.where(np_n_list <= 30)[0])
-    return ans_num
-
-
-# ***処理***
-rainy_date_list = inp_func()
-print("{:0d}".format(outing_choise(rainy_date_list)))
+        inp_num_list.append(int(input()))
+else:
+    inp_num_list = [int(num) for num in txt_list]
+# print("7日間の降水確率は【{}】です".format(inp_num_list))
+for rainy in inp_num_list:
+    if rainy <= 30:
+        count += 1
+print(count)

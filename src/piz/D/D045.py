@@ -1,29 +1,19 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/11/17 :13:21$'
+__date__ = '$2018/04/24$'
 
+txt_list = []
+paiza = 0
 
-def inp_func():
-    """
-    入力された数字を返す
-    ・1 ≦ n ≦ 5
-    :return: int 入植された数字
-    """
-    n = int(input())
-    return n
+try:
+    with open("D045", "r", encoding="utf-8") as inp_txt:
+        txt_list= [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
-
-def report_func(n):
-    """
-    入力した数字に対応した文字を返す
-    :param n: int 入力された数字
-    :return: str 対応した文字
-    """
-    word_list = ["E", "D", "C", "B", "A"]
-    ans_word = word_list[n - 1]
-    return ans_word
-
-
-# ***処理***
-inp_num = inp_func()
-print("{}".format(report_func(inp_num)))
+asc_num = ord("A")
+inp_num = int(input()) if paiza == 1 else int(txt_list[0])
+# print("入力された数字は【{}】です".format(inp_num))
+print(chr(asc_num + (5 - inp_num)))

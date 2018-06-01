@@ -1,35 +1,26 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/00/00 :00:00$'
+__date__ = '$2018/04/04'
 
 import math
 
+txt_list = []
+paiza = 0
 
-def inp_func():
-    """
-    ティッシュ1箱が空になるまでの期間を m 日
-    残りの花粉症の季節を n 日が改行区切りで入力される
-    ・1 ≦ m ≦ 100
-    ・1 ≦ n ≦ 100
-    :return: int 入力された数字
-    """
-    m = int(input())
-    n = int(input())
-    return m, n
+try:
+    with open("D037", "r" , encoding="utf-8") as inp_txt:
+        txt_list = [txt.strip() for txt in inp_txt]
+        # print("入力されたデータは【{}】です".format(txt_list))
+        inp_txt.close()
+except FileNotFoundError:
+    paiza = 1
 
+if paiza == 1:
+    use = int(input())
+    day = int(input())
+else:
+    use = int(txt_list[0])
+    day = int(txt_list[1])
 
-def box_math_func(m, n):
-    """
-    入力された日数nを使用する日数mで割って何箱必要か求める
-    あまりが出た場合は繰り上げ
-    :param m: int 一箱の使用日数
-    :param n: int トータル日数
-    :return: 必要箱数
-    """
-    ans_num = int(math.ceil(n / m))
-    return ans_num
-
-
-# ***処理***
-used_day, total_day = inp_func()
-print("{:0d}".format(box_math_func(used_day, total_day)))
+# print("ティッシュを使うまでの日にちは【{}】日、残りの花粉の日は【{}】です".format(use, day))
+print(math.ceil(day / use))
