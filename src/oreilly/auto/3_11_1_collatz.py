@@ -7,7 +7,7 @@ def collatz(number):
     """
     コラッツ数列
     :param number: 入力した数字
-    :return:
+    :return: 計算した答え
     """
     num = int(number / 2 if number % 2 == 0 else 3 * number + 1)
     return num
