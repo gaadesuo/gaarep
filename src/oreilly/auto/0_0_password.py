@@ -20,25 +20,28 @@ def file_read():
     return u_dick
 
 
-def input_word(desc):
+def input_word(desc, l_num, g_num):
     """
-    文字の入力。その文字を返す
+    文字の入力と説明文
     :param desc: 入力の説明文
     :return: 入力された文字
     """
-    print("{}(半角英数)".format(desc))
+    print("{}【半角英小文字 半角数字で{}文字～{}文字】".format(desc, l_num, g_num))
     return input(">>> ")
 
 
-def word_check(inp_word):
+def word_check(inp_word, l_num, g_num):
     """
-    入力された文字が半角英数かを調べる
+    入力された文字が半角英数か、そして指定の文字数なのかを調べる
     :param inp_word: 入力された文字
-    :return:True, False
+    :param l_num: 最低文字数
+    :param g_num: 最高文字数
     """
-    if len(inp_word) == 0:
-        print("半角英数で入れてください。")
+    # 入力文字数の判別
+    if len(inp_word) < l_num or len(inp_word) > g_num:
+        print("指定の文字数で入力してください。")
         return False
+    # スキーコードから半角英数文字化の判別
     for word in list(inp_word):
         if 48 < ord(word) < 57 or 96 < ord(word) < 123:
             pass
@@ -86,17 +89,23 @@ def id_miss():
         return "c"
 
 
-def id_write():
+def id_write(id_dic):
     """
-    新規IDとパスワードをファイルに登録する
+    新規登録
+    IDとパスワードをチェック後問題がなければファイルに保存
+    :param id_dic: 登録されたIDとパスワードの辞書
     """
     new_id_pass_list = []
     while len(new_id_pass_list) < 1:
         print("新規登録を開始します。")
-        new_id = input_word("登録するユーザーIDを入れてエンターを押してください。")
-        if word_check(new_id):
+        new_id = input_word("登録するユーザーIDを入れてエンターを押してください。", 4, 8)
+        if word_check(new_id, 4, 8):
             pass
         else:
+            continue
+        # 既存IDと登録IDが同じものがあるかのチェックと登録
+        if new_id in id_dic:
+            print("そのIDは使用中の為別のIDで登録してください。")
             continue
         print("登録するIDは【{}】でよろしいですか？".format(new_id))
         print("よろしければ【y】を、違う場合は【n】を、終了する場合は【e】を入力してエンターを押してください。")
@@ -104,11 +113,13 @@ def id_write():
 
         if inp_word == "y":
             new_id_pass_list.append(new_id)
+
+            # パスワードのチェックと登録
             while True:
                 print("登録するパスワードを2回入力してください")
-                pass_1 = input_word("一回目")
-                pass_2 = input_word("二回目")
-                if pass_1 == pass_2:
+                pass_1 = input_word("一回目", 4, 12)
+                pass_2 = input_word("二回目", 4, 12)
+                if pass_1 == pass_2 and word_check(pass_1, 4, 12):
                     new_id_pass_list.append(pass_1)
                     print("パスワードは【{}】でよろしいですか？".format(new_id_pass_list[1]))
                     print("よろしければ【y】を押してエンターを押して下さい。入力をやり直す場合はそのままエンターを押してください。")
@@ -123,7 +134,7 @@ def id_write():
                     else:
                         continue
                 else:
-                    print("入力されたパスワードが違います。もう一度入力してください。")
+                    print("パスワードgは間違っているか、規定外のパスワードです。もう一度入力してください。")
 
         elif inp_word == "e":
             print("新規登録を終了します。")
@@ -133,16 +144,17 @@ def id_write():
 def main():
 
     while True:
-        inp_id = input_word("登録されているユーザーIDを入れてください。")
+        inp_id = input_word("登録されているユーザーIDを入れてください。", 4, 8)
         user_dick = file_read()
-        if word_check(inp_id):
+        # print(user_dick)
+        if word_check(inp_id, 4, 8):
             if inp_id in user_dick:
                 pass_check(user_dick, inp_id)
                 break
             else:
                 select_word = id_miss()
                 if select_word == "y":
-                    id_write()
+                    id_write(user_dick)
                 elif select_word == "c":
                     pass
                 else:
