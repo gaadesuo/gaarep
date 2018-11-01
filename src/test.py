@@ -1,7 +1,18 @@
-count = 0
-for num in range(1, 21):
-    if num % 10 == 3 or num % 3 == 0:
-        count += 1
-        print("{}! {}".format(num, count))
-    else:
-        print(num)
+grid = [['.', '.', '.', '.', '.', '.'],
+        ['.', 'O', 'O', '.', '.', '.'],
+        ['O', 'O', 'O', 'O', '.', '.'],
+        ['O', 'O', 'O', 'O', 'O', '.'],
+        ['.', 'O', 'O', 'O', 'O', 'O'],
+        ['O', 'O', 'O', 'O', 'O', '.'],
+        ['O', 'O', 'O', 'O', '.', '.'],
+        ['.', 'O', 'O', '.', '.', '.'],
+        ['.', '.', '.', '.', '.', '.']]
+
+new_grid = [[], [], [], [], [], []]
+for x in range(6):
+    for y in range(9):
+        # print(x, y)
+        new_grid[x].append(grid[y][x])
+# print(new_grid)
+for i in new_grid:
+    print("".join(i))

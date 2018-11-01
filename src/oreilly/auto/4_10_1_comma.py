@@ -9,14 +9,14 @@ def comma(w_list):
     :param w_list: 単語のリスト
     return: 文字列
     """
-    w_list[-1] = "and " + w_list[-1]
-    ans_list = ", ".join(w_list)
-    return ans_list
+    for i in w_list[:-1]:
+        print(i, end=", ")
+    print("and " + w_list[-1])
 
 
 def main():
     spam = ["apples", "bananas", "tofu", "cats"]
-    print(comma(spam))
+    comma(spam)
 
 
 if __name__ == '__main__':
