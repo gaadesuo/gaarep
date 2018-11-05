@@ -1,4 +1,9 @@
+# -*- coding: utf-8 -*-
+__author__ = "gaa"
+__date__ = '2018/11/06 04:47'
+
 import copy as cp
+
 num_list = [[0, 0, 0],
             [0, 0, 0],
             [0, 0, 0]]
@@ -83,6 +88,7 @@ def decision(list_1):
             elif a == -3 or b == -3:
                 win = -1
         a = 0
+        b = 0
 
     # 斜め判定
     c = list_1[0][0] + list_1[1][1] + list_1[2][2]
@@ -97,26 +103,31 @@ def decision(list_1):
         win = 3
 
 
-while True:
-    p_board(num_list)
-    if turn == 1:
-        print("")
-        print("先手です。入力対応キーを押してください")
-    else:
-        print("")
-        print("後手です。入力対応キーを押してください")
-    inp_num()
-    # print(num_list)
-    decision(num_list)
-    if win == 1:
+def main():
+    while True:
         p_board(num_list)
-        print("*** おめでとう、先手の勝ちです。***")
-        break
-    elif win == -1:
-        p_board(num_list)
-        print("*** おめでとう、後手の勝ちです。***")
-        break
-    elif win == 3:
-        p_board(num_list)
-        print("*** 今回は引き分けでした ***")
-        break
+        if turn == 1:
+            print("")
+            print("先手です。入力対応キーを押してください")
+        else:
+            print("")
+            print("後手です。入力対応キーを押してください")
+        inp_num()
+        # print(num_list)
+        decision(num_list)
+        if win == 1:
+            p_board(num_list)
+            print("*** おめでとう、先手の勝ちです。***")
+            break
+        elif win == -1:
+            p_board(num_list)
+            print("*** おめでとう、後手の勝ちです。***")
+            break
+        elif win == 3:
+            p_board(num_list)
+            print("*** 今回は引き分けでした ***")
+            break
+
+
+if __name__ == '__main__':
+    main()
