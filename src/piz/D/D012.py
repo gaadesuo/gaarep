@@ -1,19 +1,21 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2018/03/18'
+__date__ = '2018/11/25 17:08'
 
-
-txt_list = []
+# ファイルから入力
+inp_l =[]
 paiza = 0
 
 try:
-    with open("D012", "r", encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for txt in inp_txt]
-        # print("入力されたデータは【{}】です".format(txt_list))
+    with open("D012", "r", encoding="UTF-8") as inp_txt:
+        inp_l = [s.strip() for s in inp_txt]
+        # print(inp_l)
         inp_txt.close()
 except FileNotFoundError:
     paiza = 1
 
-inp_num = int(input()) if paiza == 1 else int(txt_list[0])
-# print("入力された数字は【{}】です".format(inp_num))
-print(abs(inp_num))
+# 処理
+if paiza == 1:
+    inp_l = [input()]
+print(abs(int(inp_l[0])))

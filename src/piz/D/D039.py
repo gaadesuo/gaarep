@@ -1,24 +1,23 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/04/04'
+__date__ = '2018/11/27 09:39'
 
-
-txt_list = []
-paiza = 0
-
+# 入力
+n_0 = 0
+n_1 = 0
+n_2 = 0
 try:
-    with open("D039", "r",encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for txt in inp_txt]
-        # print("入力されたデータは【{}】です".format(txt_list))
+    with open("D039", "r", encoding="UTF-8") as inp_txt:
+        n_0, n_1, n_2 = [int(i.strip()) for i in inp_txt]
         inp_txt.close()
-except FileNotFoundError:
-    paiza = 1
 
-num_list = []
-if paiza == 1:
-    for lp0 in range(3):
-        num_list.append(int(input()))
-else:
-    num_list = [int(num) for num in txt_list]
-# print("入力された三辺の長さは【{}】です".format(num_list))
-print("YES" if num_list[0] == num_list[1] == num_list[2] else "NO")
+except FileNotFoundError:
+    n_0 = int(input())
+    n_1 = int(input())
+    n_2 = int(input())
+
+# print(n_0, n_1, n_2)
+
+# 処理
+print("YES" if n_0 == n_1 == n_2 else "NO")

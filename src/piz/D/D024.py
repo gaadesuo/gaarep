@@ -1,24 +1,19 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = "2018/03/21"
+__date__ = '2018/11/25 21:22'
 
-
-txt_list = []
-paiza = 0
-
+# 入力
 try:
-    with open("D024", "r", encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for txt in inp_txt]
-        # print("入力されたデータは【{}】です".format(txt_list))
+    with open("D024", "r", encoding="UTF-8") as inp_txt:
+        n_0, n_1 = [int(i.strip()) for i in inp_txt]
         inp_txt.close()
+
 except FileNotFoundError:
-    paiza = 1
+    n_0 = int(input())
+    n_1 = int(input())
 
-if paiza == 1:
-    num_1 = int(input())
-    num_2 = int(input())
-else:
-    num_1 = int(txt_list[0])
-    num_2 = int(txt_list[1])
+# print(n_0, n_1)
 
-print(180 - (num_1 + num_2))
+# 処理
+print(180 - n_0 - n_1)

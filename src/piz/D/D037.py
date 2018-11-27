@@ -1,26 +1,21 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2018/04/04'
+__date__ = '2018/11/26 11:28'
 
-import math
-
-txt_list = []
-paiza = 0
-
+# 入力
+n_0 = 0
+n_1 = 0
 try:
-    with open("D037", "r" , encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for txt in inp_txt]
-        # print("入力されたデータは【{}】です".format(txt_list))
+    with open("D037", "r", encoding="UTF-8") as inp_txt:
+        n_0, n_1 = [int(i.strip()) for i in inp_txt]
         inp_txt.close()
+
 except FileNotFoundError:
-    paiza = 1
+    n_0 = int(input())
+    n_1 = int(input())
 
-if paiza == 1:
-    use = int(input())
-    day = int(input())
-else:
-    use = int(txt_list[0])
-    day = int(txt_list[1])
+# print(n_0, n_1)
 
-# print("ティッシュを使うまでの日にちは【{}】日、残りの花粉の日は【{}】です".format(use, day))
-print(math.ceil(day / use))
+# 処理
+print(-(-n_1 // n_0)) # 切り捨て算を負にしてやることにより切り上げになる

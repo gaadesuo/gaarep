@@ -1,22 +1,24 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2018/03/18 $'
+__date__ = '2018/11/25 10:03'
 
-
-txt_list = []
+# ファイルから読み込み
+txt_l = []
 paiza = 0
-
 try:
-    with open("D008", "r", encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for txt in inp_txt]
-        # print("入力されたデータは【{}】です".format(txt_list))
+    with open("D008", "r", encoding="UTF-8") as inp_txt:
+        txt_l = [s.strip() for s in inp_txt]
+        # print(txt_l)
         inp_txt.close()
+
 except FileNotFoundError:
     paiza = 1
 
+# 処理
 if paiza == 1:
-    inp_num = int(input())
+    n = int(input())
 else:
-    inp_num = int(txt_list[0])
-# print("入力された数字は【{}】です".format(inp_num))
-print("even" if inp_num % 2 == 0 else "odd")
+    n = int(txt_l[0])
+
+print("even" if n % 2 == 0 else "odd")

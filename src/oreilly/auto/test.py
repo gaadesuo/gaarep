@@ -2,25 +2,28 @@
 __author__ = "gaa"
 __date__ = '2018/08/04 17:26'
 
+import re
+import pyperclip
 
-def total_brought(guests, item):
-    num_brought = 0
-    for v in guests.values():
-        num_brought = num_brought + v.get(item, 0)
-    return num_brought
+phone_regex = re.compile(r"""(
+(\d{1,4}|\(\d{1,4}\)) # 市外局番
+(-|\s)
+(\d{1,4})             # 市内局番
+(-|\s)
+(\d{3,4})             # 加入者番号
+)""", re.VERBOSE)
 
+mail_regex = re.compile(r"""(
+[a-zA-Z0-9._%+-]+ # ユーザー名
+@
+[a-zA-Z0-9.-]+    # ドメイン
+(\.[a-zA-Z{2,4}]+)      # ドットなんとか
+)""", re.VERBOSE)
 
-def main():
-    all_guests = {"アリス": {"リンゴ": 5, "ブレッツェル": 112},
-                  "ボブ": {"ハムサンド": 3, "リンゴ": 2},
-                  "キャロル": {"コップ": 3, "アップルパイ": 1}}
-    print("持ち物の数")
-    print(" - リンゴ " + str(total_brought(all_guests, "リンゴ")))
-    print(" - コップ " + str(total_brought(all_guests, "コップ")))
-    print(" - ケーキ " + str(total_brought(all_guests, "ケーキ")))
-    print(" - ハムサンド " + str(total_brought(all_guests, "ハムサンド")))
-    print(" - アップルパイ " + str(total_brought(all_guests, "アップルパイ")))
+text = str(pyperclip.paste())
+print(text)
 
+phone_list = phone_regex.findall(text)
+mail_list = mail_regex.findall(text)
 
-if __name__ == '__main__':
-    main()
+print(phone_list, mail_list)

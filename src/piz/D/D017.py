@@ -1,23 +1,19 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = "2018 / 03 / 20"
+__date__ = '2018/11/25 18:56'
 
-
-txt_list = []
-paiza = 0
-
+# 入力
 try:
-    with open("D017", "r", encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for txt in inp_txt]
-        # print("入力されたデーターは【{}】です".format(txt_list))
+    with open("D017", "r", encoding="UTF-8") as inp_txt:
+        num_l = [int(s.strip()) for s in inp_txt]
         inp_txt.close()
-except FileNotFoundError:
-    paiza = 1
 
-if paiza == 1:
-    inp_num = [int(input()) for lp0 in range(5)]
-else:
-    inp_num = list(map(int, txt_list))
-# print("入力された数字のリストは【{}】です".format(inp_num))
-print(max(inp_num))
-print(min(inp_num))
+except FileNotFoundError:
+    num_l = [int(input()) for i in range(5)]
+
+# print(num_l)
+
+# 処理
+print(max(num_l))
+print(min(num_l))

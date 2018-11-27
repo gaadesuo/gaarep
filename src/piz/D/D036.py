@@ -1,20 +1,20 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2018/04/03'
+__date__ = '2018/11/26 11:11'
 
-
-txt_list = []
-paiza = 0
-
+# 入力
+s = ""
 try:
-    with open("D036", "r", encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for txt in inp_txt]
-        print("入力されたデータは【{}】です".format(txt_list))
+    with open("D036", "r", encoding="UTF-8") as inp_txt:
+        for i in inp_txt:
+            s = i.strip()
         inp_txt.close()
 
 except FileNotFoundError:
-    paiza = 1
+    s = input()
 
-inp_list =input().split("at") if paiza == 1 else txt_list[0].split("at")
-print("@".join(inp_list))
+# print(s)
 
+# 処理
+print(s.replace("at", "@"))

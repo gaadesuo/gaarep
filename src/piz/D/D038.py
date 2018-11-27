@@ -1,19 +1,20 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2018/04/04'
+__date__ = '2018/11/27 09:10'
 
-
-txt_list = []
-paiza = 0
+# 入力
+n = 0
 try:
-    with open("D038", "r", encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for txt in inp_txt]
-        # print("入力されたデータは【{}】です".format(txt_list))
+    with open("D038", "r", encoding="UTF-8") as inp_txt:
+        for i in inp_txt:
+            n = int(i.strip())
         inp_txt.close()
+
 except FileNotFoundError:
-    paiza = 1
+    n = int(input())
 
-inp_num = int(input()) if paiza == 1 else int(txt_list[0])
-# print("入力された数字は【{}】です".format(inp_num))
+# print(n)
 
-print(int(inp_num * (inp_num - 1) / 2))
+# 処理
+print(int(n * (n - 1) / 2))

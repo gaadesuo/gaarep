@@ -1,28 +1,19 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = '$2017/04/07'
+__date__ = '2018/11/27 09:52'
 
-
-txt_list = []
-paiza = 0
-
+# 入力
+n_l = []
 try:
-    with open("D040", "r", encoding="utf-8") as inp_txt:
-        txt_list = [txt.strip() for txt in inp_txt]
-        # print("入力されたデータは【{}】です".format(txt_list))
+    with open("D040", "r", encoding="UTF-8") as inp_txt:
+        n_l = [int(i.strip()) for i in inp_txt]
         inp_txt.close()
-except FileNotFoundError:
-    paiza = 1
 
-inp_num_list = []
-count = 0
-if paiza == 1:
-    for lp0 in range(7):
-        inp_num_list.append(int(input()))
-else:
-    inp_num_list = [int(num) for num in txt_list]
-# print("7日間の降水確率は【{}】です".format(inp_num_list))
-for rainy in inp_num_list:
-    if rainy <= 30:
-        count += 1
-print(count)
+except FileNotFoundError:
+    n_l = [int(input()) for i in range(7)]
+
+print(n_l)
+
+# 処理
+print(sum(n <= 30 for n in n_l))
