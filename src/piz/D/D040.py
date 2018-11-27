@@ -13,7 +13,7 @@ try:
 except FileNotFoundError:
     n_l = [int(input()) for i in range(7)]
 
-print(n_l)
+# print(n_l)
 
 # 処理
 print(sum(n <= 30 for n in n_l))
