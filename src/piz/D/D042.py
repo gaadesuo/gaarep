@@ -17,6 +17,10 @@ try:
         n1_l = [int(i) for i in t_l[1].split()]
 
 except FileNotFoundError:
-    pass
+    n0_l = [int(i) for i in input().split()]
+    n1_l = [int(i) for i in input().split()]
 
-print(n0_l, n1_l)
+# print(n0_l, n1_l)
+
+# 処理
+print((n0_l[0] * n1_l[1]) - (n0_l[1] * n1_l[0]))
