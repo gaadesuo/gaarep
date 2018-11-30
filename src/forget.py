@@ -26,3 +26,9 @@ print("""Gold {}
 Silver {}
 Bronze {}
 """.format(a, b, c))
+
+"""
+if
+"""
+# 3つ以上がすべて同じ課の判定 "A" == a == b
+if "A" is a is b
