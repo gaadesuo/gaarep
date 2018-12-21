@@ -1,94 +1,104 @@
+#! python3
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
-__date__ = 2017 / 11 / 21
+__date__ = "2018/12/19 22:50"
 
-import numpy as np
+# 入力
+word = ""
+try:
+    with open("B047", "r", encoding="UTF-8") as inp_txt:
+        for txt in inp_txt:
+            word = txt.strip()
+        inp_txt.close()
 
-def grid_check(w):
+except FileNotFoundError:
+    word = input()
+
+# print("入力文字: {}".format(word))
+
+# 処理
+
+
+def key_index(l, w):
     """
-    与えられた文字の座標を調べて返す
-    :param w: 調べる文字列
-    :return: list[X座標, Y座標]
+    keyリストの中から与えられた文字のインデックスを返す
+    :param l: keyリスト
+    :param w: 検索文字
+    :return: x, y座標
     """
-    temp_grid = [0,0]
-    if w in all_key_list[0]:
-        temp_grid[1] = 1
-        temp_grid[0] = (list(all_key_list[0]).index(w) + 1)
-    elif w in all_key_list[1]:
-        temp_grid[1] = 2
-        temp_grid[0] = (list(all_key_list[1]).index(w) + 1)
-    else:
-        temp_grid[1] = 3
-        temp_grid[0] = (list(all_key_list[2]).index(w) + 1)
-    return  temp_grid
+    x = 0
+    y = 0
+    for y, s in enumerate(l):
+        try:
+            x = s.index(w)
+            break
+        except ValueError:
+            pass
+    return x, y
 
 
-def limit_check(w):
+def flag_search(l_l, r_l, key_l, w):
     """
-    左右キー間違いのリミット文字を触れたか確認。
-    左のリミットならフラグ1右手ならフラグ2を代入し1を返す
-    :param w: チェックする文字
-    :return: リミットに触れない:0, リミットに触れた:1
+    今までにフラグが立っていない場合左右リストにある文字を打っているかの確認
+    :param l_l: l_flag
+    :param r_l: r_flag
+    :param key_l: kye_type
+    :param w: s
+    :return: f: フラグNO x: x座標 y: y座標
     """
-    global hand_check
-    global old_grid
+    x = 0
+    y = 0
+    f = 0
 
-    if w in left_key_list[0]:
-        hand_check = 1
-    elif w in right_key_list[0]:
-        hand_check = 2
-    if hand_check > 0:
-        old_grid = grid_check(w)
-        print("リミットの文字を触れた。文字列【{}】のX座標は: {}, Y座標は: {}".format(
-            word, old_grid[0], old_grid[1]))
-        return 1
-    return 0
+    def index_search(l, s): return l.index(s) if s in l else 255
+
+    # print("文字: {}, 左手フラグ{}, 右手フラグ{}".format(w, index_search(l_l, s), index_search(r_l, s)))
+    if index_search(l_l, w) == 255 and index_search(r_l, w) == 255:
+        f = 0
+        x = 0
+        y = 0
+    elif index_search(l_l, w) != 255:
+        f = 1
+        x, y = key_index(key_l, w)
+    elif index_search(r_l, w) != 255:
+        f = 2
+        x, y = key_index(key_l, w)
+    # print("立ったフラグNO: {}, x座標: {}, y座標: {}".format(flag, x_grid, y_grid))
+    return f, x, y
 
 
-all_key_list = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
-left_key_list = ["tgb","qwertasdfgzxcvb"]
-right_key_list = ["yhn","yuiophjklnm"]
-old_grid = [0, 0]
-new_grid = [0, 0]
-hand_check = 0
+key_type = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+            ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+            ["z", "x", "c", "v", "b", "n", "m"]]
+l_flag = ["t", "g", "b"]
+r_flag = ["y", "h", "n"]
+
 flag = 0
 counter = 0
+x_grid = 0
+y_grid = 0
+x_after = 0
+y_after = 0
 
-inp_word = list(input())
-# print("入力された文字列は: {}".format(inp_word))
+word_list = list(word)
 
-
-for word in inp_word:
-    print("文字列【{}】チェック".format(word))
-    # 前回リミットフラグを立ててないかの確認
+for s in word_list:
+    # 左手のフラグは1、右手は2、それ以外は0
     if flag == 0:
-        flag = limit_check(word)
-
-    # リミットフラグが成立
-    elif flag == 1:
-        new_grid = grid_check(word)
-
-        # 新旧の座標差を比べて隣接しているか確認
-        np_old = np.array(old_grid)
-        np_new = np.array(new_grid)
-        diff_grid = np_new - np_old
-        print("座標差の確認 旧: {} 新: {} 差: {}".format(old_grid, new_grid, diff_grid))
-        if ((diff_grid[0] == -1 or diff_grid[0] == 0 or diff_grid[0] == 1) and diff_grid[1] == 0) or (
-                (diff_grid[1] == -1 or diff_grid[1] == 0 or diff_grid[1] == 1) and diff_grid[0] == 0):
-            print("文字【{}】は前回と隣接している".format(word))
-            # リミットを触れたときが左手で今回右側のキーをタッチしている
-            if hand_check == 1 and word in right_key_list[1]:
+        flag, x_grid, y_grid = flag_search(l_flag, r_flag, key_type, s)
+    elif flag > 0:
+        x_after, y_after = key_index(key_type, s)
+        # print("フラグ立ってる時 x座標: {}, y座標: {}".format(x_after, y_after))
+        if ((x_grid == x_after) and (y_grid - 1 <= y_after <= y_grid + 1)) \
+                or ((y_grid == y_after) and (x_grid - 1 <= x_after <= x_grid + 1)):
+            if ((flag == 1) and (x_after > 4)) or ((flag == 2) and (x_after < 5)):
+                # print("x座標一マスずれ")
+                x_grid = x_after
+                y_grid = y_after
                 counter += 1
-            # リミットを触れたときが右手で今回左側のキーをタッチしている
-            elif hand_check == 2 and word in left_key_list[1]:
-                counter +=1
-            old_grid = new_grid
+            else:
+                x_grid = x_after
+                y_grid = y_after
         else:
-            print("隣接しなくなったので初期化")
-            hand_check = 0
-            old_grid = [0, 0]
-            flag = 0
-            flag = limit_check(word)
-
+            flag, x_grid, y_grid = flag_search(l_flag, r_flag, key_type, s)
 print(counter)
-
