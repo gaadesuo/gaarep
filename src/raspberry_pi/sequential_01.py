@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = "gaa"
 __date__ = '2019/06/16 14:12'
+__version__ = '0.01'
 
 import RPiGPIO as GPIO
 import time
@@ -9,8 +10,6 @@ import threading
 
 
 """
-ver 0.01
-
 仕様と変更点
 
 2019/06/16 ver0.01
