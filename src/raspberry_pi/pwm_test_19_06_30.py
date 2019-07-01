@@ -18,8 +18,9 @@ GPIO.setup(20, GPIO.OUT)
 GPIO.setup(21, GPIO.OUT)
 
 # スイッチ
-GPIO.setup(19, GPIO.IN)
-GPIO.setup(26, GPIO.IN)
+GPIO.setup(5, GPIO.IN)
+GPIO.setup(6, GPIO.IN)
+GPIO.setup()
 
 # PWM設定(GPIO_NO, 周波数(50Hz))
 r = GPIO.PWM(16, 50)
@@ -53,16 +54,7 @@ def led_flash():
         r.ChangeDutyCycle(100 - r_count)
         g.ChangeDutyCycle(100 - g_count)
         b.ChangeDutyCycle(100 - b_count)
-        r_count += 5
-        g_count += 10
-        b_count += 20
-        if r_count == 100:
-            r_count = 0
-        if g_count == 100:
-            g_count = 0
-        if b_count == 100:
-            b_count = 0
-        time.sleep(0.5)
+
         if stop_sw():
             break
 
