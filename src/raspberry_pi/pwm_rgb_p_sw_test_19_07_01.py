@@ -86,7 +86,6 @@ def led_flash():
     """
     フルカラーLEDのデューティー比を操作する
     """
-
     # カウント初期値
     r_count = 0
     g_count = 0
@@ -103,7 +102,7 @@ def led_flash():
     thread_countdown.start()
 
     while True:
-
+        # print("{}{}{}".format(r_count, g_count, b_count))
         if stop_sw():
             break
 
@@ -114,23 +113,35 @@ def led_flash():
 
         # RGBボタンが押されて各々のデューティ比が100より低い時
         # 各デューティー比を1上げる。100の場合はそのままループ
-        if r_sw() & r_count < 100:
+        if r_count == 100:
+            pass
+        elif r_sw() == 1 and r_count < 100:
+            time.sleep(0.1)
+            print("r_{}".format(r_count))
             r_count += 1
-        elif g_sw() & g_count < 100:
+        if g_count == 100:
+            pass
+        elif g_sw() == 1 and g_count < 100:
+            time.sleep(0.1)
+            print("g_{}".format(g_count))
             g_count += 1
-        elif b_sw() & b_count < 100:
+        if b_count == 100:
+            pass
+        elif b_sw() == 1 and b_count < 100:
+            time.sleep(0.1)
+            print("b_{}".format(b_count))
             b_count += 1
-        elif r_sw() & r_count == 100 | g_sw() & g_count == 100 \
-                | b_sw() & b_count == 100:
-            continue
 
         # RGBボタンが押されていなくて各々のデューティー比が
         # 0より大きい時は0.1秒ごとにデューティー比を1下げる
-        if r_sw() == 0 & r_count > 0:
+        if r_sw() == 0 and r_count > 0:
+            print(r_count)
             r_count -= count_down()
-        elif g_sw() == 0 & g_count > 0:
+        elif g_sw() == 0 and g_count > 0:
+            print(g_count)
             g_count -= count_down()
-        elif b_sw() == 0 & b_count > 0:
+        elif b_sw() == 0 and b_count > 0:
+            print(b_count)
             b_count -= count_down()
 
 
