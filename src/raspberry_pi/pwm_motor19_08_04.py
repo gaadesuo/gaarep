@@ -18,7 +18,7 @@ GPIO.setup(20, GPIO.OUT)
 GPIO.setup(21, GPIO.OUT)
 
 # スイッチ(プルダウン設定)
-GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(6, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(19, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -43,7 +43,7 @@ def start_sw():
     スタートスイッチが押されたときTrueを返す
     return: bool
     """
-    if GPIO.input(27) == GPIO.HIGH:
+    if GPIO.input(12) == GPIO.HIGH:
         return True
 
 def motor_pwm():
@@ -95,8 +95,8 @@ def main():
     try:
         while True:
             if start_sw():
-                # print("toggle_on")
-                # time.sleep(1)
+                print("toggle_on")
+                time.sleep(1)
                 motor_pwm()
             elif GPIO.input(16) == GPIO.HIGH:
                 break
