@@ -39,7 +39,7 @@ servo_out = [ 0b1000,
 
 
 rotation = [[0, 8 , 1], [6, -1, -1]]
-# リストの要素は 回転方向
+# [0]回転方向,[1]動く前のスリープ、[2]動かした後のスリープ
 dance = [[rotation[0], 0.1, 1],
          [rotation[0], 0.1, 1],
          [rotation[0], 0.1, 0.1],
@@ -111,7 +111,6 @@ def main():
                 print("{}".format("開始"))
                 for l, t, s in dance:
                     for i in range(l[0], l[1], l[2]):
-                        print("ステップ位置 {} 移動時間 {}".format(i, t))
                         time.sleep(t)
                         GPIO.output(coil_a_0, servo_out[i] & 0b1000)
                         GPIO.output(coil_a_1, servo_out[i] & 0b0010)
