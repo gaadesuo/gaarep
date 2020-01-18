@@ -1,3 +1,3 @@
-l = [1, 2, 3]
-for a, b, c in l:
-    print(a, b, c)
+n = 1
+if n == 0 | n == 1:
+    print("ok")
