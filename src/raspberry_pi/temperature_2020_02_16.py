@@ -23,23 +23,46 @@ def main():
 
     2020/02/21
     温度監視を追加。エラー処理時のLEDを0.5秒で点滅をさせる処理を追加。
+
+    2020/02/20
+    ブザーを追加
     """
 
     """
     初期設定
     """
 
+    # pinの定義
+
+    # スイッチ
+    sw_black = 5
+    sw_white = 6
+    sw_red = 13
+
+    # LED
+    led_blue = 17
+    led_red = 27
+
+    # buzzer
+    buzzer = 22
+
     # GPIOの設定
 
     GPIO.setmode(GPIO.BCM)
     # LEDへの出力
-    GPIO.setup(17, GPIO.OUT)
-    GPIO.setup(27, GPIO.OUT)
+    GPIO.setup(led_blue, GPIO.OUT)
+    GPIO.setup(led_red, GPIO.OUT)
+    # 圧電ブザーへの出力
+    GPIO.setup(buzzer, GPIO.OUT)
+    # PWMの設定
+    buzz_pwm = GPIO.PWM(buzzer, 244)
+    buzz_pwm.start(0)
+
     # タクトスイッチからの入力
     # 内部プルアップを使用
-    GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(6, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(sw_black, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(sw_white, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(sw_red, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     # adt7410の設定
 
@@ -72,16 +95,16 @@ def main():
     try:
         while True:
 
-            # タクトスイッチ黒(GPIO 5)を押されたら監視開始
-            # 監視中はLED青(GPIO 17)を点灯
-            if GPIO.input(5) == GPIO.LOW:
-                GPIO.output(17, GPIO.HIGH)
+            # タクトスイッチ黒を押されたら監視開始
+            # 監視中はLED青を点灯
+            if GPIO.input(sw_black) == GPIO.LOW:
+                GPIO.output(led_blue, GPIO.HIGH)
 
                 # 監視立ち上がり判定のためNoneをプログラム開始時に代入
                 reference_temp = None
 
                 # タクトスイッチ白を押されるまで監視モード
-                while GPIO.input(6) == GPIO.HIGH:
+                while GPIO.input(sw_white) == GPIO.HIGH:
 
                     """
                     読み出し
@@ -130,59 +153,63 @@ def main():
                     # ディレイ処理はスレッドを生成
                     if ((monitoring_temp > ( reference_temp + tolerance)) or\
                             (monitoring_temp < (reference_temp - tolerance))) and delay_flag == 0:
-                        delay_timer = Timer(5, GPIO.output, (27, GPIO.HIGH))
+                        delay_timer = Timer(5, GPIO.output, (led_red, GPIO.HIGH))
                         delay_timer.start()
                         delay_flag = 1
-                        # print(timer, delay_flag)
+                        # print("エラーディレイタイマ開始")
                     if (reference_temp - tolerance) < monitoring_temp < (reference_temp + tolerance) and\
                             delay_flag ==1:
                         delay_timer.cancel()
                         delay_flag = 0
-                        # print(timer, delay_flag)
+                        # print(”エラーディレイキャンセル”)
 
                     """
                     エラーLED処理
                     """
-
                     # エラーLEDが点灯したとき、error_flag、led_flash_flagに1を代入
                     # 作成されたディレイ処理のスレッドをキャンセル
-
-                    if GPIO.input(27) == 1:
+                    if GPIO.input(led_red) == 1:
                         error_flag = 1
                         led_flash_flag = 1
                         # print("LED点灯したのでスレッドキャンセル")
                         delay_timer.cancel()
+                        # ブザーが鳴ってないならブザーを鳴らす
+                        if GPIO.input(buzzer) == 0:
+                            # print("ブザーON")
+                            buzz_pwm.ChangeDutyCycle(90)
 
                     # error_flagが立っているとき
-                    # LEDが点灯し、led_flash_flagが1の時は0.5秒ディレイ消灯スレッドを作成、
+                    # LEDが点灯し、led_flash_flagが1の時は0.5秒ディレイ消灯スレッドを作成
                     # LEDが消灯し、led_flash_flagが0の時は0.5秒ディレイ点灯スレッドを作成
                     # 点灯消灯の切り替わりの立ち上がり管理でled_flash_flagを使う
                     if error_flag == 1:
-                        if GPIO.input(27) == 1 and led_flash_flag == 1:
+
+                        if GPIO.input(led_red) == 1 and led_flash_flag == 1:
                             print("LED消灯ディレイ開始")
                             led_flash_flag = 0
                             flash_timer = Timer(0.5, GPIO.output, (27, GPIO.LOW))
                             flash_timer.start()
-                        elif GPIO.input(27) == 0 and led_flash_flag == 0:
+                        elif GPIO.input(led_red) == 0 and led_flash_flag == 0:
                             print("LED点灯ディレイ開始")
                             led_flash_flag = 1
                             flash_timer = Timer(0.5, GPIO.output, (27, GPIO.HIGH))
                             flash_timer.start()
 
 
-                    sleep(0.1)
+                    sleep(0.5)
 
-                    # デバッグ用待ち
-                    sleep(1)
-
-                # タクトスイッチ白(GPIO 6)を押されたらLED青(GPIO 17)を消灯
+                # タクトスイッチ白(GPIO 6)を押されたらLEDとブザーを消す
+                # ディレイタイマ用スレッドが生成されているときはキャンセル
                 else:
-                    GPIO.output(17, GPIO.LOW)
+                    GPIO.output(led_blue, GPIO.LOW)
+                    GPIO.output(led_red, GPIO.LOW)
+                    buzz_pwm.ChangeDutyCycle(0)
+                    if error_flag == 1:
+                        delay_timer.cancel()
+                        flash_timer.cancel()
 
             # 開始待ち中にタクトスイッチ赤を押されるとLEDを消灯してプログラム終了
-            if GPIO.input(13) == GPIO.LOW:
-                GPIO.output(17, GPIO.LOW)
-                GPIO.output(27, GPIO.LOW)
+            if GPIO.input(sw_red) == GPIO.LOW:
                 break
             sleep(0.1)
 
