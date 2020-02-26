@@ -10,45 +10,27 @@ from threading import Timer
 import datetime
 
 
-def error_check(m_temp, ref_temp, tol):
-    """
-    m_temp: 現在温度(float)
-    ref_temp: 基準温度(float)
-    tol: 許容範囲(float
-    return: bool
-    """
-    if ((m_temp > (ref_temp + tol)) or (m_temp < (ref_temp - tol))):
-        return True
-    else:
-        return False
-
-
-def led_flash():
-    """
-
-    """
-    pass
-
-def log_write(err_count):
-    """
-    ログ取得
-
-    return: エラーカウントを1増やして返す
-    """
-    err_count += 1
-    print("エラーカウント+1して {} になった".format(err_count))
-
-    # エラー時間のログファイルへの書き出し
-    time_log = datetime.datetime.now()
-    time_log = time_log.strftime('"%Y-%m-%d %H:%M:%S"')
-    print("エラー時刻 {}".format(time_log))
-    with open("log.txt", "a", encoding="utf_8") as log_w:
-        log_w.write(time_log + "\n")
-    log_w.close()
-
-    return err_count
-
 def main():
+    """
+    2020/02/16
+    ADT7410からの温度計測数値を13bit読み出しと16bit読み出し、どちらもテスト。
+
+    2020/02/17
+    4桁7segLEDに表記刺せるため13bit読み出しのみで運用。
+    16bit読み出しをまとめ、行コメント化。
+    16bit用デバッグプリントを削除。
+
+    2020/02/18
+    スイッチによるON OFF制御を追加。監視中のLED青を追加。
+
+    2020/02/21
+    温度監視を追加。
+    エラー処理時のLEDを0.5秒で点滅をさせる処理を追加。
+
+    2020/02/20
+    ブザーを追加
+    エラーリセットを追加
+    """
 
     """
     初期設定
@@ -109,8 +91,26 @@ def main():
     error_flag = 0
     # LED点滅フラグ
     led_flash_flag = 0
-    # errorカウンター
+    # eroorカウンター
     error_counter = 0
+
+    def error_check(m_temp, ref_temp, tol):
+        """
+        m_temp: 現在温度(float)
+        ref_temp: 基準温度(float)
+        tol: 許容範囲(float
+        return: bool
+        """
+        if ((m_temp > (ref_temp + tol)) or (m_temp < (ref_temp - tol))):
+            return True
+        else:
+            return False
+
+    def led_flash():
+        """
+
+        """
+        pass
 
     """
     本体
@@ -210,7 +210,18 @@ def main():
                             """
                             ログ取得
                             """
-                            error_counter = log_write(error_counter)
+
+                            # エラーカウンタの制御
+                            error_counter += 1
+                            print("エラーカウント+1して {} になった".format(error_counter))
+
+                            # エラー時間のログファイルへの書き出し
+                            time_log = datetime.datetime.now()
+                            time_log = time_log.strftime('"%Y-%m-%d %H:%M:%S"')
+                            print("エラー時刻 {}".format(time_log))
+                            with open("log.txt", "a", encoding="utf_8") as log_write:
+                                log_write.write(time_log + "\n")
+                            log_write.close()
 
                             error_flag = 1
                         led_flash_flag = 1
