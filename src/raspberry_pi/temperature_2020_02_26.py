@@ -6,38 +6,219 @@ __date__ = '2020/02/16 09:05'
 import RPi.GPIO as GPIO
 import smbus
 from time import sleep
-from threading import Timer
+import threading
+import queue
 import datetime
+
+# global変数
+error_flag = False
+timer_count = 0
+
+def temp_read(sw_w, r_temp, interval_time):
+    """
+    sw_w : タクトスイッチ白のGPIO番号 (int)
+    r_temp : 読み込んだ温度を渡す(float)
+    intv_time : 監視の感覚時間
+
+    タクトスイッチ黒を押されてから、タクトスイッチ白を押されるまで処理を行う。
+    温度センサモジュールから温度を読み込み。
+    温度を小数点第一位まで求めてmonitoring関数に渡す。
+    """
+
+    # adt7410の設定
+    # コネクションオブジェクトの取得。
+    bus = smbus.SMBus(1)
+    adt7410_addr = 0x48
+    adt7410_reg = 0x00
+    # 下のconfは読み出しbitの設定場所。
+    adt7410_conf = 0x03
+
+    print("*** 温度読み込み開始 ***")
+
+    # タクトスイッチ白を押されるまで監視。
+    while GPIO.input(sw_w) == GPIO.HIGH:
+        # メソッド configration_adt7410, 0x00 で13bit読み出し。
+        bus.write_word_data(adt7410_addr, adt7410_conf, 0x00)
+        inp_temp = bus.read_word_data(adt7410_addr, adt7410_reg)
+
+        # 上位、下位byteの入れ替え。
+        # 上位1byteを8bit右へシフト、下位1byteを8bit左へシフト。
+        shift_num = (inp_temp & 0xff00) >> 8 | (inp_temp & 0xff) << 8
+        # 3bit右にシフト
+        shift_num = shift_num >> 3
+        # 実温度を出すための計算
+        temp_num = shift_num / 16
+        # 小数点第一位で丸める
+        temp_num = round(temp_num, 1)
+        # print("現在温度 {}".format(temp_num))
+
+        # キューとして温度を渡す
+        r_temp.put(temp_num)
+
+        sleep(interval_time)
+
+    print("*** 温度読み込み終了 ***")
+    # タクトスイッチ白を押されたら終了コードとして65535を送る
+    r_temp.put(65535)
+
+
+def monitoring(sw_w, m_temp, lim_num, intval_time, delay):
+    """
+    sw_w : タクトスイッチ白のGPIO番号 (int)
+    m_temp : 受け取った温度の値(float)
+    lim_num : 上下限の幅の値(float)
+    error_def : エラースレッド
+    intv_time : 監視の感覚時間
+    delay : 上下限超えてからエラー発生までのディレイタイム(単位s)
+
+    温度センサから温度を受け取ってからタクトスイッチ白を押されるまで処理を行う。
+    現在温度を受け取り基準温度を超えているかを判定。
+    上下限の幅の値は本体で定義。
+    基準温度は初期動作時の温度を代入する。
+    上下限の幅を超えた時間をカウント、規定時間を超えたらイベントを渡す。
+    """
+    global error_flag
+    global timer_count
+    print("*** 温度監視開始 ***")
+
+    # ディレイタイムカウントを計算
+    delay_cal = delay * (1 / intval_time)
+    # 最初に渡された温度を基準温度に入れる
+    criteria_temp = m_temp.get()
+
+    # タクトスイッチ白を押されるまで温度の判定
+    while GPIO.input(sw_w) == GPIO.HIGH:
+        # print(threading.enumerate())
+        # 現在温度の代入
+        current_temp = m_temp.get()
+        # 終了コードの65535が入ると終了。
+        if current_temp == 65535:
+            break
+        print("基準温度: {} 現在温度: {}".format(criteria_temp, current_temp))
+
+        # 温度監視部
+        while current_temp >= criteria_temp + lim_num:
+            timer_count += 1
+            current_temp = m_temp.get()
+            # 終了コードの65535が入ると終了。
+            if current_temp == 65535:
+                break
+            print("error! 基準温度: {} 現在温度: {} エラーカウント:{}"
+                  .format(criteria_temp, current_temp, timer_count))
+            # カウントを超えた初回のみエラーフラグを立てる。
+            if timer_count > delay_cal and error_flag == False:
+                # print("エラーを渡す")
+                error_flag = True
+
+        # 範囲内に戻ったらカウントを0にしてフラグを戻す。
+        else:
+            timer_count = 0
+
+    print("*** 温度監視終了 ***")
+
+
+def error_pro(sw_w, sw_r, err_count, buz_pwm):
+    """
+    sw_w : タクトスイッチ白のGPIO番号
+    sw_r : タクトスイッチ赤のGPIO番号。
+    err_temp : 現在温度の値。
+    err_count : エラーカウンタ。
+    buz_pwm : ブザーのPWMの値
+
+    エラー時にスレッドを開始。
+    開始時にエラーカウントを数えて、ログファイルへログの書き込み。
+    """
+    global error_flag
+    global timer_count
+    print("***エラースレッド開始***")
+
+    while True:
+        sleep(0.1)
+        if error_flag:
+            err_count += 1
+            print("エラーカウント+1して {} になった".format(err_count))
+            # ログファイルへログを書き込む
+            time_log = datetime.datetime.now()
+            time_log = time_log.strftime('"%Y-%m-%d %H:%M:%S"')
+            print("エラー時刻 {}".format(time_log))
+            with open("log.txt", "a", encoding="utf_8") as log_write:
+                log_write.write(time_log + "\n")
+            log_write.close()
+
+            # ブザー吹鳴
+            buz_pwm.ChangeDutyCycle(90)
+
+            # エラー処理後は温度が正常に戻りタクトスイッチ赤を押されるか、白を押されるまでループ
+            while True:
+                sleep(0.1)
+                if (timer_count == 0 and GPIO.input(sw_r) == GPIO.LOW) or GPIO.input(sw_w) == GPIO.LOW:
+                    buz_pwm.ChangeDutyCycle(0)
+                    error_flag = False
+                    break
+
+        if GPIO.input(sw_w) == GPIO.LOW:
+            break
+
+    print("*** エラースレッド終了 ***")
+
+def led_flash(sw_w, led_r, led_f_time):
+    """
+    sw_w : タクトスイッチ白のGPIO番号
+    led_r : LED赤のGPIO番号
+    led_f_time : LEDの点滅時間(単位s)
+
+    エラー発生時に赤色LEDを設定時間でON OFFさせる。
+    """
+    led_count = 0
+    print("*** LEDスレッド開始***")
+    global error_flag
+    while True:
+        if error_flag:
+            # 0.1秒ごとカウント
+            led_count += 0.1
+            # print("LED点滅カウント {}".format(led_count))
+
+            # 点滅設定時間以下の立ち上がり時にLEDをONする。
+            if led_count <= led_f_time and GPIO.input(led_r) == GPIO.LOW:
+                GPIO.output(led_r, GPIO.HIGH)
+            # 点滅設定時間を超えたらLEDをOFFする。
+            # 点滅カウントが2倍(繰り返し終了時)にカウントをリセット。
+            elif led_count > led_f_time:
+                GPIO.output(led_r, GPIO.LOW)
+                if (led_f_time * 2) <= led_count:
+                    led_count = 0
+
+        # エラーが取り除かれるとカウントを初期化して赤LEDを消す。
+        else:
+            led_count = 0
+            GPIO.output(led_r, GPIO.LOW)
+
+        sleep(0.1)
+
+        # タクトスイッチ白を押されると終了。
+        if GPIO.input(sw_w) == GPIO.LOW:
+            break
+    print("*** LEDスレッド終了 ***")
 
 
 def main():
     """
-    2020/02/16
-    ADT7410からの温度計測数値を13bit読み出しと16bit読み出し、どちらもテスト。
-
-    2020/02/17
-    4桁7segLEDに表記刺せるため13bit読み出しのみで運用。
-    16bit読み出しをまとめ、行コメント化。
-    16bit用デバッグプリントを削除。
-
-    2020/02/18
-    スイッチによるON OFF制御を追加。監視中のLED青を追加。
-
-    2020/02/21
-    温度監視を追加。
-    エラー処理時のLEDを0.5秒で点滅をさせる処理を追加。
-
-    2020/02/20
-    ブザーを追加
-    エラーリセットを追加
+    本体
     """
 
     """
-    初期設定
+    変数定義
     """
 
-    # pinの定義
+    up_low_limit = 3.0 # 温度の上下限の幅
+    delay_time = 5 # 上下限を超えてエラーをp出すまでのディレイタイム(単位s)
+    interval_time = 0.5 # 監視の時間間隔
+    led_flash_time = 0.5 # LEDのON OFF繰り返し時間(単位s)
+    error_count = 0
 
+    """
+    pinの定義
+    """
     # スイッチ
     sw_black = 5
     sw_white = 6
@@ -50,8 +231,11 @@ def main():
     # buzzer
     buzzer = 22
 
-    # GPIOの設定
+    """
+    GPIOの設定
+    """
 
+    # GPIO_PINの設定
     GPIO.setmode(GPIO.BCM)
     # LEDへの出力
     GPIO.setup(led_blue, GPIO.OUT)
@@ -68,271 +252,49 @@ def main():
     GPIO.setup(sw_white, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(sw_red, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    # adt7410の設定
-
-    # コネクションオブジェクトの取得。
-    bus = smbus.SMBus(1)
-    adt7410_addr = 0x48
-    adt7410_reg = 0x00
-    # 下のconfは読み出しbitの設定場所。
-    adt7410_conf = 0x03
-
-    # 変数の代入
-
-    # timer変数を定義
-    delay_timer = None
-    flash_on_timer = None
-    flash_off_timer = None
-    # 許容範囲の幅。±設定値の超えるとエラー判定
-    tolerance = float(1)
-    # ディレイフラグ
-    delay_flag = 0
-    # エラーフラグ
-    error_flag = 0
-    # LED点滅フラグ
-    led_flash_flag = 0
-    # eroorカウンター
-    error_counter = 0
-
-    def error_check(m_temp, ref_temp, tol):
-        """
-        m_temp: 現在温度(float)
-        ref_temp: 基準温度(float)
-        tol: 許容範囲(float
-        return: bool
-        """
-        if ((m_temp > (ref_temp + tol)) or (m_temp < (ref_temp - tol))):
-            return True
-        else:
-            return False
-
-    def led_flash():
-        """
-
-        """
-        pass
+    """
+    マルチスレッド関連の設定
+    """
+    # キューの定義
+    monitoring_temp = queue.Queue()
+    # スレッドの定義
+    thread_error = threading.Thread(target=error_pro, args=(sw_white, sw_red , error_count, buzz_pwm))
+    thread_temp = threading.Thread(target=temp_read, args=(sw_white, monitoring_temp, interval_time))
+    thread_monitoring = threading.Thread(target=monitoring,
+                                         args=(sw_white, monitoring_temp, up_low_limit, interval_time,
+                                               delay_time))
+    thread_led = threading.Thread(target=led_flash, args=(sw_white, led_red, led_flash_time))
 
     """
-    本体
+    メイン処理
     """
-
     try:
-        while True:
 
-            # タクトスイッチ黒を押されたら監視開始
-            # 監視中はLED青を点灯
-            if GPIO.input(sw_black) == GPIO.LOW:
-                GPIO.output(led_blue, GPIO.HIGH)
-
-                # 監視立ち上がり判定のためNoneをプログラム開始時に代入
-                reference_temp = None
-
-                # タクトスイッチ白を押されるまで監視モード
-                while GPIO.input(sw_white) == GPIO.HIGH:
-
-                    """
-                    読み出し
-                    """
-
-                    # メソッド configration_adt7410, 0x00 で13bit読み出し。
-                    bus.write_word_data(adt7410_addr, adt7410_conf, 0x00)
-                    thermo_date_13 = bus.read_word_data(adt7410_addr, adt7410_reg)
-                    # print("スレーブの値 13bit {}".format(hex(thermo_date_13)))
-
-                    """
-                    # 16bit
-                    # bus.write_word_data(adt7410_addr, adt7410_conf, 0x80)
-                    # thermo_date_16 = bus.read_word_data(adt7410_addr, adt7410_reg)
-                    # change_date_16 = (thermo_date_16 & 0xff00) >> 8 | (thermo_date_13 & 0xff) << 8
-                    """
-
-                    # 上位、下位byteの入れ替え。
-                    # 上位1byteを8bit右へシフト、下位1byteを8bit左へシフト。
-                    change_date_13 = (thermo_date_13 & 0xff00) >> 8 | (thermo_date_13 & 0xff) << 8
-                    # print("上位、下位byteを並べ替えた後 13bit {}".format(hex(change_date_13)))
-                    # print("2進数表記 13bit {}".format(bin(change_date_13)))
-
-                    # 13bitを3bit右にシフト
-                    change_date_13 = change_date_13 >> 3
-                    # print("3bit移動後 13bit {}".format(bin(change_date_13)))
-                    # 10進数で表記
-                    # print("10進数表記 13bit {}".format(change_date_13))
-
-                    # 実温度を出すための計算
-                    monitoring_temp = change_date_13 / 16
-                    print("温度 {}".format(monitoring_temp))
-
-                    """
-                    温度監視
-                    """
-
-                    # 監視立ち上がりの時の温度を基準温度として代入
-
-                    if reference_temp is None:
-                        reference_temp = monitoring_temp
-                        print("基準温度は {}℃".format(reference_temp))
-
-                    # デバッグ用 温度判定表示
-                    if error_check(monitoring_temp, reference_temp, tolerance):
-                        print("異常温度")
-                    else:
-                        print("正常温度")
-
-                    # 基準温度±許容範囲を超えた状態が5秒続いた場合エラー処理
-                    # 5秒以内に範囲内に戻った場合は5秒タイマーをキャンセルしてNoneに書き換え
-                    # ディレイ処理はスレッドを生成
-
-                    if error_check(monitoring_temp, reference_temp,
-                                   tolerance) and delay_flag == 0 and led_flash_flag == 0:
-                        if delay_timer is None:
-                            delay_timer = Timer(5, GPIO.output, (led_red, GPIO.HIGH))
-                            delay_timer.setDaemon(True)
-                            delay_timer.start()
-                            delay_flag = 1
-                        # print("エラーディレイタイマ開始")
-                    if error_check(monitoring_temp, reference_temp, tolerance) == False and delay_flag == 1:
-                        delay_timer.cancel()
-                        delay_timer = None
-                        delay_flag = 0
-                        # print("エラーディレイキャンセル")
-                    """
-                    エラー警告処理
-                    """
-
-                    # エラーディレイがキャンセルされなかった場合、エラー発生
-                    # 立ち上がり(error_flagが0の時)ログを書き込み、エラーカウントを+= 1してerroe_flagに1を代入
-                    # エラーリセット処理がされるかタクトスイッチ白が押されるまでブザーを鳴らし、とLED垢を点滅させる
-                    # error_flag、led_flash_flagに1を代入
-                    # ディレイ処理スレッドがNoneじゃなければスレッドが作成されているので
-                    # 作成されたディレイ処理のスレッドをキャンセル
-                    if GPIO.input(led_red) == 1 and led_flash_flag == 0 and delay_flag == 1:
-                        if error_flag == 0:
-                            """
-                            ログ取得
-                            """
-
-                            # エラーカウンタの制御
-                            error_counter += 1
-                            print("エラーカウント+1して {} になった".format(error_counter))
-
-                            # エラー時間のログファイルへの書き出し
-                            time_log = datetime.datetime.now()
-                            time_log = time_log.strftime('"%Y-%m-%d %H:%M:%S"')
-                            print("エラー時刻 {}".format(time_log))
-                            with open("log.txt", "a", encoding="utf_8") as log_write:
-                                log_write.write(time_log + "\n")
-                            log_write.close()
-
-                            error_flag = 1
-                        led_flash_flag = 1
-                        # print("LED点灯したのでスレッドキャンセル")
-                        if delay_timer is not None:
-                            delay_timer.cancel()
-                        # ブザーが鳴ってないならブザーを鳴らす
-                        if GPIO.input(buzzer) == 0:
-                            # print("ブザーON")
-                            buzz_pwm.ChangeDutyCycle(90)
-
-                    # LED
-                    # 点滅処理
-                    # error_flagが立っていて温度が範囲外の時。
-                    # LEDが点灯し、led_flash_flagが1の時は0.5秒ディレイ消灯スレッドを作成
-                    # LEDが消灯し、led_flash_flagが0の時は0.5秒ディレイ点灯スレッドを作成
-                    # 点灯消灯の切り替わりの立ち上がり管理は if 文と フラグ管理で行う
-                    if error_flag == 1:
-                        # print(flash_on_timer)
-                        # print(flash_off_timer)
-                        # print(delay_timer)
-
-                        if GPIO.input(led_red) == 1 and led_flash_flag == 2:
-                            print("LED消灯ディレイ開始")
-                            led_flash_flag = 1
-                            if flash_off_timer is None:
-                                flash_off_timer = Timer(0.5, GPIO.output, (27, GPIO.LOW))
-                                flash_off_timer.setDaemon(True)
-                                flash_off_timer.start()
-                                flash_on_timer = None
-
-                        elif GPIO.input(led_red) == 0 and led_flash_flag == 1:
-                            print("LED点灯ディレイ開始")
-                            if flash_on_timer is None:
-                                led_flash_flag = 2
-                                flash_on_timer = Timer(0.5, GPIO.output, (27, GPIO.HIGH))
-                                flash_on_timer.setDaemon(True)
-                                flash_on_timer.start()
-                                flash_off_timer = None
-
-                    """
-                    # エラーリセット処理
-                    """
-
-                    # エラーLEDとブザーの解除判定
-                    # エラー警告時に現在温度が範囲内に戻っているときにリセットボタンを押すと
-                    # LED ON OFFの切り替えディレイスレッドをキャンセルしてNoneに書き換え
-                    # 開始ディレイスレッドもキャンセルしてNoneに書き換え
-                    # ブザーのPWM制御を0にする。
-
-                    if ((error_check(monitoring_temp, reference_temp, tolerance) == False) and error_flag == 1) and \
-                            GPIO.input(sw_red) == GPIO.LOW:
-                        error_flag = 0
-                        led_flash_flag = 0
-
-                        if flash_on_timer is not None:
-                            flash_on_timer.cancel()
-                            flash_on_timer.join()
-                        if flash_off_timer is not None:
-                            flash_off_timer.cancel()
-                            flash_off_timer.join()
-                        if delay_timer is not None:
-                            delay_timer.cancel()
-                            delay_timer.join()
-                        flash_off_timer = None
-                        flash_on_timer = None
-                        delay_timer = None
-                        GPIO.output(27, GPIO.LOW)
-                        buzz_pwm.ChangeDutyCycle(0)
-
-                    sleep(0.5)
-
-                # タクトスイッチ白を押されたらLEDとブザーを消す
-                # ディレイタイマ用スレッドが生成されているときはキャンセル
-                # 各フラグの初期化
-                else:
-                    GPIO.output(led_blue, GPIO.LOW)
-                    GPIO.output(led_red, GPIO.LOW)
-                    buzz_pwm.ChangeDutyCycle(0)
-                    if error_flag == 1:
-                        if flash_on_timer is not None:
-                            print(flash_on_timer)
-                            flash_on_timer.cancel()
-                            flash_on_timer.join()
-                        if flash_off_timer is not None:
-                            print(flash_off_timer)
-                            flash_off_timer.cancel()
-                            flash_off_timer.join()
-                        if delay_timer is not None:
-                            delay_timer.cancel()
-                            delay_timer.join()
-                        flash_off_timer = None
-                        flash_on_timer = None
-                        delay_timer = None
-                        buzz_pwm.ChangeDutyCycle(0)
-                    delay_flag = 0
-                    error_flag = 0
-                    led_flash_flag = 0
-
-            # 開始待ち中にタクトスイッチ赤を押されるとLEDを消灯してプログラム終了
-            if GPIO.input(sw_red) == GPIO.LOW:
-                break
+        # タクトスイッチ黒を押されるまで入力待ち
+        while GPIO.input(sw_black) == GPIO.HIGH:
             sleep(0.1)
+        # 監視開始
+        GPIO.output(led_blue, GPIO.HIGH)
+        thread_temp.start()
+        thread_monitoring.start()
+        thread_error.start()
+        thread_led.start()
+
+        # タクトスイッチ白を押されるとGPIOをクリーンアップして終了
+        while GPIO.input(sw_white) == GPIO.HIGH:
+            sleep(0.1)
+        else:
+            GPIO.output(led_blue, GPIO.LOW)
+            print(" *** 終了処理開始 *** ")
+            error_count = 0
+            buzz_pwm.ChangeDutyCycle(0)
+            sleep(2)
+            GPIO.cleanup()
+            print(" *** 終了処理完了 ***")
 
     except KeyboardInterrupt:
-        pass
+        GPIO.cleanup()
 
-    except AttributeError:
-        pass
-
-    GPIO.cleanup()
 
 
 if __name__ == '__main__':

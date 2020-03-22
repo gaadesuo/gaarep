@@ -10,12 +10,21 @@ from threading import Timer
 import datetime
 
 
+def read_temp():
+    """
+
+    """
+
+
 def error_check(m_temp, ref_temp, tol):
     """
     m_temp: 現在温度(float)
     ref_temp: 基準温度(float)
     tol: 許容範囲(float
     return: bool
+
+    現在温度が範囲内に入っているかを判定。
+    入っていればTrue、外れてればFalseを返す。
     """
     if ((m_temp > (ref_temp + tol)) or (m_temp < (ref_temp - tol))):
         return True
@@ -23,17 +32,33 @@ def error_check(m_temp, ref_temp, tol):
         return False
 
 
-def led_flash():
+def led_flash(sw_r, led_r):
     """
+    sw_r: スイッチ赤のGPIO番号
+    led_r: LED赤のGPIO番号
 
+    スイッチ赤が押されるまで0.5秒周期でLEDを点滅させる。
+    スイッチの判定はLED点灯前と消灯時に行う
     """
-    pass
+    while True:
+        if GPIO.input(sw_r, GPIO.HIGH):
+            break
+        else:
+            GPIO.output(led_r, GPIO.HIGH)
+            sleep(0.5)
+            GPIO.output(led_r, GPIO. LOW)
+        if GPIO.input(sw_r, GPIO.HIGH):
+            break
+        else:
+            sleep(0.5)
+
 
 def log_write(err_count):
     """
     ログ取得
 
     return: エラーカウントを1増やして返す
+    ログファイルに現在時刻を書き込んでエラーカウントを1増やす
     """
     err_count += 1
     print("エラーカウント+1して {} になった".format(err_count))
@@ -97,10 +122,6 @@ def main():
 
     # 変数の代入
 
-    # timer変数を定義
-    delay_timer = None
-    flash_on_timer = None
-    flash_off_timer = None
     # 許容範囲の幅。±設定値の超えるとエラー判定
     tolerance = float(1)
     # ディレイフラグ
@@ -123,9 +144,6 @@ def main():
             # 監視中はLED青を点灯
             if GPIO.input(sw_black) == GPIO.LOW:
                 GPIO.output(led_blue, GPIO.HIGH)
-
-                # 監視立ち上がり判定のためNoneをプログラム開始時に代入
-                reference_temp = None
 
                 # タクトスイッチ白を押されるまで監視モード
                 while GPIO.input(sw_white) == GPIO.HIGH:
@@ -222,93 +240,7 @@ def main():
                             # print("ブザーON")
                             buzz_pwm.ChangeDutyCycle(90)
 
-                    # LED
-                    # 点滅処理
-                    # error_flagが立っていて温度が範囲外の時。
-                    # LEDが点灯し、led_flash_flagが1の時は0.5秒ディレイ消灯スレッドを作成
-                    # LEDが消灯し、led_flash_flagが0の時は0.5秒ディレイ点灯スレッドを作成
-                    # 点灯消灯の切り替わりの立ち上がり管理は if 文と フラグ管理で行う
-                    if error_flag == 1:
-                        # print(flash_on_timer)
-                        # print(flash_off_timer)
-                        # print(delay_timer)
 
-                        if GPIO.input(led_red) == 1 and led_flash_flag == 2:
-                            print("LED消灯ディレイ開始")
-                            led_flash_flag = 1
-                            if flash_off_timer is None:
-                                flash_off_timer = Timer(0.5, GPIO.output, (27, GPIO.LOW))
-                                flash_off_timer.setDaemon(True)
-                                flash_off_timer.start()
-                                flash_on_timer = None
-
-                        elif GPIO.input(led_red) == 0 and led_flash_flag == 1:
-                            print("LED点灯ディレイ開始")
-                            if flash_on_timer is None:
-                                led_flash_flag = 2
-                                flash_on_timer = Timer(0.5, GPIO.output, (27, GPIO.HIGH))
-                                flash_on_timer.setDaemon(True)
-                                flash_on_timer.start()
-                                flash_off_timer = None
-
-                    """
-                    # エラーリセット処理
-                    """
-
-                    # エラーLEDとブザーの解除判定
-                    # エラー警告時に現在温度が範囲内に戻っているときにリセットボタンを押すと
-                    # LED ON OFFの切り替えディレイスレッドをキャンセルしてNoneに書き換え
-                    # 開始ディレイスレッドもキャンセルしてNoneに書き換え
-                    # ブザーのPWM制御を0にする。
-
-                    if ((error_check(monitoring_temp, reference_temp, tolerance) == False) and error_flag == 1) and \
-                            GPIO.input(sw_red) == GPIO.LOW:
-                        error_flag = 0
-                        led_flash_flag = 0
-
-                        if flash_on_timer is not None:
-                            flash_on_timer.cancel()
-                            flash_on_timer.join()
-                        if flash_off_timer is not None:
-                            flash_off_timer.cancel()
-                            flash_off_timer.join()
-                        if delay_timer is not None:
-                            delay_timer.cancel()
-                            delay_timer.join()
-                        flash_off_timer = None
-                        flash_on_timer = None
-                        delay_timer = None
-                        GPIO.output(27, GPIO.LOW)
-                        buzz_pwm.ChangeDutyCycle(0)
-
-                    sleep(0.5)
-
-                # タクトスイッチ白を押されたらLEDとブザーを消す
-                # ディレイタイマ用スレッドが生成されているときはキャンセル
-                # 各フラグの初期化
-                else:
-                    GPIO.output(led_blue, GPIO.LOW)
-                    GPIO.output(led_red, GPIO.LOW)
-                    buzz_pwm.ChangeDutyCycle(0)
-                    if error_flag == 1:
-                        if flash_on_timer is not None:
-                            print(flash_on_timer)
-                            flash_on_timer.cancel()
-                            flash_on_timer.join()
-                        if flash_off_timer is not None:
-                            print(flash_off_timer)
-                            flash_off_timer.cancel()
-                            flash_off_timer.join()
-                        if delay_timer is not None:
-                            delay_timer.cancel()
-                            delay_timer.join()
-                        flash_off_timer = None
-                        flash_on_timer = None
-                        delay_timer = None
-                        buzz_pwm.ChangeDutyCycle(0)
-                    delay_flag = 0
-                    error_flag = 0
-                    led_flash_flag = 0
 
             # 開始待ち中にタクトスイッチ赤を押されるとLEDを消灯してプログラム終了
             if GPIO.input(sw_red) == GPIO.LOW:
