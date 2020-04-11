@@ -46,8 +46,6 @@ def temp_read(sw_w, r_temp, interval_time):
     # 7セグLEDの表示用のリスト
     num_char = [0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7c, 0x07, 0x7f, 0x67, 0x00, 0x40]
     dec_char = [0xbf, 0x86, 0xdb, 0xcf, 0xe6, 0xed, 0xfc, 0x87, 0xff, 0xe7]
-    # 温度表示用リスト初期値
-    print_num_list = [0, 0, 0, 0]
 
 
     print("*** 温度入力表示スレッド開始 ***")
@@ -94,7 +92,7 @@ def temp_read(sw_w, r_temp, interval_time):
         # 負の値と3桁の時は、最上位桁のインデックスをリストに追加。
         if negative_flag > 0:
             print_num_list.append(negative_flag)
-        print(print_num_list)
+        # print(print_num_list)
 
         # LEDを光らせる。
         for i in range(4):
