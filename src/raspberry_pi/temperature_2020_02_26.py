@@ -4,6 +4,7 @@ __author__ = "gaa"
 __date__ = '2020/02/16 09:05'
 
 import RPi.GPIO as GPIO
+import wiringpi as pi
 import smbus
 from time import sleep
 import threading
@@ -14,32 +15,52 @@ import datetime
 error_flag = False
 timer_count = 0
 
+
 def temp_read(sw_w, r_temp, interval_time):
     """
     sw_w : タクトスイッチ白のGPIO番号 (int)
     r_temp : 読み込んだ温度を渡す(float)
-    intv_time : 監視の感覚時間
+    intv_time : 監視の間隔時間
 
     タクトスイッチ黒を押されてから、タクトスイッチ白を押されるまで処理を行う。
     温度センサモジュールから温度を読み込み。
+    7セグ4桁LEDで表示する。
     温度を小数点第一位まで求めてmonitoring関数に渡す。
     """
 
     # adt7410の設定
     # コネクションオブジェクトの取得。
     bus = smbus.SMBus(1)
-    adt7410_addr = 0x48
+    adt7410_adr = 0x48
     adt7410_reg = 0x00
     # 下のconfは読み出しbitの設定場所。
     adt7410_conf = 0x03
 
-    print("*** 温度読み込み開始 ***")
+    # HT16K33の設定
+    pi.wiringPiSetupGpio()
+    i2c = pi.I2C()
+    ht16k33_adr = i2c.setup(0x70)  # スレーブアドレス
+    i2c.writeReg8(ht16k33_adr, 0x21, 0x01)  # レジスタ0x21の設定
+    i2c.writeReg8(ht16k33_adr, 0x81, 0x01)  # レジスタ0x81の設定
+
+    # 7セグLEDの表示用のリスト
+    num_char = [0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7c, 0x07, 0x7f, 0x67, 0x00, 0x40]
+    dec_char = [0xbf, 0x86, 0xdb, 0xcf, 0xe6, 0xed, 0xfc, 0x87, 0xff, 0xe7]
+    # 温度表示用リスト初期値
+    print_num_list = [0, 0, 0, 0]
+
+
+    print("*** 温度入力表示スレッド開始 ***")
 
     # タクトスイッチ白を押されるまで監視。
     while GPIO.input(sw_w) == GPIO.HIGH:
+
+        """
+        温度入力
+        """
         # メソッド configration_adt7410, 0x00 で13bit読み出し。
-        bus.write_word_data(adt7410_addr, adt7410_conf, 0x00)
-        inp_temp = bus.read_word_data(adt7410_addr, adt7410_reg)
+        bus.write_word_data(adt7410_adr, adt7410_conf, 0x00)
+        inp_temp = bus.read_word_data(adt7410_adr, adt7410_reg)
 
         # 上位、下位byteの入れ替え。
         # 上位1byteを8bit右へシフト、下位1byteを8bit左へシフト。
@@ -52,14 +73,56 @@ def temp_read(sw_w, r_temp, interval_time):
         temp_num = round(temp_num, 1)
         # print("現在温度 {}".format(temp_num))
 
+        """
+        温度表示
+        """
+        # 7セグLEDで表示するため10倍して整数化。
+        mag_num = int(temp_num * 10)
+        # 負の値の時は－、4桁以下なら4桁目を表示しないようにしする準備。
+        if mag_num < 0:
+            negative_flag = 11
+        elif mag_num > 0 and mag_num < 1000:
+            negative_flag = 10
+        else:
+            negative_flag = 0
+
+        # 絶対数化して各桁をリストへ入れる。
+        mag_num = abs(mag_num)
+        print_num_list = [int(s) for s in list(str(mag_num))]
+        print_num_list.reverse()
+
+        # 負の値と3桁の時は、最上位桁のインデックスをリストに追加。
+        if negative_flag > 0:
+            print_num_list.append(negative_flag)
+        print(print_num_list)
+
+        # LEDを光らせる。
+        for i in range(4):
+            # 3桁目にはデシマルポイントを追加
+            if i == 1:
+                i2c.writeReg8(ht16k33_adr, i * 2, dec_char[print_num_list[i]])
+            else:
+                i2c.writeReg8(ht16k33_adr, i * 2, num_char[print_num_list[i]])
+
+
+        """
+        値を渡す
+        """
         # キューとして温度を渡す
         r_temp.put(temp_num)
 
         sleep(interval_time)
 
-    print("*** 温度読み込み終了 ***")
+    """
+    終了時
+    """
+    # 7セグLEDを消灯する。
+    for i in range(4):
+        i2c.writeReg8(ht16k33_adr, i * 2, 0)
+    print("*** 温度入力表示スレッド終了 ***")
     # タクトスイッチ白を押されたら終了コードとして65535を送る
     r_temp.put(65535)
+
 
 
 def monitoring(sw_w, m_temp, lim_num, intval_time, delay):
@@ -109,6 +172,8 @@ def monitoring(sw_w, m_temp, lim_num, intval_time, delay):
             if timer_count > delay_cal and error_flag == False:
                 # print("エラーを渡す")
                 error_flag = True
+            if current_temp == 65535:
+                break
 
         # 範囲内に戻ったらカウントを0にしてフラグを戻す。
         else:
