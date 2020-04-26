@@ -1,4 +1,0 @@
-user:useruser
-gaa:gaagaa
-sine:sinesine
-ukeke:ukeke
